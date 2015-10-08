@@ -1,0 +1,59 @@
+<ion-view view-title="Inscription Etape5">
+      <ion-content class="padding" id="page_red">
+
+
+<!--       header avec logo      -->
+      
+          <center><img src="img/header_logo_blanc.png"></center><br>
+          <p class="hello_login"><button class="profil_img"></button>&nbsp;&nbsp;Bonjour <strong>Alexandre Durand</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button ng-controller="accueilCtrl" ng-click="accueil()" class="power_off"></button></p>
+          <div class="separator_white"  style="margin-top:-8px;"></div>
+          
+       
+
+<!--       inscription header       -->
+
+        <div class="container item" id="page_red">
+          <p id="inscription-top-welcome-white">
+           Bienvenue sur<br>votre espace numérique</p>
+         
+        </div>
+   
+      
+       <div class="cadre">
+        <div class="clearspace"></div>
+
+<!--        list specialités       -->
+
+        <div class="list">
+       
+          <center><p class="inscription_fin_1">Activez votre profil public<br/>et obtenez un mini site web</p></center>
+          <br/>
+
+          <center><p class="site_web_confirmation"><b>dr-Alexandre-Durand-chirurgian-dentiste.tolk.em</b></p></center>
+
+          <center><p class="inscription_fin_3">Si vous le souhaitez, cette adresse<br>peut devenir l'adresse de votre mini site Web </p></center>
+
+          <center ng-controller="previsualisationCtrl"><p class="site_web_previsualisation" ng-click="previsualtions()"> Prévisualisez votre mini site Web</p></center>
+
+
+          <input type="checkbox" unchecked > <span class="checkbox_confirmation">j'accepte de publier mon profile sur Internet à l'adresse ci-dessus. Elle sera publique et référencée sur les moteurs de recherches comme un site Internet classique.</span></input>
+          
+        </div>
+        
+     
+       
+
+<!--       last line separator      -->        
+    
+       
+      
+</div>
+  <div class="clearspace"></div>
+<center class="center-content " ng-controller="profileCtrl">
+          <button id="valider_red" class="button button-light tolk-font" ng-click="profile()">
+            Activer
+          </button>
+        </center>
+        
+      </ion-content>
+    </ion-view>

@@ -1,0 +1,94 @@
+<ion-view view-title="Presentation2">
+  <ion-content class="padding" id="page_blue">
+    <div class="page"   ng-controller="presentationCtrl">
+<!--       header avec logo      -->
+        <div>
+          <img src="img/header_logo_blue.png">
+          <div class="separator_white" style="margin-top:-10px;"></div>
+          
+        </div>
+
+<!--       presentation header       -->
+
+          <p class="presentation_header">
+            <b>La plateforme numérique<br /> pensée pour les profesionnels de santé<b>
+          </p>
+
+<!--       inscription header       -->
+
+        <div class="div_pres_title item_custom">
+          <p id="">
+            Maîtrisez<br />votre visibilité<br />Internet
+          </p>
+          <div style="clear:both;"></div>
+        </div>
+
+<!--       presentation contenu       -->
+
+        <div class="div_titleDesc container item_custom">
+          <p class="titleDesc">
+            <span class="titleDesc_title" >Créez un profil TOLK public</span><br />
+            <span class="titleDesc_desc"  >Profitez d'un mini site web<br />àl'image de votre identité professionnelle</span>
+          </p>
+        </div>
+
+<!--        list specialités       -->
+
+        <div class="div_titleDesc container item_custom">
+          <p class="titleDesc">
+            <span class="titleDesc_title" >Surveillez votre présence Internet</span><br />
+            <span class="titleDesc_desc" >Moteurs de reherche, annuraires<br />sites de recommandations</span>
+          </p>
+        </div>
+
+<!--        list specialités       -->
+
+        <div class="div_titleDesc container item_custom">
+          <p class="titleDesc">
+            <span class="titleDesc_title" >Optimisez votre référencement naturel</span><br />
+            <span class="titleDesc_desc" >avec vos publications & jeux de mots clés</span>
+          </p>
+        </div>
+
+        <div>
+          <center>
+            <div style="width:54px; height:20px;">
+              <div class="pres_page-bull" ng-click="presentation1()"></div><div class="pres_page-bull" ng-click="presentation2()"></div> <div class="pres_page-bull selected"></div><div style="clear:both;"></div>
+            </div>
+            <div style="clear:both;"></div>
+          </center>
+          <div style="clear:both;"></div>
+          <div class="clearspace"></div>
+        </div>
+        <div>
+          <center>
+        <span>
+          <button class="pres_button" ng-click="inscription1()">
+                Créer votre compte
+              </button>
+            </span>
+        <span>
+          <button class="pres_button" ng-click="connexion()">
+                Connectez vous
+              </button>
+        </span>
+        </center>
+    </div>
+    
+    <div class="clearspace"></div>
+    <div class="separator_white"></div>
+<!--      navigation bull        -->
+        <footer>
+          <div id="footer" class="div_titleDesc container item_custom">
+              <p class="titleDesc align-right">
+                <span class="titleDesc_desc_footer" >Et même si le risque zéro n'existe pas</span><br />
+                <span class="titleDesc_title_footer" >la sécurité de vos données est une priorité</span>
+              </p>
+          </div>
+        </footer>
+<!--       last line separator      -->        
+        
+        
+    </div>
+  </ion-content>
+</ion-view>

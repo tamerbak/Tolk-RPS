@@ -1,0 +1,76 @@
+<ion-view view-title="Connexion">
+      <ion-content class="padding" style:"overflow:hidden"  ng-controller="connexionCtrl" has-bouncing="false">
+      <div class="image_menu_general"></div>
+
+    <header class="inscription_header">
+            <div class="inscription_header_div_img"><img src="img/logo_tolk_v2.png"></div>
+            <div class="inscription_titre">R&eacute;seau professionnel de sant&eacute;</div>
+    </header>
+       
+
+
+    <article class="inscription_article">
+      <button ng-click="goBack()" class="button button-clear button-light inscription_button_back"><i class="inscription_flesh_left fa-angle-left"></i> &nbsp;Précédent</button>
+
+        <div class="inscription_cadre">
+
+          <div class="connexion">Connectez-vous!</div>
+   
+          <div class="connexion_mdp">
+      
+              <!-- section message d'erreur -->
+              <section >
+                  <center><p class="connexion_message"> {{msg}} </p><center>
+              </section>
+          <!-- Fin section message d'erreur -->
+           
+              <label class="connexion_label">
+                  <input type="text" name="tel" ng-model="tel" class="inscription_3_input inscription_3_input_1" placeholder="Identifiant"/>
+              </label>
+
+              <label class="connexion_label">
+                  <input type="password" name="tel" ng-model="mdp" class="inscription_3_input inscription_3_input_2" placeholder="Mot de passe"/>
+              </label>
+
+         </div>
+
+          <!-- section mot de passe oublié -->
+          <section >
+            <p ng-click="reinitialisermdp()" class="connexion_mpo" style="cursor: pointer" ><i class="fa fa-arrow-circle-right fa-lg"></i>&nbsp;<strong><b>Mot de passe oubli&eacute;</b></strong></p>
+          </section>
+          <!-- Fin section mot de passe oublié -->
+
+          <center id="inscription_fin_bottom">
+            <br /><u>support@me.com</u>
+            <br /><b id="phonenumber">01 85 08 92 69</b>
+          </center>
+
+        </div>  
+    </article>
+
+    <footer class="inscription_footer">
+        <div class="row inscription_footer_row">
+            <div class="col inscription_footer_button_left">
+                <button class="inscription_footer_button button-light" ng-click="accueil()">
+                    Accueil
+                </button>
+            </div>
+            <div class="col inscription_footer_button_right">
+                <button ng-disabled="buttonValiderDisabled" class="inscription_footer_button button-light" ng-click="seconnecter()">
+                  Se connecter
+                </button>
+          <!-- id="connexion_ceercomptered" -->
+            </div>
+        </div>
+    </footer>             
+
+
+
+        
+    </ion-content>
+</ion-view>
+
+
+
+
+

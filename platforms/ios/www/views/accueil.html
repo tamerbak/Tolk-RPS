@@ -1,0 +1,87 @@
+<ion-view view-title="Page d'accueil">
+<ion-content class="padding screen" ng-controller="accueilCtrl" has-bouncing="false">
+    <div class="image_menu_general"></div>
+    <header class="accueil_header">
+    <div ><img src="img/logo_tolk_v2.png"  class="tolk_img"></div>
+    <div class="accueil_titre">R&eacute;seau professionnel de sant&eacute;</div>
+    </header>
+<div id="wrapper">
+    <article  class="accueil_article rslides" id="slider1">
+    <ion-slide-box auto-play="true" number="5000" does-continue="true" on-slide-changed="slideHasChanged($index)" show-pager="false">
+
+                <!-- =========== Slide 1 =========-->
+    <ion-slide>
+        <section>
+                <p class="accueil_optimisez">Optimisez</p>
+                <p class="accueil_desc">votre r&eacute;seau de correspondants</p>
+                <div class="accueil_bull_position">
+                    <div class="accueil_page-bull selected"></div>
+                    <div class="accueil_page-bull"></div> 
+                    <div class="accueil_page-bull"></div>
+                </div>
+        </section>
+    </ion-slide>
+                <!-- =========== Slide 2 =========-->
+    <ion-slide>
+        <section>
+                <p class="accueil_optimisez">Suivez & partagez</p>
+                <p class="accueil_desc">votre actualit&eacute; professionnelle</p>
+                <div class="accueil_bull_position">
+                    <div class="accueil_page-bull"></div>
+                    <div class="accueil_page-bull selected"></div> 
+                    <div class="accueil_page-bull"></div>
+                </div>
+        </section>
+    </ion-slide>
+                 <!-- =========== Slide 3 =========-->
+    <ion-slide>
+        <section>
+                <p class="accueil_optimisez">Maîtrisez</p>
+                <p class="accueil_desc">votre pr&eacute;sence Internet</p>
+                <div class="accueil_bull_position">
+                    <div class="accueil_page-bull"></div>
+                    <div class="accueil_page-bull"></div> 
+                    <div class="accueil_page-bull selected"></div>
+                </div>
+        </section>
+    </ion-slide>
+</ion-slide-box>
+                
+    </article>
+
+</div>
+   <!--  <footer class="accueil_footer">
+        <div class="row">
+            <div class="col">
+          <button id="accueil_connexion" class="button-light accueil_valider-font" ng-click="connexion()">
+            Connexion
+          </button>
+      </div>
+      <div class="col">
+          <button id="accueil_creer_compte" class="button-light accueil_valider-font" ng-click="inscription1()">
+            Créer un compte
+          </button>
+      </div>
+        </div>
+    </footer> -->
+
+    <footer class="inscription_footer">
+        <div class="row inscription_footer_row">
+            <div class="col inscription_footer_button_left">
+                <button class="inscription_footer_button button-light" ng-click="connexion()">
+                    Connexion
+                </button>
+            </div>
+            <div class="col acceuil_footer_button_right">
+                <button ng-disabled="buttonValiderDisabled" class="accueil_footer_button button-light" ng-click="inscription1()">
+                  Créer un compte
+                </button>
+          <!-- id="connexion_ceercomptered" -->
+            </div>
+        </div>
+    </footer>
+
+
+  
+</ion-content>
+</ion-view>

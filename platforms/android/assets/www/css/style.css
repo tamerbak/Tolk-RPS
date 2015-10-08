@@ -1,0 +1,755 @@
+@font-face{
+    font-family: bentonsansextralight;
+    src: url(../font/bentonsans-extralight-opentype.otf);
+}
+@font-face{
+    font-family: bentonsansBlack;
+    src: url(../font/bentonsans-black-opentype.otf);
+}
+@font-face{
+    font-family: bentonsansBold;
+    src: url(../font/bentonsans-bold-opentype.otf);
+}
+.tolk-font
+{
+	font-family: bentonsansextralight !important;
+	font-weight: normal;
+	font-size: 30px;
+}
+
+p
+{
+	font-family: bentonsansextralight !important;
+}
+/* Empty. Add your own CSS if you like */
+.separator
+{
+	border-top: 1px solid #e89f9b;
+	width: 100%;
+	margin-top:-20px;
+}
+.clearspace
+{
+	height: 20px;
+}
+
+.container
+{
+	margin: auto;
+	width: 100%;
+	position: relative;
+	border: none;
+
+}
+#inscription-top-info
+{
+	display: table-cell;
+	color: #de7069;
+	font-size: 40px;
+	text-align: center;
+	line-height: 40px;
+	vertical-align: middle;
+
+}
+#inscription-bottom-info
+{
+	font-family: bentonsansextralight !important;
+	display: table-cell;
+	color: #e14640;
+	font-size: 20px;
+	text-align: center;
+	line-height: 20px;
+	vertical-align: middle;
+
+}
+select > .placeholder 
+{
+  display: none;
+}
+.list
+{
+	padding-left: 30px;
+	padding-right: 30px;
+}
+.list > label
+{
+	border-top: 0;
+	border-right: 0;
+	border-left: 0; 
+	border-bottom: 1px solid #E94041;
+	margin: auto;
+	text-align: center;
+	padding: 5px;
+	padding-bottom: 0px;
+	
+
+}
+.list > label > select
+{
+	font-family: bentonsansextralight;
+	margin: auto;
+	position: relative;
+	font-size: 25px;
+	font-weight: normal;
+	padding: 0;
+
+}
+.list > label > select > option
+{
+	font-family: bentonsansextralight;
+	margin: auto;
+	max-width: 75%;
+	font-weight: normal;
+
+}
+#valider
+{
+	padding: 0px 20px 0px 20px !important;
+	border: 1px solid #323232;
+}
+#phonenumber
+{
+	font-weight: ;
+	font-family: bentonsansBold;
+}
+.page-bull
+{
+	width: 6px;
+	height: 6px;
+
+	border: 1px solid #e89f9b;
+	margin: 4px;
+	border-radius: 3px;
+	float: left;
+}
+.page-bull.selected
+{
+	background-color: white;
+}
+#inscription-top-lieu-exercice
+{
+	display: table-cell;
+	color: #E94041;
+	font-weight: bold;
+	font-size: 20px;
+	text-align: center;
+	line-height: 40px;
+	vertical-align: middle;
+}
+.col_input{
+	border-top: 0;
+	border-right: 1px solid #E94041;
+	border-left: 0; 
+	border-bottom: 1px solid #E94041;
+	margin: auto;
+	text-align: center;
+}
+.fleche{
+	vertical-align: middle;
+}
+.verif_adresse{
+	margin-top: -30px;
+	color: #E94041;
+	font-size: 15px;
+}
+/* Style Home page + page Docteur */
+@font-face{
+	font-family: benonsans_black;
+	src: url(../font/BentonSansBlack.otf);
+}
+
+.image_home{
+	background-image: url("../img/photo.png");
+	background-size: 119%;
+	background-repeat: no-repeat;
+}
+.image_tolk{
+	background:url("../img/logo.png"); 
+	background-size: 80%;
+	background-repeat: no-repeat;
+	margin-left: 30%;
+	margin-top: 5%;
+}
+.image_me{
+	background:url("../img/me.png");
+	background-size: 80%;
+	background-repeat: no-repeat;
+	margin-top: -44px;
+	margin-left: 85%;
+}
+.div_reseau{
+	color: #FF0000;
+	font-size: 40px;
+	font-family: bentonsansextralight;
+	margin-left: 187px;
+	margin-top: 60px;
+}
+.div_pro{
+	color: #FF0000;
+	font-size: 25px;
+	font-family: bentonsansextralight;
+	margin-left: 187px;
+	margin-top: 17px;
+}
+.div_corresp{
+	color: #FF0000;
+	font-size: 23px;
+	font-family: bentonsansextralight;
+	margin-left: 187px;
+	margin-top: 5px;
+}
+.div_actualite{
+	color: #FF0000;
+	font-size: 38px;
+	font-family: bentonsansextralight;
+	margin-left: 187px;
+	margin-top: 30px;
+}
+.div_revu{
+	color: #FF0000;
+	font-size: 22px;
+	font-family: bentonsansextralight;
+	margin-left: 187px;
+	margin-top: 15px;
+}
+.div_publication{
+	color: #FF0000;
+	font-size: 27px;
+	font-family: bentonsansextralight;
+	margin-left: 187px;
+	margin-top: 5px;
+}
+.div_cas{
+	color: #FF0000;
+	font-size: 27px;
+	font-family: bentonsansextralight;
+	margin-left: 187px;
+	margin-top: 5px;
+}
+.div_reputation{
+	color: #FF0000;
+	font-size: 28px;
+	font-family: bentonsansextralight;
+	margin-left: 187px;
+	margin-top: 35px;
+}
+.div_profil{
+	color: #FF0000;
+	font-size: 22px;
+	font-family: bentonsansextralight;
+	margin-left: 187px;
+	margin-top: 5px;
+}
+.div_referencement{
+	color: #FF0000;
+	font-size: 16px;
+	font-family: bentonsansextralight;
+	margin-left: 187px;
+	margin-top: 0px;
+}
+.div_presence{
+	color: #FF0000;
+	font-size: 20px;
+	font-family: bentonsansextralight;
+	margin-left: 187px;
+	margin-top: -1px;
+}
+.div_securite{
+	color: #FF0000;
+	font-size: 13px;
+	font-family: arial;
+	margin-left: 187px;
+	margin-top: 15px;
+}
+.div_donnees{
+	color: #FF0000;
+	font-size: 14px;
+	font-family: arial;
+	margin-left: 157px;
+	margin-top: -1px;
+}
+.btn{
+	font-family: benonsans_black;
+	background:url("../img/bouton-deja-inscrit.png");
+	color: white;
+	font-size: 15px;
+	border:0px;
+	border-radius: 0px;
+	font-weight: bolder;
+	height: 40px;
+}
+.div_btn_essayer{
+	margin-top: 14px;
+	margin-left: 158px;
+}
+.div_btn_deja_inscrit{
+	margin-top: 7px;
+	margin-left: 223px;
+}
+
+/*--------page Menu Docteur ---------*/
+.docteur_home{
+	background-image: url("../img/Docteur.png");
+	background-size: 100%;
+	background-position: top;
+	background-repeat: no-repeat;
+}
+
+.div_ericmaupas{
+	font-size: 28px;
+	font-family: bentonsansextralight;
+	color: grey;
+	margin-left: 50px;
+	margin-top: 180px;
+}
+.div_orthodontiste{
+	font-size: 16px;
+	font-family: arial;
+	color: #424242;
+	margin-left: 120px;
+	margin-top: 5px;
+	font-weight: bolder;
+}
+.div_img_profil_pro{
+	background: url("../img/Icon-profil.png");
+	background-size: 8%;
+	margin-left: 8px;
+	margin-top: 16px;
+	background-repeat: no-repeat;
+}
+.div_profil_pro{
+	font-size: 23px;
+	font-family: bentonsansextralight;
+	color: #585858;
+	font-weight: bolder;
+	margin-left: 50px;
+	margin-top: -30px;
+}
+
+.div_ligne_profil{
+	background: url("../img/ligne-mon-profil.png");
+	background-size: 96%;
+	margin-left: 52px;
+	margin-top: 12px;
+	background-repeat: no-repeat;
+}
+
+.div_maj_profil{
+	font-size: 15px;
+	font-family: arial;
+	margin-left: 50px;
+	margin-top: -15px;
+	color: #585858;
+	font-weight: bolder;	
+}
+
+.div_img_correspondants{
+	background: url("../img/Icon-Correspondants.png");
+	background-size: 8%;
+	margin-left: 8px;
+	margin-top: -20px;
+	background-repeat: no-repeat;
+}
+
+.div_correspondants{
+	font-size: 23px;
+	font-family: bentonsansextralight;
+	color: #585858;
+	font-weight: bolder;
+	margin-left: 50px;
+	margin-top: -32px;
+}
+
+.div_maj_correspondants{
+	font-size: 15px;
+	font-family: arial;
+	margin-left: 50px;
+	margin-top: -15px;
+	color: #585858;
+	font-weight: bolder;	
+}
+
+.div_ligne_correspondants{
+	background: url("../img/ligne-mon-profil.png");
+	background-size: 96%;
+	margin-left: 52px;
+	margin-top: 12px;
+	background-repeat: no-repeat;
+}
+
+.div_img_actpub{
+	background: url("../img/Icon-Actualites.png");
+	background-size: 10%;
+	margin-left: 7px;
+	margin-top: -20px;
+	background-repeat: no-repeat;
+}
+
+.div_actpub{
+	font-size: 20px;
+	font-family: bentonsansextralight;
+	color: #585858;
+	font-weight: bolder;
+	margin-left: 50px;
+	margin-top: -37px;
+}
+
+.div_maj_actpub{
+	font-size: 15px;
+	font-family: arial;
+	margin-left: 50px;
+	margin-top: -15px;
+	color: #585858;
+	font-weight: bolder;	
+}
+
+.div_ligne_actpub{
+	background: url("../img/ligne-actualites.png");
+	background-size: 96%;
+	margin-left: 52px;
+	margin-top: 12px;
+	background-repeat: no-repeat;
+}
+
+.div_img_internet{
+	background: url("../img/Icon-presence-Internet.png");
+	background-size: 10%;
+	margin-left: 7px;
+	margin-top: -22px;
+	background-repeat: no-repeat;
+}
+
+.div_internet{
+	font-size: 23px;
+	font-family: bentonsansextralight;
+	color: #585858;
+	font-weight: bolder;
+	margin-left: 50px;
+	margin-top: -37px;
+}
+
+.div_maj_internet{
+	font-size: 15px;
+	font-family: arial;
+	margin-left: 50px;
+	margin-top: -15px;
+	color: #585858;
+	font-weight: bolder;	
+}
+/*--------------------------------------------------- new css -------------------------*/
+/*-------------------* page presentation *------------------------*/
+.separator_white
+{
+	border-top: 1px solid white;
+	width: 95%;
+}
+#page_red
+{
+	background-color: #E94041;
+}
+#page_green
+{
+	background-color: #00BBA7;
+}
+#page_blue
+{
+	background-color: #4165DD;
+}
+.separator_green
+{
+	border-top: 1px solid #00BBA7;
+	width: 95%;
+}
+
+.presentation_header
+{
+	text-align: right;
+	color: white;
+	font-size: 14px;
+	line-height: 15px;
+	font-weight: bolder;
+	padding: 5px 16px 5px 5px;
+}
+.div_pres_title
+{
+	width: 100%;
+	text-align: right;
+}
+.div_pres_title > p
+{
+	font-family: bentonsansextralight !important;
+	width: 100%;
+	display: table-cell;
+	color: white;
+	font-size: 35px;
+	font-weight: lighter;
+	float: right;
+	line-height: 40px;
+	vertical-align: middle;
+	background-color: transparent;
+	margin: 0;
+	padding: 16px 16px 0px 16px !important;
+}
+.div_titleDesc 
+{
+	padding-top: 16px;
+}
+.div_titleDesc > p
+{
+	text-align: center;
+	color: white;
+	padding: 0px 0px 0px 0px !important;
+
+}
+.titleDesc_title
+{
+	font-weight: bolder;
+	font-size: 16px;
+}
+.titleDesc_desc
+{
+	font-weight: normal;
+	font-size: 15px;
+}
+.pres_page-bull
+{
+	width: 10px;
+	height: 10px;
+	border: 1px solid white;
+	
+	margin: 4px;
+	border-radius: 5px;
+	float: left;
+}
+
+.pres_page-bull.selected
+{
+	background-color: white;
+}
+.pres_button
+{
+	font-family: fonceSans;
+	background-color: transparent !important;
+	color: white !important;
+	font-weight: bolder;
+	font-size: 16px;
+	border: 1px solid white;
+
+}
+.align-right
+{
+	text-align: right !important;
+	margin-right: 10px;
+}
+#footer
+{
+	padding-top: 0;
+	line-height: 15px;
+}
+.titleDesc_title_footer
+{
+	font-weight: bolder;
+	font-size: 14px;
+
+}
+.titleDesc_desc_footer
+{
+	font-weight: 200;
+	font-size: 14px;
+}
+.div_promo_title
+{
+	width: 100%;
+	text-align: right;
+}
+.div_promo_title > p
+{
+	font-family: bentonsansextralight !important;
+	width: 100%;
+	display: table-cell;
+	color: white;
+	font-size: 28px;
+	font-weight: lighter;
+	float: right;
+	line-height: 40px;
+	vertical-align: middle;
+	background-color: transparent;
+	margin: 0;
+	padding: 16px 16px 0px 16px !important;
+}
+.cadre{
+	background-color: white;
+	margin-left: -10px;
+	margin-right: -10px;
+}
+#inscription-top-info-white
+{
+	display: table-cell;
+	color: white;
+	font-size: 40px;
+	text-align: center;
+	line-height: 40px;
+	vertical-align: middle;
+
+}
+#valider_red
+{
+	padding: 0px 20px 0px 20px !important;
+	border: 1px solid white;
+	background-color: #E94041;
+	color: white;
+}
+.background_red>img{
+	background-color: #E94041;
+}
+.font_red{
+	color: #E94041;
+}
+#inscription-top-welcome-white
+{
+	display: table-cell;
+	color: white;
+	font-size: 31px;
+	text-align: right;
+	line-height: 40px;
+	vertical-align: middle;
+
+}
+.phonenum
+{
+	font-family: bentonsansBlack;
+	font-size: 38px;
+	color: white;
+}
+.hello_login{
+	font-family: bentonsans;
+	font-size: 20px;
+	color: white;
+}
+.power_off{
+	background: url(../img/power_off.png);
+	background-size: 100%;
+	width: 30px;
+	height: 33px;
+	background-repeat: no-repeat;
+	border: 0px;
+}
+.profil_img{
+	background: url(../img/profil_img.png);
+	background-size: 90%;
+	width: 34px;
+	height: 33px;
+	background-repeat: no-repeat;
+	border: 0px;
+}
+.inscription_fin_1
+{
+	font-family: bentonsansBlack;
+	font-size: 25px;
+	color: #E94041;
+	font-weight: bolder;
+}
+.inscription_fin_2{
+	font-family: bentonsansBlack;
+	font-size: 12px;
+	color: #E94041;
+	font-weight: bolder;
+}
+.inscription_fin_3{
+	font-family: bentonsansBlack;
+	font-size: 15px;
+	color: #E94041;
+	font-weight: bolder;
+}
+.inscription_fin_4{
+	font-family: bentonsansBlack;
+	font-size: 12px;
+	color: #E94041;
+	font-weight: bolder;
+}
+.site_web_confirmation
+{
+	/*font-family: bentonsansBold*/;
+	font-size: 14px;
+	font-weight: bold;
+	border: 1px solid black;
+	line-height: 40px;
+}
+.site_web_previsualisation
+{
+	cursor: pointer;
+	/*font-family: bentonsansBold*/;
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 40px;
+}
+.checkbox_confirmation
+{
+	font-weight: bolder;
+	color: #E94041;
+}
+.list-menu
+{
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.menu-list-title
+{
+	font-family: bentonsansextralight;
+	font-size: 18px;
+	font-weight: normal;
+	color: #E94041;
+}
+
+.menu-list-subtitle
+{
+	font-family: bentonsansBold;
+	font-size: 14px;
+	font-weight: lighter;
+	color: #E94041;
+}
+.img-profile
+{
+	height: 150px;
+	width: 150px;
+	border: 10px solid rgba(255,255,255, 0.3);
+	border-radius: 75px;
+	margin-top: -150px;
+	margin-left:auto;
+	margin-right:auto;
+	overflow: hidden;
+
+}
+.div_doctor_name
+{
+	font-size: 30px;
+	font-family: bentonsansextralight;
+	font-weight: 700;
+	color: grey;
+	margin-top: 20px;
+	margin-left:auto;
+	margin-right:auto;
+	text-align: center;
+}
+.doctor-block-info
+{
+	border: 1px solid #E94041;
+	margin-right: 10px;
+	margin-left: 10px; 
+	font-size: 20px;
+	font-weight: 800;
+}
+.big
+{
+	font-size: 30px;
+	font-family: bentonsansextralight;
+}
+.separator-red-bold
+{
+	border-top: 2px solid #e89f9b;
+	width: 95%;
+	margin-top:-10px;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}

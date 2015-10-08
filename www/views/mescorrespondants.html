@@ -1,0 +1,32 @@
+<ion-view view-title="mes_correspondants" ng-controller="mescorrespondantsCtrl">
+  <ion-header-bar>
+    <!-- <ion-nav-buttons side="primary"> -->
+    <button class="button button-clear" ng-click="doSomething()">
+      <i class="ion-arrow-left-c"></i>
+      retour
+    </button>
+
+    <h1 class="title">Mes correspondants</h1>
+
+    <div class="buttons">
+      <button class="button button-clear icon ion-person-add button-dark" ng-click="addSomething()"></button>
+    </div>
+    <!-- </ion-nav-buttons> -->
+  </ion-header-bar>
+
+  <ion-content has-bouncing="false" overflow-scroll="true">
+    <ion-nav-view class="mescorrespondants_article" style="background-color: green;">
+      <!-- ng-click="correspondant({{correspondant.name}}) -->
+        <a class="item item-avatar" ng-repeat="correspondant in correspondants"
+           ng-click="correspondantDetail('{{correspondant.name}}')">
+          <img src="img/ionic.png">
+
+          <h2>{{correspondant.name}}</h2>
+
+          <p>{{correspondant.last_message}}</p>
+        </a>
+      </ion-nav-view>
+  </ion-content>
+</ion-view>
+
+
