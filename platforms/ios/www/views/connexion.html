@@ -1,12 +1,11 @@
 <ion-view view-title="Connexion">
       <ion-content class="padding" style:"overflow:hidden"  ng-controller="connexionCtrl" has-bouncing="false">
-      <div class="image_menu_general"></div>
 
     <header class="inscription_header">
             <div class="inscription_header_div_img"><img src="img/logo_tolk_v2.png"></div>
             <div class="inscription_titre">R&eacute;seau professionnel de sant&eacute;</div>
     </header>
-       
+
 
 
     <article class="inscription_article">
@@ -14,16 +13,14 @@
 
         <div class="inscription_cadre">
 
-          <div class="connexion">Connectez-vous!</div>
-   
+          <div class="connexion">
+            <span>Connectez-vous!</span>
+
+          </div>
+
           <div class="connexion_mdp">
-      
-              <!-- section message d'erreur -->
-              <section >
-                  <center><p class="connexion_message"> {{msg}} </p><center>
-              </section>
-          <!-- Fin section message d'erreur -->
-           
+
+
               <label class="connexion_label">
                   <input type="text" name="tel" ng-model="tel" class="inscription_3_input inscription_3_input_1" placeholder="Identifiant"/>
               </label>
@@ -45,7 +42,8 @@
             <br /><b id="phonenumber">01 85 08 92 69</b>
           </center>
 
-        </div>  
+          <span class="connexion_message" style="display:block; margin: auto; text-align: center;"> &nbsp;{{msg}} </span>
+        </div>
     </article>
 
     <footer class="inscription_footer">
@@ -62,11 +60,11 @@
           <!-- id="connexion_ceercomptered" -->
             </div>
         </div>
-    </footer>             
+    </footer>
 
 
 
-        
+
     </ion-content>
 </ion-view>
 

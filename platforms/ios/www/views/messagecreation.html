@@ -1,0 +1,66 @@
+<ion-view view-title="messageCreation">
+  <ion-content class="padding" style="overflow:hidden" has-bouncing="false" ng-controller="nouveauMessageCtrl">
+    <div class="image_menu_general"></div>
+
+    <header class="menu_general_header">
+      <span><i class="fa ion-navicon-round fa-2x menu_general_img_toggle"></i></span>
+      <span><img src="img/logo_tolk_v2.png" class="menu_general_tolk_img"></span>
+    <span class="menu_general_docteur"><span>{{doctauth.civilite + ' ' +doctauth.prenom+ ' '+ doctauth.nom}}</span><span
+      class="menu_general_profil_bull"><i class="fa fa-user-md fa-2x menu_general_profil_img"></i></span></span>
+
+      <div class="clearboth"></div>
+    </header>
+
+    <article class="correspondant_article" style="background-color: white;">
+
+      <div class="list">
+        <div class="bar item" style="width:inherit;">
+          <ion-header-bar class="bar-stable row">
+            <button ng-click="goBack()" class="button button-clear button-dark">
+              <i class="ion-chevron-left"></i>
+              <span style="font-weight:800;">Retour</span>
+            </button>
+
+            <h1 class="title">{{$praticienCorrespondant.name}}</h1>
+
+            <button class="button button-clear button-dark" ng-click="addSomething()">Profile</button>
+
+          </ion-header-bar>
+        </div>
+
+        <!-- ng-click="correspondant({{correspondant.name}}) -->
+        <ion-nav-view name="navigation" class="padding">
+          <p class="message_object"><br/>
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">Objet</span>
+              <input type="text"  ng-model="nouveauMessage.objet" placeholder="Objet">
+            </label>
+          </p>
+
+          <p class="message_corps"><br/>
+
+            <label class="item item-input item-stacked-label">
+              <span class="input-label">Contenu</span>
+              <textarea name="comment" ng-model="nouveauMessage.contenu"></textarea></p>
+            </label>
+
+
+        </ion-nav-view>
+      </div>
+    </article>
+
+    <footer class="inscription_footer">
+      <div class="row message_footer_row">
+        <div class="col message_footer_button_left">
+          <button class="inscription_footer_button button-light" ng-click="envoyerMessage()">
+            Envoyer
+          </button>
+        </div>
+
+      </div>
+    </footer>
+
+  </ion-content>
+</ion-view>
+
+

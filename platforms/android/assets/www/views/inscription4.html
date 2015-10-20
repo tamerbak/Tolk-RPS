@@ -1,74 +1,26 @@
 <ion-view view-title="Inscription Etape4">
-      <ion-content class="padding" id="page_red" ng-controller="inscription4Ctrl">
-
+    <ion-content class="screen" height="100%" ng-controller="inscription4Ctrl"  has-bouncing="false">
+      <div class="image_menu_general"></div>
 
 <!--       header avec logo      -->
-        <div>
-          <img src="img/header_logo_red.png">
-          <div class="separator_white"  style="margin-top:-8px;"></div>
-          
-        </div>
+        <header class="inscription_header">
+            <div class="inscription_header_div_img"><img src="img/logo_tolk_v2.png"></div>
+            <div class="inscription_titre">R&eacute;seau professionnel de sant&eacute;</div>
+        </header>
 
-<!--       inscription header       -->
+        <article class="inscription_article">
+          <div class="clearboth"></div>
+          <center id="inscription_merci">MERCI</center>
+          <center id="inscription_professeur">{{dr.civilite + " " + dr.prenom + " " + dr.nom}}</center>
+          <p id="inscription_fin_top">Vous allez recevoir un SMS de connexion</p>
+          <p class="inscription_fin_p1">Pour nous assurer que l'ensemble des membres du réseau sont bien des professionnels de santé, la création de votre compte est soumise à validation.</p>
+          <p class="inscription_fin_p2">Vous recevez d'ici un SMS avec votre code de connexion. Si vous ne le recevez pas d'ici quelques jours, contactez nous.</p>
 
-        <div class="container item" id="page_red">
-          <p id="inscription-top-info-white">
-            Pour créer<br />votre compte<br/>nous avons besoin<br/>de connaitre
-          </p>
-         
-        </div>
-   
-      <div class="clearspace"></div>
-       <div class="cadre">
-        <div class="clearspace"></div>
-
-<!--        list specialités       -->
-
-        <div class="list">
-       
-         
-          <label class="item">
-            <input type="text" placeholder="Votre numéro de mobile"/>
-          </label>
-<div>
-         <center><p class="font_red"><br/>
-           <img src="img/fleche.png" class="fleche"> <strong>&nbsp;Pourquoi avons nous besoin <br>de votre numéro mobile?</strong>
-        <p></center><br/>
-</div>
-          <label class="item">
-            <input type="text" placeholder="Votre adresse email"/>
-          </label>
-        </div>
-<div class="clearspace"></div>
-        </div>
-        <div class="clearspace"></div>
-       
-
-<!--        valider button       -->
-        <center class="center-content" >
-          <button id="valider_red" class="button button-light tolk-font" ng-click="inscription5()">
-            Valider
-          </button>
-        </center>
-
-        <div class="clearspace"></div>
- 
- <!--       information complementaire      --> 
-
-
-<!--      navigation bull        -->
-        <footer>
-          <center>
-            <div style="width:20%; height:20px;">
-              <div class="page-bull"></div> <div class="page-bull"> </div> <div class="page-bull"></div> <div class="page-bull selected"></div>
-            </div>
+          <center id="inscription_fin_bottom">
+            <br /><u>support@me.com</u>
+            <br /><b id="phonenumber">01 85 08 92 69</b>
           </center>
-          <div style="clear:both;"></div>
-        </footer>
-<!--       last line separator      -->        
-        <div class="clearspace"></div>
-      
-
-        
-      </ion-content>
-    </ion-view>
+        </article>
+     
+    </ion-content>
+</ion-view>

@@ -1,68 +1,76 @@
-    <ion-view view-title="Connexion">
-      <ion-content class="padding" id="page_red" ng-controller="menu_generalCtrl">
+<ion-view view-title="Connexion">
+      <ion-content class="padding" style:"overflow:hidden"  ng-controller="connexionCtrl" has-bouncing="false">
+      <div class="image_menu_general"></div>
+
+    <header class="inscription_header">
+            <div class="inscription_header_div_img"><img src="img/logo_tolk_v2.png"></div>
+            <div class="inscription_titre">R&eacute;seau professionnel de sant&eacute;</div>
+    </header>
+       
 
 
-<!--       header avec logo      -->
-        <div>
-          <center><img width="100%" src="img/header_logo_connexion.png"></center>
-         
-          
-        </div>
+    <article class="inscription_article">
+      <button ng-click="goBack()" class="button button-clear button-light inscription_button_back"><i class="inscription_flesh_left fa-angle-left"></i> &nbsp;Précédent</button>
 
-<!--       inscription header       -->
+        <div class="inscription_cadre">
 
-        <div class="container item" id="page_red">
-          <p id="inscription-top-info-white">
-            Connectez-vous
-          </p>
-        </div>
+          <div class="connexion">Connectez-vous!</div>
    
-      <div class="clearspace"></div>
-     <div class="cadre">
-      <div class="clearspace"></div>
+          <div class="connexion_mdp">
+      
+              <!-- section message d'erreur -->
+              <section >
+                  <center><p class="connexion_message"> {{msg}} </p><center>
+              </section>
+          <!-- Fin section message d'erreur -->
+           
+              <label class="connexion_label">
+                  <input type="text" name="tel" ng-model="tel" class="inscription_3_input inscription_3_input_1" placeholder="Identifiant"/>
+              </label>
 
-<!--        list specialités       -->
+              <label class="connexion_label">
+                  <input type="password" name="tel" ng-model="mdp" class="inscription_3_input inscription_3_input_2" placeholder="Mot de passe"/>
+              </label>
 
-        <div class="list">
-         
-          <label class="item">
-            <input type="text" placeholder="Télephone" ng-model="tel" />
-          </label>
-          <div class="clearspace"></div>
-          <label class="item">
-            <input type="password" placeholder="Mot de passe" ng-model="mdp"/>
-          </label>
+         </div>
+
+          <!-- section mot de passe oublié -->
+          <section >
+            <p ng-click="reinitialisermdp()" class="connexion_mpo" style="cursor: pointer" ><i class="fa fa-arrow-circle-right fa-lg"></i>&nbsp;<strong><b>Mot de passe oubli&eacute;</b></strong></p>
+          </section>
+          <!-- Fin section mot de passe oublié -->
+
+          <center id="inscription_fin_bottom">
+            <br /><u>support@me.com</u>
+            <br /><b id="phonenumber">01 85 08 92 69</b>
+          </center>
+
+        </div>  
+    </article>
+
+    <footer class="inscription_footer">
+        <div class="row inscription_footer_row">
+            <div class="col inscription_footer_button_left">
+                <button class="inscription_footer_button button-light" ng-click="accueil()">
+                    Accueil
+                </button>
+            </div>
+            <div class="col inscription_footer_button_right">
+                <button ng-disabled="buttonValiderDisabled" class="inscription_footer_button button-light" ng-click="seconnecter()">
+                  Se connecter
+                </button>
+          <!-- id="connexion_ceercomptered" -->
+            </div>
         </div>
-<div class="clearspace"></div>
-        <br>
-       <center> <p class="verif_adresse">
-            <img src="img/fleche.png" class="fleche"> <strong>&nbsp;Mot de passe oubli&eacute;</strong>
-        <p></center>
-        <div class="clearspace"></div>
-        </div>
-        <div class="clearspace"></div>
-        <div class="clearspace"></div>
-
-<!--        valider button       -->
-        <center class="center-content " >
-          <button id="valider_red" class="button button-light tolk-font" ng-click="seconnecter()">
-            Valider
-          </button>
-        </center>
-
-        <div class="clearspace"></div>
- 
- <!--       information complementaire      --> 
+    </footer>             
 
 
-        <div class="clearspace"></div>
-        <div class="clearspace"></div>
-
-<!--      navigation bull        -->
-        
-<!--       last line separator      -->        
-        <div class="clearspace"></div>
 
         
-      </ion-content>
-    </ion-view>
+    </ion-content>
+</ion-view>
+
+
+
+
+

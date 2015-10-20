@@ -1,0 +1,77 @@
+<ion-view view-title="correspondant" ng-controller="correspondantCtrl">
+  <ion-content class="padding" style="overflow:hidden" has-bouncing="false" >
+    <div class="image_menu_general"></div>
+
+    <header class="menu_general_header">
+      <span><i class="fa ion-navicon-round fa-2x menu_general_img_toggle"></i></span>
+      <span><img src="img/logo_tolk_v2.png" class="menu_general_tolk_img"></span>
+    <span class="menu_general_docteur"><span>{{doctauth.civilite + ' ' +doctauth.prenom+ ' '+ doctauth.nom}}</span><span
+      class="menu_general_profil_bull"><i class="fa fa-user-md fa-2x menu_general_profil_img"></i></span></span>
+
+      <div class="clearboth"></div>
+    </header>
+
+    <article class="correspondant_article" style="background-color: white;">
+
+      <div class="list">
+        <div class="bar item" style="width:inherit;">
+          <ion-header-bar class="bar-stable row">
+            <button ng-click="goBack()" class="button button-clear button-dark">
+              <i class="ion-chevron-left"></i>
+              <span style="font-weight:800;">Retour</span>
+            </button>
+
+            <h1 class="title">{{$praticienCorrespondant.name}}</h1>
+
+            <button class="button button-clear button-dark" ng-click="addSomething()">Profile</button>
+
+          </ion-header-bar>
+        </div>
+
+        <!-- ng-click="correspondant({{correspondant.name}}) -->
+        <ion-nav-view name="navigation">
+          <div ng-show="showAucunMessage" class="row row-center message_nomessage">
+            <p class="message_nomessage_p">Aucun <br/>message</p>
+          </div>
+
+          <div ng-show="showList">
+            <div ng-repeat="message in messagesView">
+              <a class="item padding" ng-click="correspondantMessage('{{idCorrespondant}}','{{message.id}}')">
+                <div class="row row-center">
+                  <div class="col-10">
+                    <i class="{{message.icon}} fa-2x"></i>
+                  </div>
+
+                  <div class="col-80">
+                    <h2>{{message.objet}}</h2>
+                    <p>{{message.datenvoie}}</p>
+                  </div>
+
+                  <div class="col-10 messages_right_icon">
+                    <i class="ion-chevron-right"></i>
+                  </div>
+
+                </div>
+
+              </a>
+            </div>
+
+          </div>
+        </ion-nav-view>
+      </div>
+    </article>
+
+    <footer class="inscription_footer">
+      <div class="row message_footer_row">
+        <div class="col message_footer_button_left">
+          <button class="inscription_footer_button button-light" ng-click="ecrireMessage()">
+            {{messageEnvoyerMessage}}
+          </button>
+        </div>
+
+      </div>
+    </footer>
+  </ion-content>
+</ion-view>
+
+

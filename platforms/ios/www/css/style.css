@@ -71,15 +71,22 @@ img
 	height: 0px;
 	clear: both;
 }
-
+ion-view
+{
+  background-color: #424242 !important;
+}
 /* ======================                 ======================
  * ======================     Accueil     ======================
    ======================                 ======================*/
-
+.accueil_header
+{
+  background-color: transparent;
+  height: 25vh;
+}
 /* Background */
    .image_home_v2{
      position: absolute;
-     
+
      left:-10px;
      top:-10px;
      right: -10px;
@@ -87,8 +94,8 @@ img
      z-index: -1;
      display: block;
      background-repeat: no-repeat;
-     
-      
+
+
     }
     .image_home_v2 img{
      margin-left: -100%;
@@ -98,7 +105,7 @@ img
       -moz-filter:brightness(60%) blur(19px);
       -o-filter:brightness(60%) blur(19px);
       -ms-filter:brightness(60%) blur(19px);
-      filter:brightness(60%) blur(19px); 
+      filter:brightness(60%) blur(19px);
     }
 
     .scroll-bar-indicator
@@ -114,8 +121,32 @@ img
     padding-left: 1vw;
     margin-top: 1vh;
    }
+.accueil_optimisez{
+  font-family: bentonsansextralight;
+  color: white;
+  font-size: 10vw;
+  text-align: center;
+  padding-top: 20vh;
+}
 
-
+.accueil_desc {
+  font-family: bentonsansBook;
+  color: white;
+  font-size: 5vw;
+  text-align: center;
+}
+.accueil_page-bull {
+  width: 10px;
+  height: 10px;
+  border: 1px solid white;
+  margin: 4px;
+  border-radius: 5px;
+  float: left;
+}
+.accueil_page-bull.selected
+{
+  background-color: white;
+}
 /* ======================                      ======================
  * ======================     Presentation     ======================
    ======================                      ======================*/
@@ -130,7 +161,7 @@ img
 }
 
 .presentation_logo_top
-{    
+{
 	height: 8vh;
 	margin-left: 2vh;
 }
@@ -187,8 +218,8 @@ img
 
 .div_titleDesc > p
 {
-	
-	
+
+
 
 }
 .presentation_title_2
@@ -264,7 +295,7 @@ img
 {
 	border-top: 0;
 	border-right: 0;
-	border-left: 0; 
+	border-left: 0;
 	border-bottom: 1px solid white;
 	color: white;
 	background-color: transparent;
@@ -273,29 +304,30 @@ img
 }
 .inscription_autocomplete
 {
-	width: 90vw;
 	margin-left: auto;
-	margin-right: auto; 
+	margin-right: auto;
 	background-color: transparent;
 	display: block;
 }
 .inscription_autocomplete .autocomplete
 {
-	width: 90vw;
+	width: 100%;
 	vertical-align: bottom;
 	margin-left: auto;
-	margin-right: auto; 
+	margin-right: auto;
 	background-color: transparent;
-	
+
 }
 .inscription_autocomplete .autocomplete input
 {
 	padding-top: 1em;
 	color: white;
 }
-.inscription_element_
+
+.col_inscription
 {
-	height: 8vh;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 #inscription_2_lieu_exercice
 {
@@ -312,7 +344,7 @@ img
 {
 	height: 11vh;
 }
-#inscription_merci 
+#inscription_merci
 {
     font-family: bentonsansExtralight;
     color: white;
@@ -397,6 +429,8 @@ img
 	padding-right: 0px;
 
 }
+
+
 .accueil_footer_button
 {
 	color: black;
@@ -464,14 +498,14 @@ img
     font-family: bentonsansextralight !important;
     font-weight: bolder;
     font-size: 6vw;
-    line-height: 6vh;
+    line-height: 12vw;
     border-radius: 2px;
     background-color: transparent;
     min-width: 1vw;
     padding-left: 0;
     padding-right: 0;
     width: 100%;
-    
+
 }
 #inscription_1_info_bottom
 {
@@ -484,7 +518,7 @@ img
 }
 #connexion_ceercomptered
 {
-	color: #E94041;
+	  color: #E94041;
     border-color: #E94041;
     font-weight: bolder;
     border-width: 1px;
@@ -495,18 +529,24 @@ img
     padding-left: 20px;
     padding-right: 20px;
 }
+.connexion_message {
+  color: white;
+  font-family: bentonsansextralight;
+  font-size: 4vw;
+  font-weight: bolder;
+  margin-top: -2.5vh;
+}
 .connexion_tolk-font
 {
 	font-family: bentonsansextralight !important;
 	font-weight: normal;
 	font-size: 6vw;
 }
-select > .placeholder 
+select > .placeholder
 {
   display: none;
 
 }
-
 #valider
 {
 	padding: 0px 20px 0px 20px !important;
@@ -568,7 +608,7 @@ select > .placeholder
 .col_input
 {
 	border-top: 0;
-	border-left: 0; 
+	border-left: 0;
 	border-bottom: 1px solid #E94041;
 	margin: auto;
 	text-align: center;
@@ -576,7 +616,7 @@ select > .placeholder
 .col_input_right{
 	border-top: 0;
 	border-right: 1px solid #E94041;
-	border-left: 0; 
+	border-left: 0;
 	border-bottom: 1px solid #E94041;
 	margin: auto;
 	text-align: center;
@@ -598,8 +638,8 @@ select > .placeholder
 	display: block;
 	height: 100%;
 }
-.angular-google-map-container { 
-  height: 100%; 
+.angular-google-map-container {
+  height: 100%;
 }
 #map {
     height: 100%;
@@ -609,7 +649,7 @@ select > .placeholder
     height: 100%;
 }
 /*========================                       ========================
-  ========================    Inscription 4      ======================== 
+  ========================    Inscription 4      ========================
   ========================                       ========================*/
 .inscription_4_label
 {
@@ -622,12 +662,12 @@ select > .placeholder
     font-size: 16px;
     border-top: 0;
 	border-right: 0;
-	border-left: 0; 
+	border-left: 0;
 	border-bottom: 1px solid white;
 	margin: auto;
 	text-align: center;
 	padding-bottom: 0px;
-	
+
 }
 .inscription_3_input
 {
@@ -639,7 +679,7 @@ select > .placeholder
 	font-size: 1.2em !important;
 	line-height: 1.2em !important;
 	margin-left: auto;
-	margin-right: auto; 
+	margin-right: auto;
 	display: block;
 	padding-top: 1em !important;
 }
@@ -674,7 +714,7 @@ select > .placeholder
 }
 
 /*========================                       ========================
-  ========================    inscription 5      ======================== 
+  ========================    inscription 5      ========================
   ========================                       ========================*/
  #inscription_5
  {
@@ -707,7 +747,7 @@ select > .placeholder
 	background-color: transparent;
 	padding: 0;
 	float: right;
-	
+
 }
 .inscription_5_cadre
 {
@@ -750,14 +790,14 @@ select > .placeholder
 	text-align: right;
 }
 /*========================                       ========================
-  ========================    Fin inscription    ======================== 
+  ========================    Fin inscription    ========================
   ========================                       ========================*/
 #phonenumberservice
 {
 	font-weight: 18px ;
 	font-family: bentonsansBold;
 	color: #E94041;
-	
+
 }
 .page-bull
 {
@@ -769,6 +809,7 @@ select > .placeholder
 	border-radius: 3px;
 	float: left;
 }
+
 .page-bull-me
 {
 	width: 80px;
@@ -776,12 +817,13 @@ select > .placeholder
 	border: 2px solid #E94041;
 	margin-left:111px;
 	border-radius: 40px;
-		
+
 }
 .me
 {
 	color: #E94041;
 }
+
 .page-bull.selected
 {
 	background-color: white;
@@ -853,7 +895,7 @@ select > .placeholder
 	margin-left: 50px;
 	margin-top: -15px;
 	color: #585858;
-	font-weight: bolder;	
+	font-weight: bolder;
 }
 
 .div_img_correspondants{
@@ -879,7 +921,7 @@ select > .placeholder
 	margin-left: 50px;
 	margin-top: -15px;
 	color: #585858;
-	font-weight: bolder;	
+	font-weight: bolder;
 }
 
 .div_ligne_correspondants{
@@ -913,7 +955,7 @@ select > .placeholder
 	margin-left: 50px;
 	margin-top: -15px;
 	color: #585858;
-	font-weight: bolder;	
+	font-weight: bolder;
 }
 
 .div_ligne_actpub{
@@ -947,7 +989,7 @@ select > .placeholder
 	margin-left: 50px;
 	margin-top: -15px;
 	color: #585858;
-	font-weight: bolder;	
+	font-weight: bolder;
 }
 /*--------------------------------------------------- new css -------------------------*/
 /*-------------------* page presentation *------------------------*/
@@ -988,7 +1030,7 @@ select > .placeholder
 	width: 10px;
 	height: 10px;
 	border: 1px solid white;
-	
+
 	margin: 4px;
 	border-radius: 5px;
 	float: left;
@@ -1028,7 +1070,7 @@ select > .placeholder
 .titleDesc_desc_footer
 {
 	font-weight: 200;
-	font-size: 14px; 
+	font-size: 14px;
 
 }
 .div_promo_title
@@ -1112,7 +1154,7 @@ select > .placeholder
 }
 #gratuit
 {
-	
+
 	color: #E94041;
 	font-size: 21px;
 	line-height: 35px;
@@ -1136,7 +1178,7 @@ select > .placeholder
 	height: 33px;
 	background-repeat: no-repeat;
 	border: 0px;
-	
+
 }
 .profil_img{
 	background: url(../img/profil_img.png);
@@ -1153,7 +1195,7 @@ select > .placeholder
 	color: #E94041;;
 	font-weight: bolder;
 	margin-top: -2px;
-	
+
 }
 .inscription_horaires{
 	font-family: bentonsansBlack;
@@ -1161,7 +1203,7 @@ select > .placeholder
 	color: #E94041;
 	font-weight: bolder;
 	margin-top: 3px;
-	
+
 }
 
 #mt
@@ -1209,7 +1251,7 @@ font-size:12px;
 	font-size: 19px;
 	font-weight: normal;
 	color: #E94041;
-	
+
 }
 .menulist-nopadding
 {
@@ -1228,7 +1270,7 @@ font-size:12px;
 	font-family: bentonsansBold;
 	font-size: 10px;
 	font-weight: lighter;
-	
+
 }
 .haut
 {
@@ -1259,7 +1301,7 @@ font-size:12px;
 {
 	font-size: 30px;
 	font-family: bentonsansextralight;
-	
+
 	margin-top: 20px;
 	margin-left:auto;
 	margin-right:auto;
@@ -1272,13 +1314,13 @@ font-size:12px;
 	margin-left:auto;
 	text-align: center;
 	margin-top: 5px;
-	
+
 }
 .doctor-block-info
 {
 	border: 1px solid #E94041;
 	margin-right: 10px;
-	margin-left: 10px; 
+	margin-left: 10px;
 	font-size: 20px;
 	font-weight: 800;
 }
@@ -1286,7 +1328,7 @@ font-size:12px;
 {
 	border: 1px solid white;
 	margin-top: 25px;
-	float: right; 
+	float: right;
 	margin-right: -35px;
 	font-size: 20px;
 	font-weight: 800;
@@ -1352,7 +1394,7 @@ color: #e14640;
 .labelnum
 {
 	color:#E94041;
-	font-size: 14px; 
+	font-size: 14px;
 }
 .input-text
 {
@@ -1421,7 +1463,7 @@ color: #e14640;
 	border: 2px solid #E94041;
 	margin-left:111px;
 	border-radius: 40px;
-		
+
 }
 .activerminiweb
 {
@@ -1487,7 +1529,7 @@ color: #e14640;
 	font-size: 14px;
 	font-weight: normal;
 	color: #E94041;
-	
+
 }
 /*
 .list
@@ -1499,7 +1541,7 @@ color: #e14640;
 {
 	border-top: 0;
 	border-right: 0;
-	border-left: 0; 
+	border-left: 0;
 	border-bottom: 1px solid #E94041;
 	margin: auto;
 	text-align: center;
@@ -1554,13 +1596,13 @@ color: #e14640;
 {
 	border-top: 0;
 	border-right: 0;
-	border-left: 0; 
+	border-left: 0;
 	border-bottom: 1px solid #E94041;
 	margin: auto;
 	text-align: center;
 	padding: 5px;
 	padding-bottom: 0px;
-	
+
 
 }
 .connexion_list > label > select
@@ -1597,16 +1639,16 @@ color: #e14640;
     font-size: 16px;
     border-top: 0;
 	border-right: 0;
-	border-left: 0; 
+	border-left: 0;
 	border-bottom: 1px solid white;
 	margin: auto;
 	text-align: center;
 	padding-bottom: 0px;
-	
+
 }
 .connexion_label > input
 {
-    width: 80vw;	
+    width: 80vw;
 }
 .connexion_verif_adresse{
 	margin-top: -10vh;
@@ -1686,13 +1728,13 @@ color: #e14640;
 {
 	border-top: 0;
 	border-right: 0;
-	border-left: 0; 
+	border-left: 0;
 	border-bottom: 1px solid #E94041;
 	margin: auto;
 	text-align: center;
 	padding: 5px;
 	padding-bottom: 0px;
-	
+
 
 }
 .remdp_list > label > select
@@ -1825,13 +1867,13 @@ color: #e14640;
 {
 	border-top: 0;
 	border-right: 0;
-	border-left: 0; 
+	border-left: 0;
 	border-bottom: 1px solid #E94041;
 	margin: auto;
 	text-align: center;
 	padding: 5px;
 	padding-bottom: 0px;
-	
+
 
 }
 .firstconnexion1_list > label > select
@@ -1978,7 +2020,7 @@ color: #e14640;
 	color: #E94041;;
 	font-weight: bolder;
 	margin-top: -2px;
-	
+
 }
 .firstconnexion2_horaires{
 	font-family: bentonsansextralight;
@@ -1986,7 +2028,7 @@ color: #e14640;
 	color: #E94041;
 	font-weight: bolder;
 	margin-top: 3px;
-	
+
 }
 .firstconnexion2_list
 {
@@ -1997,13 +2039,13 @@ color: #e14640;
 {
 	border-top: 0;
 	border-right: 0;
-	border-left: 0; 
+	border-left: 0;
 	border-bottom: 1px solid #E94041;
 	margin: auto;
 	text-align: center;
 	padding: 5px;
 	padding-bottom: 0px;
-	
+
 
 }
 .firstconnexion2_list > label > select
@@ -2098,7 +2140,7 @@ color: #e14640;
     right: 0;
     z-index: -1;
     display: block;
-    background-image: url(../img/bg.png);
+    /*background-image: url(../img/bg.png);*/
     background-repeat: no-repeat;
     background-size: 120%;
 
@@ -2117,13 +2159,13 @@ color: #e14640;
 
 .menu_general_img_toggle
 {
-  float: left; 
+  float: left;
   color: white;
 }
 
 .menu_general_tolk_img
 {
-  float: left; 
+  float: left;
 }
 .menu_general_docteur
 {
@@ -2233,7 +2275,7 @@ color: #e14640;
 	border: 0vh;
 	float: right;
 	margin-top: -1vh;
-	
+
 }
 .haut-menu-gen
 {
@@ -2267,9 +2309,61 @@ color: #e14640;
 {
 	font-weight: 3vh ;
 	color: #E94041;
-	margin-left: -15vh;	
+	margin-left: -15vh;
+}
+.headerbar{}
+/* ======================                            ======================
+ * ======================     mes correspondants     ======================
+   ======================                            ======================*/
+.mescorrespondants_article
+{
+  background-color: transparent;
+  margin-top: 10px;
+}
+.correspondant_article
+{
+  background-color: transparent;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.messages_right_icon
+{
+  text-align: right;
+}
+.message_footer_row
+{
+  padding: 0px;
+}
+.message_footer_button_left
+{
+  padding: 0px;
+}
+.message_nomessage
+{
+  font-size: 12vw;
+  font-family: bentonsansextraLight;
+  text-align: center;
+  margin: auto;
+}
+.message_nomessage_p
+{
+  line-height: 12vw;
+  margin: auto;
 }
 
+.item
+{
+  margin: 0px;
+}
+.row_top_bar
+{
+  padding: 0px;
+  position: relative;
+}
+.bar .title
+{
+  font-size: 15px;
+}
 /* ======================                 ======================
  * ======================     profil     ======================
    ======================                 ======================*/
@@ -2309,7 +2403,7 @@ color: #e14640;
 	width: 26vw;
 	padding: 0vh;
 	line-height: 0vh;
-    
+
 }
 
 
@@ -2322,7 +2416,7 @@ color: #e14640;
 	display: block;
 	margin-left:-7vw;
 
-	
+
 }
 .haut-profil
 {
@@ -2344,7 +2438,7 @@ color: #e14640;
 {
   width: 5vw;
   margin-top: 6.5vh;
-  right: 24vw; 
+  right: 24vw;
   position: absolute;
 }
 
@@ -2370,7 +2464,7 @@ color: #e14640;
 	border: 0vh;
 	float: right;
 	margin-top: -0.5vh;
-	
+
 }
 .profil_img_bientot_dispo{
 	background: url(../img/profil_img.png);
@@ -2391,7 +2485,7 @@ color: #e14640;
 
 #bientot-disponible-red
 {
-	
+
 	color: white;
 	font-family: bentonsansextralight;
 	font-size: 12vw;
@@ -2407,7 +2501,7 @@ color: #e14640;
   float: left;
   margin-left: 0.5vw;
 }
-.bientot-text  
+.bientot-text
 {
 	font-family: arial!important;
 	color: white;
@@ -2432,15 +2526,15 @@ color: #e14640;
 	color: white !important;
 }
 
-input::-webkit-input-placeholder 
+input::-webkit-input-placeholder
 {
   color: white;
 }
-input:-moz-placeholder 
+input:-moz-placeholder
 {
   color: white;
 }
-input:-ms-input-placeholder 
+input:-ms-input-placeholder
 { /* IE10+ */
   color: white;
 }

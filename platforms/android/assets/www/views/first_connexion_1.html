@@ -1,65 +1,67 @@
-<ion-view view-title="Inscription Etape5">
-      <ion-content class="padding" id="page_red">
-
+<ion-view view-title="first_connexion_1">
+      <ion-content class="padding" style:"overflow:hidden"  ng-controller="first_connexion_1Ctrl" has-bouncing="false">
+      <div class="image_menu_general"></div>
 
 <!--       header avec logo      -->
-      
-          <center><img src="img/header_logo_blanc.png"></center><br>
-          <p class="hello_login"><button class="profil_img"></button>&nbsp;&nbsp;Bonjour <strong>Alexandre Durand</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button ng-controller="accueilCtrl" ng-click="accueil()" class="power_off"></button></p>
-          <div class="separator_white"  style="margin-top:-8px;"></div>
-          
+    <header class="firstconnexion1_header">
+        <div><img src="img/logo_tolk_v2.png" class="tolk_img"></div>
+        <div class="firstconnexion1_titre">R&eacute;seau professionnel de sant&eacute;</div>
+        <i class="fa fa-angle-left fa-2x firstconnexion1_chevron"></i> 
+        <div class="firstconnexion1_precedent">Pr&eacute;c&eacute;dent</div>
+        <div></div>
+    </header>
        
 
-<!--       inscription header       -->
 
-        <div class="container item" id="page_red">
-          <p id="inscription-top-welcome-white">
-           Bienvenue sur<br>votre espace numérique</p>
-         
-        </div>
+    <article class="firstconnexion1_article">
+        <fieldset class="firstconnexion1_fieldset">
+
+          <div class="firstconnexion1_1ereconnexion">1&egrave;re connexion</div>
    
+          <div class="firstconnexion1_mdp">
       
-       <div class="cadre">
-        <div class="clearspace"></div>
+              <input type="password" ng-model="mdp_sms" ng-change="notEmpty()" placeholder="Code reçu par SMS" class="firstconnexion1_input_text" /><p class="firstconnexion1_codesms">{{message}}</p>
+           
 
-<!--        list specialités       -->
+              <div class="firstconnexion1_separator_white"></div>
 
-        <div class="list">
-       
-          <center><p class="inscription_fin_1">Pour votre<br/><br/> 1ère connexion</p></center>
-          <br/>
+           
+              <input type="password" ng-model="mdp1" placeholder="Choisissez un mot de passe" class="firstconnexion1_input_text"/>
+          
 
-          <center><p class="inscription_fin_3">Vous devez personnaliser votre mot de passe<br>pour la sécuriser vos informations </p></center>
+              <div class="firstconnexion1_mdp_separator_white"></div>
 
-
-          <label class="item">
-            <input type="password" placeholder="Mot de passe reçu par SMS"/>
-          </label>
- <div class="clearspace"></div>
-           <label class="item">
-            <input type="password" placeholder="choisissez un nouveau mot de passe"/>
-          </label>
- <div class="clearspace"></div>
-           <label class="item">
-            <input type="password" placeholder="Confirmez le nouveau mot de passe"/>
-          </label>
-           <div class="clearspace"></div>
-        </div>
+          
+              <input type="password" ng-model="mdp2" ng-change="identiques()" placeholder="Confirmez votre mot de passe" class="firstconnexion1_input_text"/>
         
-     
-       
+            <div class="firstconnexion1_mdp_separator_white"></div>
+             <div class="clearspace"></div>
+             <p class="firstconnexion1_codesms">{{message2}}</p>
+         </div>
 
-<!--       last line separator      -->        
-    
-       
-      
-</div>
-  <div class="clearspace"></div>
-<center class="center-content " ng-controller="first_connexion_2Ctrl">
-          <button id="valider_red" class="button button-light tolk-font" ng-click="first_connexion_2()">
+            <div class="firstconnexion1_support"><u>support@me.com</u></div>
+            <div class="firstconnexion1_tel">01 85 08 92 69 </div>
+        </fieldset>  
+    </article>
+
+    <footer class="firstconnexion1_footer">
+        <div class="row">
+            <div class="col">
+          <button id="firstconnexion1_accueil" class="button-light firstconnexion1_valider-font" ng-click="accueil()">
+            Accueil
+          </button>
+      </div>
+      <div class="col">
+          <button id="firstconnexion1_valider" class="button-light firstconnexion1_valider-font" ng-click="to_first_connexion_2()">
             Valider
           </button>
-        </center>
+      </div>
+        </div>
+    </footer>
+                            
+
+
+
         
       </ion-content>
     </ion-view>

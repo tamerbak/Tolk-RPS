@@ -1,31 +1,60 @@
 <ion-view view-title="mes_correspondants" ng-controller="mescorrespondantsCtrl">
-  <ion-header-bar>
-    <!-- <ion-nav-buttons side="primary"> -->
-    <button class="button button-clear" ng-click="doSomething()">
-      <i class="ion-arrow-left-c"></i>
-      retour
-    </button>
 
-    <h1 class="title">Mes correspondants</h1>
+  <ion-content class="padding" has-bouncing="false" overflow-scroll="true">
 
-    <div class="buttons">
-      <button class="button button-clear icon ion-person-add button-dark" ng-click="addSomething()"></button>
-    </div>
-    <!-- </ion-nav-buttons> -->
-  </ion-header-bar>
 
-  <ion-content has-bouncing="false" overflow-scroll="true">
-    <ion-nav-view class="mescorrespondants_article" style="background-color: green;">
-      <!-- ng-click="correspondant({{correspondant.name}}) -->
-        <a class="item item-avatar" ng-repeat="correspondant in correspondants"
-           ng-click="correspondantDetail('{{correspondant.name}}')">
-          <img src="img/ionic.png">
+    <header class="menu_general_header">
+      <span><i class="fa ion-navicon-round fa-2x menu_general_img_toggle"></i></span>
+      <span><img src="img/logo_tolk_v2.png" class="menu_general_tolk_img"></span>
+      <span
+        class="menu_general_docteur"><span>{{doctauth.civilite + ' ' +doctauth.prenom+ ' '+ doctauth.nom}}</span><span
+        class="menu_general_profil_bull"><i class="fa fa-user-md fa-2x menu_general_profil_img"></i></span></span>
 
-          <h2>{{correspondant.name}}</h2>
+      <div class="clearboth"></div>
+    </header>
 
-          <p>{{correspondant.last_message}}</p>
-        </a>
-      </ion-nav-view>
+    <article class="mescorrespondants_article" style="background-color: white;">
+
+
+      <div class="list has-header">
+        <div class="bar item" style="width:inherit;">
+
+          <ion-header-bar class="headerbar">
+
+            <button ng-click="goBack()" class="button button-clear button-dark">
+              <i class="ion-chevron-left"></i>
+              <span style="font-weight:800;">Retour</span>
+            </button>
+
+            <p class="title">Mes correspondants</p>
+
+            <div class="buttons">
+              <button class="button button-clear icon ion-person-add button-dark" ng-click="addSomething()"></button>
+              <div class="clearboth"></div>
+            </div>
+            <div class="clearboth"></div>
+          </ion-header-bar>
+
+          <div class="clearboth"></div>
+        </div>
+
+        <ion-nav-view class="has-header">
+          <div ng-show="showAucunCorrespondant" class="row row-center message_nomessage">
+            <p class="message_nomessage_p">Pas de correspondant, commencer par en ajouter</p>
+          </div>
+          <!-- ng-click="correspondant({{correspondant.name}}) -->
+          <a class="item item-avatar" ng-repeat="correspondant in doctauth.correspondants"
+             ng-click="correspondantDetail('{{correspondant.id}}')">
+            <img src="img/ionic.png">
+
+            <h2>{{correspondant.name}}</h2>
+
+            <p>{{correspondant.lastMessage.object}}</p>
+          </a>
+        </ion-nav-view>
+      </div>
+    </article>
+
   </ion-content>
 </ion-view>
 

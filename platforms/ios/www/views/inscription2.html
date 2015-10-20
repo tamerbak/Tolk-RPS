@@ -1,6 +1,6 @@
 <ion-view view-title="Inscription Etape2">
     <ion-content class="screen" height="100%" ng-controller="inscription2Ctrl"  has-bouncing="false" overflow-scroll="true">
-      <div class="image_menu_general"></div>
+      <!--<div class="image_menu_general"></div>-->
 <!--       header avec logo      -->
         <header class="inscription_header" style=>
             <div class="inscription_header_div_img"><img src="img/logo_tolk_v2.png"></div>
@@ -12,21 +12,26 @@
             <div class="inscription_cadre">
               <center>
                   <p id="inscription_2_lieu_exercice">
-                      Votre adresse d'exercice 
+                      Votre adresse d'exercice
                   </p>
               </center>
 
+
+          <div class="row"><div class="col col_inscription">
               <autocomplete id="autocomplete-cp" class="inscription_autocomplete inscription_2_input_bottom_space" ng-model="dr.cp" data="cps" on-type="updateCPs" attr-placeholder="Code postal">
               </autocomplete>
-
+          </div></div>
+          <div class="row"><div class="col col_inscription">
               <autocomplete id="autocomplete-ville" class="inscription_autocomplete inscription_2_input_bottom_space" ng-model="dr.ville" data="villes" on-type="updateVilles" attr-placeholder="Ville">
               </autocomplete>
-
+          </div></div>
+          <div class="row"><div class="col col_inscription">
               <autocomplete id="autocomplete-adresse" class="inscription_autocomplete inscription_2_input_bottom_space" ng-model="dr.adresse" data="adresses" on-type="updateAdresses" attr-placeholder="Adresse">
               </autocomplete>
+          </div></div>
 
               <center>
-                  <p id="inscription_1_info_bottom" ng-click="showMap()">
+                  <p id="inscription_1_info_bottom" ng-click="showMapa()">
                       &gt; Vérifier vote adresse sur le plan
                   </p>
               </center>
@@ -49,6 +54,6 @@
             </div>
         </div>
     </footer>
-        
+
       </ion-content>
     </ion-view>

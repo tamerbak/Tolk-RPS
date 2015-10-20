@@ -4,9 +4,9 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 //=================================
 //=================================    Insriptions
 //=================================
-.controller('inscription1Ctrl',function($ionicHistory,$scope,$state,$http,xmlParser,docteurInscription,appAuthentification)
+.controller('inscription1Ctrl',function($ionicHistory,$scope,$state,$http,xmlParser,docteurInscription,appAuthentification,formatString)
 {
-  
+
   $scope.dr = docteurInscription;
   $scope.appauth = appAuthentification;
   $scope.specialites = [];
@@ -23,25 +23,26 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
         $scope.buttonSpecialiteeDisabled = ($scope.dr.specialite != "") ?  false : true;
     };
 
-    
+
 
 
   $scope.updatespecialite=function(typed)
   {
     if ($scope.appauth.sessionId == "")
     {
-      
+
       $http({
           method  : 'POST',
           url     : 'http://ns389914.ovh.net:8080/tolk/api/aman',
           data    : "<fr.protogen.connector.model.AmanToken><username>administration</username><password>1234</password><nom></nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId></sessionId><status></status><id>0</id><beanId>0</beanId></fr.protogen.connector.model.AmanToken>",
           headers: {"Content-Type": 'text/xml'}
          })
-          .success(function(data) 
+          .success(function(data)
           {
-             datajson=xmlParser.xml_str2json(data);
-             $scope.appauth.sessionId = datajson['fr.protogen.connector.model.AmanToken'].sessionId;
+             $datajson=xmlParser.xml_str2json(data);
+             $scope.appauth.sessionId = $datajson['fr.protogen.connector.model.AmanToken'].sessionId;
              $scope.getSpecialitiesFromServer(typed);
+
 
           })
           .error(function(data) //
@@ -49,7 +50,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
             console.log(data);
              console.log("erreur");
           });
-          
+
     }
     else
     {
@@ -79,19 +80,20 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
           data    : $requestdata,
           headers: {"Content-Type": 'text/xml'}
          })
-          .success(function(data) 
+          .success(function(data)
           {
-            
-            datajson=xmlParser.xml_str2json(data);
-            if (datajson['fr.protogen.connector.model.DataModel'].status != "FAILURE") 
+
+            datajson=formatString.formatServerResult(data);
+            //console.log(jsonText);
+            if (datajson.dataModel.status != "FAILURE")
             {
-              $scope.setSpecialities(datajson['fr.protogen.connector.model.DataModel']['rows']['fr.protogen.connector.model.DataRow']);
+              $scope.setSpecialities(datajson.dataModel.rows.dataRow);
             }
             else
             {
               $scope.erreur = "Probleme serveur";
             }
-             
+
 
           })
           .error(function(data) //
@@ -109,7 +111,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
     console.log("rows lenght : "+ rows);
 
     if (rows == null) return;
-      
+
     rows = [].concat( rows );
     console.log("rows lenght : "+ rows.length);
 
@@ -117,38 +119,38 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
     {
       var indexofSpecialite = -1;
       var indexofSpecialiteID = -1;
-      for (var j = 0; j < rows[i].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++) 
+      for (var j = 0; j < rows[i].dataRow.dataEntry.length ; j++)
       {
-        if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "libelle") 
-        { 
+        if (rows[i].dataRow.dataEntry[j].attributeReference == "libelle")
+        {
           indexofSpecialite = j;
           continue;
         }
-        if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "pk_user_specialite") 
-        { 
+        if (rows[i].dataRow.dataEntry[j].attributeReference == "pk_user_specialite")
+        {
           indexofSpecialiteID = j;
           continue;
         }
       }
-      if (indexofSpecialite != -1 && indexofSpecialiteID != -1) 
+      if (indexofSpecialite != -1 && indexofSpecialiteID != -1)
       {
           var tempSpecialite = "";
-          tempSpecialite = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][indexofSpecialite].value;
-          tempSpecialite = tempSpecialite.replace("<![CDATA[", "").replace("]]>", "");
+          tempSpecialite = rows[i].dataRow.dataEntry[indexofSpecialite].value;
+          //tempSpecialite = tempSpecialite.replace("<![CDATA[", "").replace("]]>", "");
 
           var tempSpecialiteID = "";
-          tempSpecialiteID = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][indexofSpecialiteID].value;
-          tempSpecialiteID = tempSpecialiteID.replace("<![CDATA[", "").replace("]]>", "");
+          tempSpecialiteID = rows[i].dataRow.dataEntry[indexofSpecialiteID].value;
+          //tempSpecialiteID = tempSpecialiteID.replace("<![CDATA[", "").replace("]]>", "");
 
 
-            if ($scope.specialites.indexOf(tempSpecialite) < 0  && $scope.specialites.length < 7) 
+            if ($scope.specialites.indexOf(tempSpecialite) < 0  && $scope.specialites.length < 7)
             {
-              console.log("cp :" + tempSpecialite + "    cpid :"+ tempSpecialiteID);
+              console.log("specialite :" + tempSpecialite + "    specialiteID :"+ tempSpecialiteID);
               $scope.specialites.push(tempSpecialite);
               $scope.specialites_id[tempSpecialite] = tempSpecialiteID;
             }
       }
-      
+
     };
 
   };
@@ -159,14 +161,14 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
     console.log("Session: "+$scope.appauth.sessionId);
     if ($scope.appauth.sessionId == "")
     {
-      
+
       $http({
           method  : 'POST',
           url     : 'http://ns389914.ovh.net:8080/tolk/api/aman',
           data    : "<fr.protogen.connector.model.AmanToken><username>administration</username><password>1234</password><nom></nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId></sessionId><status></status><id>0</id><beanId>0</beanId></fr.protogen.connector.model.AmanToken>",
           headers: {"Content-Type": 'text/xml'}
          })
-          .success(function(data) 
+          .success(function(data)
           {
              datajson=xmlParser.xml_str2json(data);
              $scope.appauth.sessionId = datajson['fr.protogen.connector.model.AmanToken'].sessionId;
@@ -179,7 +181,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
             console.log(data);
              console.log("erreur");
           });
-          
+
     }
     else
     {
@@ -203,7 +205,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
                   "</fr.protogen.connector.model.SearchClause>";
 
     }
-    
+
     if ($scope.dr.prenom != "")
     {
       requestPrenom = "<fr.protogen.connector.model.SearchClause>" +
@@ -236,11 +238,11 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
           data    : $requestdata,
           headers: {"Content-Type": 'text/xml'}
          })
-          .success(function(data) 
+          .success(function(data)
           {
-            
+
             datajson=xmlParser.xml_str2json(data);
-            if (datajson['fr.protogen.connector.model.DataModel'].status != "FAILURE") 
+            if (datajson['fr.protogen.connector.model.DataModel'].status != "FAILURE")
             {
                 console.log(datajson);
                 $scope.setNomEtPrenom(datajson['fr.protogen.connector.model.DataModel']['rows']['fr.protogen.connector.model.DataRow']);
@@ -262,7 +264,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
   {
     // console.log(rows['0']['dataRow']['']);
       console.log(JSON.stringify(rows));
-  
+
       $scope.firstNames.length = 0;
       $scope.lastNames.length = 0;
 
@@ -274,29 +276,29 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
       for(var i=0; i<rows.length; i++)
       {
         console.log("rows lenght : "+ rows.length);
-          for (var j = 0; j < rows[i].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++) 
+          for (var j = 0; j < rows[i].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++)
           {
             console.log("dataRow lenght : "+ rows[i].dataRow['fr.protogen.connector.model.DataEntry'].length);
-              if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "prenom") 
+              if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "prenom")
               {
                   var tempPrenom = "";
                   tempPrenom = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
                   tempPrenom = tempPrenom.replace("<![CDATA[", "").replace("]]>", "");
 
-                  if ($scope.firstNames.indexOf(tempPrenom) < 0 && $scope.firstNames.length < 10) 
+                  if ($scope.firstNames.indexOf(tempPrenom) < 0 && $scope.firstNames.length < 10)
                   {
                       $scope.firstNames.push(tempPrenom);
                   }
               }
-      
-              if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "nom") 
+
+              if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "nom")
               {
                   var tempNom = "";
                   tempNom = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
                   tempNom = tempNom.replace("<![CDATA[", "").replace("]]>", "");
-      
-      
-                  if ($scope.lastNames.indexOf(tempNom) < 0 && $scope.lastNames.length < 10) 
+
+
+                  if ($scope.lastNames.indexOf(tempNom) < 0 && $scope.lastNames.length < 10)
                   {
                       $scope.lastNames.push(tempNom);
                   }
@@ -307,11 +309,11 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
       console.log($scope.firstNames);
       console.log("lastNames");
       console.log($scope.lastNames);
-    
+
 
   };
 
-  $scope.goBack = function() 
+  $scope.goBack = function()
   {
     $ionicHistory.goBack();
   };
@@ -354,7 +356,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
                   "<type>fk_user_specialite</type>" +
                   "</fr.protogen.connector.model.SearchClause>";
     $scope.dr.specialite_id = $scope.specialites_id[$scope.dr.specialite];
-    
+
 
     requestPrenom = "<fr.protogen.connector.model.SearchClause>" +
                   "<field>prenom</field>" +
@@ -373,7 +375,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 
     $requestdata = "<fr.protogen.connector.model.DataModel><entity>user_praticien</entity><dataMap/><rows/><token><username/><password/><nom>Jakjoud Abdeslam</nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId>" + $scope.appauth.sessionId + "</sessionId><status>SUCCES</status><id>206</id><beanId>0</beanId></token><expired></expired><unrecognized></unrecognized><status></status><operation>GET</operation>"+
     "<clauses>"+ requestSpecialitee + requestPrenom + requestNom +"</clauses><page>1</page><pages>10</pages><nbpages>100</nbpages><iddriver>0</iddriver><ignoreList></ignoreList></fr.protogen.connector.model.DataModel>";
-    
+
     console.log($requestdata);
 
     $http({
@@ -382,11 +384,11 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
           data    : $requestdata,
           headers: {"Content-Type": 'text/xml'}
          })
-          .success(function(data) 
+          .success(function(data)
           {
-            
+
             datajson=xmlParser.xml_str2json(data);
-            if (datajson['fr.protogen.connector.model.DataModel'].status != "FAILURE") 
+            if (datajson['fr.protogen.connector.model.DataModel'].status != "FAILURE")
             {
                 console.log(datajson);
                 $scope.setPraticienId(datajson['fr.protogen.connector.model.DataModel']['rows']['fr.protogen.connector.model.DataRow']);
@@ -410,7 +412,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
   $scope.setPraticienId = function(rows)
   {
       console.log(JSON.stringify(rows));
-  
+
       $scope.firstNames.length = 0;
       $scope.lastNames.length = 0;
 
@@ -422,10 +424,10 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
       if (rows.length > 1) return;
 
         console.log("rows lenght : "+ rows.length);
-          for (var j = 0; j < rows[0].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++) 
+          for (var j = 0; j < rows[0].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++)
           {
             console.log("dataRow lenght : "+ rows[0].dataRow['fr.protogen.connector.model.DataEntry'].length);
-              if (rows[0].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "pk_user_praticien") 
+              if (rows[0].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "pk_user_praticien")
               {
 
                   $scope.dr.praticien_id = rows[0].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
@@ -451,7 +453,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 //=========================================
 .controller('inscription2Ctrl',function($ionicHistory,$scope,$state,$http,$cordovaGeolocation,xmlParser,docteurInscription,appAuthentification)
 {
-  
+
   $scope.dr = docteurInscription;
   $scope.appauth = appAuthentification;
   $scope.cps = [];
@@ -463,7 +465,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 
   $scope.buttonValiderDisabled = true;
 
-    $scope.map = { center: { latitude: 45, longitude: -73 }, zoom: 8 };
+
 
   $scope.goBack = function() {
     $ionicHistory.goBack();
@@ -497,7 +499,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
           data    : "<fr.protogen.connector.model.AmanToken><username>administration</username><password>1234</password><nom></nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId></sessionId><status></status><id>0</id><beanId>0</beanId></fr.protogen.connector.model.AmanToken>",
           headers: {"Content-Type": 'text/xml'}
          })
-          .success(function(data) 
+          .success(function(data)
           {
              datajson=xmlParser.xml_str2json(data);
              $scope.appauth.sessionId = datajson['fr.protogen.connector.model.AmanToken'].sessionId;
@@ -510,7 +512,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
             console.log(data);
              console.log("erreur");
           });
-          
+
     }
     else
     {
@@ -568,11 +570,11 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
           data    : $requestdata,
           headers: {"Content-Type": 'text/xml'}
          })
-          .success(function(data) 
+          .success(function(data)
           {
-            
+
             datajson=xmlParser.xml_str2json(data);
-            if (datajson['fr.protogen.connector.model.DataModel'].status != "FAILURE") 
+            if (datajson['fr.protogen.connector.model.DataModel'].status != "FAILURE")
             {
               $scope.setCPS(datajson['fr.protogen.connector.model.DataModel']['rows']['fr.protogen.connector.model.DataRow']);
             }
@@ -598,7 +600,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
     console.log("rows lenght : "+ rows);
 
     if (rows == null) return;
-      
+
     rows = [].concat( rows );
     console.log("rows lenght : "+ rows.length);
 
@@ -606,20 +608,20 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
     {
       var indexofcp = -1;
       var indexofcpID = -1;
-      for (var j = 0; j < rows[i].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++) 
+      for (var j = 0; j < rows[i].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++)
       {
-        if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "libelle") 
-        { 
+        if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "libelle")
+        {
           indexofcp = j;
           continue;
         }
-        if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "pk_user_code_postal") 
-        { 
+        if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "pk_user_code_postal")
+        {
           indexofcpID = j;
           continue;
         }
       }
-      if (indexofcp != -1 && indexofcpID != -1) 
+      if (indexofcp != -1 && indexofcpID != -1)
       {
           var tempCP = "";
           tempCP = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][indexofcp].value;
@@ -630,16 +632,16 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
           tempCPID = tempCPID.replace("<![CDATA[", "").replace("]]>", "");
 
 
-            if ($scope.cps.indexOf(tempCP) < 0  && $scope.cps.length < 7) 
+            if ($scope.cps.indexOf(tempCP) < 0  && $scope.cps.length < 7)
             {
               console.log("cp :" + tempCP + "    cpid :"+ tempCPID);
               $scope.cps.push(tempCP);
               $scope.cps_id[tempCP] = tempCPID;
             }
       }
-      
+
     };
-    
+
 
   };
 
@@ -654,7 +656,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
           data    : "<fr.protogen.connector.model.AmanToken><username>administration</username><password>1234</password><nom></nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId></sessionId><status></status><id>0</id><beanId>0</beanId></fr.protogen.connector.model.AmanToken>",
           headers: {"Content-Type": 'text/xml'}
          })
-          .success(function(data) 
+          .success(function(data)
           {
              datajson=xmlParser.xml_str2json(data);
              $scope.appauth.sessionId = datajson['fr.protogen.connector.model.AmanToken'].sessionId;
@@ -666,7 +668,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
             console.log(data);
              console.log("erreur");
           });
-          
+
     }
     else
     {
@@ -722,11 +724,11 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
           data    : $requestdata,
           headers: {"Content-Type": 'text/xml'}
          })
-          .success(function(data) 
+          .success(function(data)
           {
-            
+
             datajson=xmlParser.xml_str2json(data);
-            if (datajson['fr.protogen.connector.model.DataModel'].status != "FAILURE") 
+            if (datajson['fr.protogen.connector.model.DataModel'].status != "FAILURE")
             {
               console.log(datajson);
               $scope.setVilles(datajson['fr.protogen.connector.model.DataModel']['rows']['fr.protogen.connector.model.DataRow']);
@@ -754,7 +756,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
     console.log("rows lenght : "+ rows);
 
     if (rows == null) return;
-      
+
     rows = [].concat( rows );
     console.log("rows lenght : "+ rows.length);
 
@@ -762,20 +764,20 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
     {
       var indexofville = -1;
       var indexofvilleID = -1;
-      for (var j = 0; j < rows[i].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++) 
+      for (var j = 0; j < rows[i].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++)
       {
-        if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "libelle") 
-        { 
+        if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "libelle")
+        {
           indexofville = j;
           continue;
         }
-        if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "pk_user_ville") 
-        { 
+        if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "pk_user_ville")
+        {
           indexofvilleID = j;
           continue;
         }
       }
-      if (indexofville != -1 && indexofvilleID != -1) 
+      if (indexofville != -1 && indexofvilleID != -1)
       {
           var tempVille = "";
           tempVille = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][indexofville].value;
@@ -786,16 +788,16 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
           tempVilleID = tempVilleID.replace("<![CDATA[", "").replace("]]>", "");
 
 
-            if ($scope.villes.indexOf(tempVille) < 0  && $scope.villes.length < 7) 
+            if ($scope.villes.indexOf(tempVille) < 0  && $scope.villes.length < 7)
             {
               console.log("ville :" + tempVille + "    villeid :"+ tempVilleID);
               $scope.villes.push(tempVille);
               $scope.villes_id[tempVille] = tempVilleID;
             }
       }
-      
+
     };
-    
+
 
   };
 
@@ -805,14 +807,14 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
     console.log("Session: "+$scope.appauth.sessionId);
     if ($scope.appauth.sessionId == "")
     {
-      
+
       $http({
           method  : 'POST',
           url     : 'http://ns389914.ovh.net:8080/tolk/api/aman',
           data    : "<fr.protogen.connector.model.AmanToken><username>administration</username><password>1234</password><nom></nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId></sessionId><status></status><id>0</id><beanId>0</beanId></fr.protogen.connector.model.AmanToken>",
           headers: {"Content-Type": 'text/xml'}
          })
-          .success(function(data) 
+          .success(function(data)
           {
              datajson=xmlParser.xml_str2json(data);
              $scope.appauth.sessionId = datajson['fr.protogen.connector.model.AmanToken'].sessionId;
@@ -825,7 +827,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
             console.log(data);
              console.log("erreur");
           });
-          
+
     }
     else
     {
@@ -877,17 +879,19 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 
     $requestdata = "<fr.protogen.connector.model.DataModel><entity>user_adresse</entity><dataMap/><rows/><token><username/><password/><nom>Jakjoud Abdeslam</nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId>" + $scope.appauth.sessionId + "</sessionId><status>SUCCES</status><id>206</id><beanId>0</beanId></token><expired></expired><unrecognized></unrecognized><status></status><operation>GET</operation><clauses>"+
      requestCP + requestDistrict + requestAdresse+"</clauses><page>1</page><pages>20</pages><nbpages>100</nbpages><iddriver>0</iddriver><ignoreList></ignoreList></fr.protogen.connector.model.DataModel>";
+    console.log("request adresse");
+    console.log($requestdata);
     $http({
           method  : 'POST',
           url     : 'http://ns389914.ovh.net:8080/tolk/api/das',
           data    : $requestdata,
           headers: {"Content-Type": 'text/xml'}
          })
-          .success(function(data) 
+          .success(function(data)
           {
-            
+
             datajson=xmlParser.xml_str2json(data);
-            if (datajson['fr.protogen.connector.model.DataModel'].status != "FAILURE") 
+            if (datajson['fr.protogen.connector.model.DataModel'].status != "FAILURE")
             {
               console.log(datajson);
               $scope.setAdresses(datajson['fr.protogen.connector.model.DataModel']['rows']['fr.protogen.connector.model.DataRow']);
@@ -916,7 +920,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
     console.log("rows lenght : "+ rows);
 
     if (rows == null) return;
-      
+
     rows = [].concat( rows );
     console.log("rows lenght : "+ rows.length);
 
@@ -925,20 +929,20 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
       var indexofAd = -1;
       var indexofAdID = -1;
 
-      for (var j = 0; j < rows[i].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++) 
+      for (var j = 0; j < rows[i].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++)
       {
-        if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "adresse") 
-        { 
+        if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "adresse")
+        {
           indexofAd = j;
           continue;
         }
-        if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "pk_user_adresse") 
-        { 
+        if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "pk_user_adresse")
+        {
           indexofAdID = j;
           continue;
         }
 
-        if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "adresse") 
+        if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "adresse")
         {
           var tempAdress = "";
           tempAdress = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
@@ -946,17 +950,17 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 
            console.log(tempAdress);
 
-            if ($scope.adresses.indexOf(tempAdress) < 0 && $scope.adresses.length < 7) 
+            if ($scope.adresses.indexOf(tempAdress) < 0 && $scope.adresses.length < 7)
             {
               $scope.adresses.push(tempAdress);
               console.log("adresses :" + tempAdress);
             }
-        
-          
+
+
         }
       }
 
-      if (indexofAd != -1 && indexofAdID != -1) 
+      if (indexofAd != -1 && indexofAdID != -1)
       {
           var tempAdress = "";
           tempAdress = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][indexofAd].value;
@@ -967,7 +971,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
           tempAdressID = tempAdressID.replace("<![CDATA[", "").replace("]]>", "");
 
 
-            if ($scope.adresses.indexOf(tempAdress) < 0  && $scope.adresses.length < 7) 
+            if ($scope.adresses.indexOf(tempAdress) < 0  && $scope.adresses.length < 7)
             {
               console.log("adresse :" + tempAdress + "    adresseid :"+ tempAdressID);
               $scope.adresses.push(tempAdress);
@@ -975,15 +979,15 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
             }
       }
 
-      
+
     };
-    
+
 
   };
 
   $scope.showMap = function()
   {
-      if ($scope.dr.cp == '' || $scope.dr.ville == '' || $scope.dr.adresse == '')// || $scope.dr.adresseCmp == '') 
+      if ($scope.dr.cp == '' || $scope.dr.ville == '' || $scope.dr.adresse == '')// || $scope.dr.adresseCmp == '')
       {
           $scope.showMessageErrorAllFieldRequiered = true;
       }
@@ -992,17 +996,17 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
           $state.go('inscription_map');
       }
   };
-  
-  
 
-    document.addEventListener("deviceready", onDeviceReady, false);
-     
-    function onDeviceReady() {
-         
+
+
+    // document.addEventListener("deviceready", onDeviceReady, false);
+
+    $scope.aa= function () {
+        /*
         $ionicLoading.show({
             template: '<ion-spinner icon="bubbles"></ion-spinner><br/>Acquiring location!'
         });
-         
+         */
         var posOptions = {
             enableHighAccuracy: true,
             timeout: 20000,
@@ -1010,35 +1014,40 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
         };
         $cordovaGeolocation.getCurrentPosition(posOptions).then(function (position) {
             var lat  = position.coords.latitude;
-            var long = position.coords.longitude;
-             
-            var myLatlng = new google.maps.LatLng(lat, long);
-             
+            var longi = position.coords.longitude;
+
+            var myLatlng = new google.maps.LatLng(lat, longi);
+
             var mapOptions = {
                 center: myLatlng,
                 zoom: 16,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
-            };          
-             
-            var map = new google.maps.Map(document.getElementById("map"), mapOptions);          
-             
-            $scope.map = map;   
-            $ionicLoading.hide();           
-             
+            };
+
+            // var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+            // $scope.map = map;
+            $scope.map = { center: { latitude: lat, longitude: longi }, zoom: 16 };
+            // $ionicLoading.hide();
+
         }, function(err) {
-            $ionicLoading.hide();
+            // $ionicLoading.hide();
             console.log(err);
         });
-    }
+    };
+    $scope.aa();
 
 })
 
-//===================================== 
+//=====================================
 //===================================== Inscription Controller 3
-//===================================== 
-.controller('inscription3Ctrl',function($scope,$state,$ionicPopover,docteurInscription,appAuthentification)
+//=====================================
+.controller('inscription3Ctrl',function($scope,$state,$ionicHistory,$ionicPopover,docteurInscription,appAuthentification)
 {
-  
+  $scope.goBack = function()
+  {
+    $ionicHistory.goBack();
+  }
   $scope.dr = docteurInscription;
   $scope.appauth = appAuthentification;
 
@@ -1095,14 +1104,14 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 
 .controller('inscription4Ctrl',function($scope,$state,$http,xmlParser,docteurInscription,appAuthentification)
 {
-  
+
   $scope.dr = docteurInscription;
   // $scope.dr.civilite = "Dr";
   // $scope.dr.prenom = "Alexandre";
   // $scope.dr.nom = "Durand";
   $scope.appauth = appAuthentification;
   console.log("controller 4");
-  
+
   $scope.connexion = function()
   {
     $state.go('connexion');
@@ -1119,14 +1128,14 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
     console.log("Session: "+$scope.appauth.sessionId);
     if ($scope.appauth.sessionId == "")
     {
-      
+
       $http({
           method  : 'POST',
           url     : 'http://ns389914.ovh.net:8080/tolk/api/aman',
           data    : "<fr.protogen.connector.model.AmanToken><username>administration</username><password>1234</password><nom></nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId></sessionId><status></status><id>0</id><beanId>0</beanId></fr.protogen.connector.model.AmanToken>",
           headers: {"Content-Type": 'text/xml'}
          })
-          .success(function(data) 
+          .success(function(data)
           {
              datajson=xmlParser.xml_str2json(data);
              $scope.appauth.sessionId= datajson['fr.protogen.connector.model.AmanToken'].sessionId;
@@ -1139,7 +1148,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
             console.log(data);
              console.log("erreur");
           });
-          
+
     }
     else
     {
@@ -1152,7 +1161,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
     var requestInscription = "";
     var requestPraticien = "";
 
-    if ($scope.dr.praticien_id == "") 
+    if ($scope.dr.praticien_id == "")
     {
       requestPraticien = "<fr.protogen.connector.model.DataEntry>" +
                                 "<label>&lt;![CDATA[Praticien]]&gt;</label>" +
@@ -1201,7 +1210,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
                                 "<list/>" +
                                 "<value>"+ $scope.dr.specialite_id+"</value>" +
                               "</fr.protogen.connector.model.DataEntry>" +
-        
+
                               "<fr.protogen.connector.model.DataEntry>" +
                                 "<label>&lt;![CDATA[Tél]]&gt;</label>" +
                                 "<attributeReference>tel</attributeReference>" +
@@ -1274,11 +1283,11 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
           data    : requestInscription,
           headers: {"Content-Type": 'text/xml'}
          })
-          .success(function(data) 
+          .success(function(data)
           {
-            
+
             datajson=xmlParser.xml_str2json(data);
-            if (datajson['fr.protogen.connector.model.DataModel'].status != "FAILURE") 
+            if (datajson['fr.protogen.connector.model.DataModel'].status != "FAILURE")
             {
               console.log(datajson);
               // $scope.setAdresses(datajson['fr.protogen.connector.model.DataModel']['rows']['fr.protogen.connector.model.DataRow']);
@@ -1295,7 +1304,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
              console.log("erreur");
           });
 
-          
+
         }
 
         $scope.inscriptionenligne();

@@ -1,88 +1,57 @@
 <ion-view view-title="Inscription Etape3">
-      <ion-content class="padding" id="page_red" ng-controller="inscription3Ctrl">
-
+    <ion-content class="screen" height="100%" ng-controller="inscription3Ctrl"  has-bouncing="false">
+      <div class="image_menu_general"></div>
 
 <!--       header avec logo      -->
-        <div>
-          <img src="img/header_logo_red.png">
-          <div class="separator_white"  style="margin-top:-8px;"></div>
-          
-        </div>
+        <header class="inscription_header">
+            <div class="inscription_header_div_img"><img src="img/logo_tolk_v2.png"></div>
+            <div class="inscription_titre">R&eacute;seau professionnel de sant&eacute;</div>
+        </header>
 
-<!--       inscription header       -->
+        <article class="inscription_article">
+            <a ng-click="goBack()" class="button button-clear button-light inscription-button-back">&lt;&nbsp;précédent</a>
+            <div class="inscription_cadre">
 
-        <div class="container item" id="page_red">
-          <p id="inscription-top-info-white">{{dr.nom}}
-            Pour créer<br />votre compte<br/>nous avons besoin<br/>de connaitre
-          </p>
-         
-        </div>
-   
-      <div class="clearspace"></div>
-     <div class="cadre">
-       <center><p id="inscription-top-lieu-exercice">
-            Votre lieu d'exercice 
-          </p></center>
+                <label class="inscription_4_label">
+                    <input type="text" name="tel" ng-change="validValue()" ng-model="dr.tel" class="inscription_3_input inscription_3_input_1" placeholder="Votre numéro de mobile"/>
+                </label>
+                      
+                <div>
+                    <center>
+                        <p ng-click="openPopover($event)" class="inscription_4_pourquoi">
+                            &gt; &nbsp;Pourquoi avons nous besoin de<br />&nbsp;&nbsp; votre numéro de téléphone mobile&nbsp;?
+                        </p>
+                    </center>
+                </div>
 
-<!--        list specialités       -->
+                <label class="inscription_4_label">
+                      <input type="email" name="email" ng-change="validValue()" ng-model="dr.email" class="inscription_3_input inscription_3_input_2" placeholder="Votre adresse email"/>
+                </label>
 
-        <div class="list">
-          <div class="row">
-            <div class="col">
-              <p class="col_input">
-          <autocomplete ng-model="dr.cp" data="cps" on-type="updateAdresses" attr-placeholder="Code postal">
-          </autocomplete>
-          <!-- <input  type="text" placeholder="Code postal"/> -->
-              </p>
+                <center class="assertive" ng-show="emailError">Email est invalide</center>
+
+                <center class="inscription_4_contidion_general">
+                    <input ng-change="validValue()" ng-model="checkbox" type="checkbox" ><span class="inscription_4_checkbox_confirmation">&nbsp;J'accepte les Conditions Générales d'Utilisation</span></input>
+                </center>
+
             </div>
-            <div class="col">
-              <p class="col_input">
-           <input type="text" placeholder="Ville"/>
-         </p>
+
+        </article>
+
+        <footer class="inscription_footer">
+          <div class="row inscription_footer_row">
+            <div class="col inscription_footer_button_left">
+                <button class="inscription_footer_button button-light" ng-click="accueil()">
+                    Accueil
+                </button>
             </div>
-         </div>
-         
-          <label class="item">
-            <input type="text" placeholder="Adresse"/>
-          </label>
-          <label class="item">
-            <input type="text" placeholder="Complément adresse"/>
-          </label>
+            <div class="col inscription_footer_button_right">
+                <button ng-disabled="buttonValiderDisabled" class="inscription_footer_button button-light" ng-click="inscription4()">
+                  Valider
+                </button>
+          <!-- id="connexion_ceercomptered" -->
+            </div>
         </div>
-
-        <div class="clearspace"></div>
-        <br>
-       <center> <p class="verif_adresse">
-            <img src="img/fleche.png" class="fleche"> <strong>&nbsp;V&eacute;rifier votre adresse sur le plan</strong>
-        <p></center><br/>
-          </div>
-        <div class="clearspace"></div>
-
-<!--        valider button       -->
-        <center class="center-content " >
-          <button id="valider_red" class="button button-light tolk-font" ng-click="inscription4()">
-            Valider
-          </button>
-        </center>
- 
- <!--       information complementaire      --> 
-
-
-        
-        <div class="clearspace"></div>
-
-<!--      navigation bull        -->
-        <footer>
-          <center>
-            <div style="width:20%; height:20px;">
-              <div class="page-bull"></div> <div class="page-bull"> </div> <div class="page-bull selected"></div> <div class="page-bull"></div>
-            </div>
-          </center>
-          <div style="clear:both;"></div>
-        </footer>
-<!--       last line separator      -->        
-        <div class="clearspace"></div>
-
-        
-      </ion-content>
-    </ion-view>
+      </footer>       
+    </ion-content>
+</ion-view>

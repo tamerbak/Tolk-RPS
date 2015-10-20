@@ -1,14 +1,14 @@
 angular.module('moduleconnexion',[])
-//========================================= 
+//=========================================
 //=========================================   connexion
-//========================================= 
+//=========================================
 .controller('connexionCtrl',function($scope,$state,$http,$ionicHistory,xmlParser,appAuthentification,docteurAuthentification)
 {
   $scope.appauth = appAuthentification;
   $scope.doctauth = docteurAuthentification;
 
 //$scope.tel="003311111111";
- $scope.tel = "0033610630035";
+ $scope.tel = "0200";
  $scope.mdp = "1234";
 
  $scope.accueil = function()
@@ -22,7 +22,7 @@ angular.module('moduleconnexion',[])
     //alert("vous pouvez réinitialiser votre mot de passe en activant le lien dans le message envoyé à votre adresse.");
   }
 
-  $scope.goBack = function() 
+  $scope.goBack = function()
   {
     $ionicHistory.goBack();
   };
@@ -32,7 +32,7 @@ angular.module('moduleconnexion',[])
     $state.go('first_connexion_1/:praticien_id');
   };
 
- 
+
   $scope.seconnecter = function()
   {
       if($scope.tel == null || $scope.mdp == null)
@@ -40,8 +40,12 @@ angular.module('moduleconnexion',[])
           $scope.msg = "Vous devez remplir tous les champs!";
           return;
       }
-      
-      if ($scope.appauth.sessionId != null)
+
+      if ($scope.appauth.sessionId == null || $scope.appauth.sessionId == "")
+      {
+        $state.goBack(-10);
+      }
+      else
       {
           console.log("<fr.protogen.connector.model.DataModel><entity>user_compte</entity><dataMap/><rows /><token><username/><password/><nom>Jakjoud Abdeslam</nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId>"+ $scope.appauth.sessionId +"</sessionId><status>SUCCES</status><id>206</id><beanId>0</beanId></token><expired></expired><unrecognized></unrecognized><status></status><operation>GET</operation><clauses><fr.protogen.connector.model.SearchClause><field>tel</field><clause></clause><gt>"+$scope.tel+"</gt><lt>"+$scope.tel+"</lt><type>TEXT</type></fr.protogen.connector.model.SearchClause><fr.protogen.connector.model.SearchClause><field>mot_de_passe</field><clause></clause><gt>"+$scope.mdp+"</gt><lt>"+$scope.mdp+"</lt><type>TEXT</type></fr.protogen.connector.model.SearchClause></clauses><page>1</page><pages>5</pages><nbpages>5</nbpages><iddriver>0</iddriver><ignoreList></ignoreList></fr.protogen.connector.model.DataModel>");
           $http
@@ -49,9 +53,9 @@ angular.module('moduleconnexion',[])
               method  : 'POST',
               url     : 'http://ns389914.ovh.net:8080/tolk/api/das',
               data    : "<fr.protogen.connector.model.DataModel><entity>user_compte</entity><dataMap/><rows /><token><username/><password/><nom>Jakjoud Abdeslam</nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId>"+ $scope.appauth.sessionId +"</sessionId><status>SUCCES</status><id>206</id><beanId>0</beanId></token><expired></expired><unrecognized></unrecognized><status></status><operation>GET</operation><clauses><fr.protogen.connector.model.SearchClause><field>tel</field><clause></clause><gt>"+$scope.tel+"</gt><lt>"+$scope.tel+"</lt><type>TEXT</type></fr.protogen.connector.model.SearchClause><fr.protogen.connector.model.SearchClause><field>mot_de_passe</field><clause></clause><gt>"+$scope.mdp+"</gt><lt>"+$scope.mdp+"</lt><type>TEXT</type></fr.protogen.connector.model.SearchClause></clauses><page>1</page><pages>5</pages><nbpages>5</nbpages><iddriver>0</iddriver><ignoreList></ignoreList></fr.protogen.connector.model.DataModel>",
-              headers: {"Content-Type": 'text/xml'}
+              headers : {"Content-Type": 'text/xml'}
           })
-          .success(function(data) 
+          .success(function(data)
           {
 
              datajson=xmlParser.xml_str2json(data);
@@ -62,19 +66,28 @@ angular.module('moduleconnexion',[])
               console.log("rows lenght : "+ rows.length);
               for(var i=0; i<rows.length; i++)
               {
-     
-                 for (var j = 0; j < rows[i].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++) 
+
+                 for (var j = 0; j < rows[i].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++)
                   {
 
+                    //ID Compte
+                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "pk_user_compte")
+                    {
+                      $scope.id_compte = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
+                      $scope.id_compte = $scope.id_compte.replace("<![CDATA[", "").replace("]]>", "");
+                      console.log("Compte: "+$scope.id_compte);
+                      $scope.doctauth.id_compte = $scope.id_compte;
+                    }
+
                     //Telephone
-                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "tel") 
+                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "tel")
                      {
                        $scope.telephone = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
                        $scope.tele = $scope.telephone.replace("<![CDATA[", "").replace("]]>", "");
                         console.log("Telephone: "+$scope.tele);
                       }
                       //Horaire
-                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "horaire") 
+                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "horaire")
                      {
                        $scope.horaire_consult = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
                        $scope.horaire = $scope.horaire_consult.replace("<![CDATA[", "").replace("]]>", "");
@@ -82,7 +95,7 @@ angular.module('moduleconnexion',[])
                        $scope.doctauth.horaire = $scope.horaire;
                       }
                      //Expertise
-                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "expertise") 
+                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "expertise")
                      {
                        $scope.expertise1 = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
                        $scope.expertise = $scope.expertise1.replace("<![CDATA[", "").replace("]]>", "");
@@ -90,7 +103,7 @@ angular.module('moduleconnexion',[])
                       $scope.doctauth.expertise = $scope.expertise;
                       }
                       //Id_praticien
-                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "fk_user_praticien") 
+                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "fk_user_praticien")
                      {
                        $scope.fk_user_praticien = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
                        $scope.id_praticien = $scope.fk_user_praticien.replace("<![CDATA[", "").replace("]]>", "");
@@ -98,7 +111,7 @@ angular.module('moduleconnexion',[])
                        $scope.doctauth.id_prat = $scope.id_praticien;
                       }
                       //Id_adresse
-                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "fk_user_adresse") 
+                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "fk_user_adresse")
                      {
                        $scope.fk_user_adresse = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
                        $scope.id_adresse = $scope.fk_user_adresse.replace("<![CDATA[", "").replace("]]>", "");
@@ -106,7 +119,7 @@ angular.module('moduleconnexion',[])
                        $scope.doctauth.id_adresse = $scope.id_adresse;
                       }
                       //Id_specialite
-                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "fk_user_specialite") 
+                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "fk_user_specialite")
                      {
                        $scope.fk_user_specialite = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
                        $scope.id_specialite = $scope.fk_user_specialite.replace("<![CDATA[", "").replace("]]>", "");
@@ -114,7 +127,7 @@ angular.module('moduleconnexion',[])
                        $scope.doctauth.id_specialite = $scope.id_specialite;
                       }
                       //Mot de passe
-                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "mot_de_passe") 
+                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "mot_de_passe")
                      {
                        $scope.mot_de_passe = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
                        $scope.mot_de_passe = $scope.mot_de_passe.replace("<![CDATA[", "").replace("]]>", "");
@@ -122,7 +135,7 @@ angular.module('moduleconnexion',[])
                        $scope.doctauth.mot_de_passe = $scope.mot_de_passe;
                       }
                       //premiere connexion
-                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "premiere_connexion") 
+                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "premiere_connexion")
                      {
                        $scope.first_connect = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
                        $scope.first_connect = $scope.first_connect.replace("<![CDATA[", "").replace("]]>", "");
@@ -142,7 +155,7 @@ angular.module('moduleconnexion',[])
                     else {$state.go('menu_general')};
            }else
            {
-            $scope.msg="Identifiant et/ou mot de passe incorrecte!";
+            $scope.msg="tel et/ou mot de passe incorrecte!";
 
            };
           })
@@ -152,7 +165,7 @@ angular.module('moduleconnexion',[])
 
              console.log("erreur");
           });
-          
+
     };
   };
 
@@ -169,7 +182,7 @@ angular.module('moduleconnexion',[])
           data    : "<fr.protogen.connector.model.DataModel><entity>user_praticien</entity><dataMap/><rows /><token><username/><password/><nom>Jakjoud Abdeslam</nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId>"+ $scope.appauth.sessionId +"</sessionId><status>SUCCES</status><id>206</id><beanId>0</beanId></token><expired></expired><unrecognized></unrecognized><status></status><operation>GET</operation><clauses><fr.protogen.connector.model.SearchClause><field>pk_user_praticien</field><clause></clause><gt>"+$scope.doctauth.id_prat+"</gt><lt>"+$scope.doctauth.id_prat+"</lt><type>PK</type></fr.protogen.connector.model.SearchClause></clauses><page>1</page><pages>5</pages><nbpages>5</nbpages><iddriver>0</iddriver><ignoreList></ignoreList></fr.protogen.connector.model.DataModel>",
           headers: {"Content-Type": 'text/xml'}
          })
-         .success(function(data) 
+         .success(function(data)
           {
              datajson=xmlParser.xml_str2json(data);
              console.log("========praticiens=======");
@@ -180,12 +193,12 @@ angular.module('moduleconnexion',[])
               console.log("rows lenght : "+ rows.length);
               for(var i=0; i<rows.length; i++)
               {
-     
-                 for (var j = 0; j < rows[i].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++) 
+
+                 for (var j = 0; j < rows[i].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++)
                   {
 
                     //Nom
-                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "nom") 
+                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "nom")
                      {
                        $scope.nom = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
                        $scope.nom_p = $scope.nom.replace("<![CDATA[", "").replace("]]>", "");
@@ -193,7 +206,7 @@ angular.module('moduleconnexion',[])
                        $scope.doctauth.nom = $scope.nom_p;
                       }
                     //Prenom
-                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "prenom") 
+                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "prenom")
                      {
                        $scope.prenom = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
                        $scope.prenom_p = $scope.prenom.replace("<![CDATA[", "").replace("]]>", "");
@@ -201,7 +214,7 @@ angular.module('moduleconnexion',[])
                        $scope.doctauth.prenom = $scope.prenom_p;
                       }
                     //Id_categorie_pro
-                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "fk_user_categorie_professionnelle") 
+                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "fk_user_categorie_professionnelle")
                      {
                        $scope.fk_user_categorie_professionnelle = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
                        $scope.id_categorie_pro = $scope.fk_user_categorie_professionnelle.replace("<![CDATA[", "").replace("]]>", "");
@@ -210,7 +223,7 @@ angular.module('moduleconnexion',[])
                        if($scope.doctauth.id_categorie_pro != null) $scope.categorieprobyId();
                       }
                      //Id_savoir_faire
-                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "fk_user_savoir_faire") 
+                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "fk_user_savoir_faire")
                      {
                        $scope.fk_user_savoir_faire = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
                        $scope.id_savoir_faire = $scope.fk_user_savoir_faire.replace("<![CDATA[", "").replace("]]>", "");
@@ -220,7 +233,7 @@ angular.module('moduleconnexion',[])
                       }
                   };
               };
-            
+
           })
           .error(function(data) //
           {
@@ -241,9 +254,9 @@ angular.module('moduleconnexion',[])
           data    : $requestdata,
           headers: {"Content-Type": 'text/xml'}
          })
-          .success(function(data) 
+          .success(function(data)
           {
-            
+
              datajson=xmlParser.xml_str2json(data);
              console.log("========Specialite=======");
              console.log(datajson);
@@ -253,12 +266,12 @@ angular.module('moduleconnexion',[])
               console.log("rows lenght : "+ rows.length);
               for(var i=0; i<rows.length; i++)
               {
-     
-                 for (var j = 0; j < rows[i].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++) 
+
+                 for (var j = 0; j < rows[i].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++)
                   {
 
                     //Specialité
-                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "libelle") 
+                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "libelle")
                      {
                        $scope.specialite_Libelle_1 = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
                        $scope.specialite_Libelle = $scope.specialite_Libelle_1.replace("<![CDATA[", "").replace("]]>", "");
@@ -267,7 +280,7 @@ angular.module('moduleconnexion',[])
                       }
                   };
               };
-            
+
           })
           .error(function(data) //
           {
@@ -286,9 +299,9 @@ angular.module('moduleconnexion',[])
           data    : $requestdata,
           headers: {"Content-Type": 'text/xml'}
          })
-          .success(function(data) 
+          .success(function(data)
           {
-            
+
              datajson=xmlParser.xml_str2json(data);
              console.log("========Adresse=======");
              console.log(datajson);
@@ -298,12 +311,12 @@ angular.module('moduleconnexion',[])
               console.log("rows lenght : "+ rows.length);
               for(var i=0; i<rows.length; i++)
               {
-     
-                 for (var j = 0; j < rows[i].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++) 
+
+                 for (var j = 0; j < rows[i].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++)
                   {
 
                     //Adresse
-                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "adresse") 
+                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "adresse")
                      {
                        $scope.adresse1 = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
                        $scope.adresse = $scope.adresse1.replace("<![CDATA[", "").replace("]]>", "");
@@ -311,7 +324,7 @@ angular.module('moduleconnexion',[])
                        $scope.doctauth.adresse = $scope.adresse;
                       }
                     //num
-                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "num") 
+                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "num")
                      {
                        $scope.num1 = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
                        $scope.num = $scope.num1.replace("<![CDATA[", "").replace("]]>", "");
@@ -319,7 +332,7 @@ angular.module('moduleconnexion',[])
                        $scope.doctauth.num = $scope.num;
                       }
                     //cp
-                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "cp") 
+                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "cp")
                      {
                        $scope.cp1 = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
                        $scope.cp = $scope.cp1.replace("<![CDATA[", "").replace("]]>", "");
@@ -327,7 +340,7 @@ angular.module('moduleconnexion',[])
                        $scope.doctauth.cp = $scope.cp;
                       }
                     //id_ville
-                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "fk_user_ville") 
+                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "fk_user_ville")
                      {
                        $scope.id_ville1 = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
                        $scope.id_ville = $scope.id_ville1.replace("<![CDATA[", "").replace("]]>", "");
@@ -357,9 +370,9 @@ angular.module('moduleconnexion',[])
           data    : $requestdata,
           headers: {"Content-Type": 'text/xml'}
          })
-          .success(function(data) 
+          .success(function(data)
           {
-            
+
              datajson=xmlParser.xml_str2json(data);
              console.log("========Ville=======");
              console.log(datajson);
@@ -369,12 +382,12 @@ angular.module('moduleconnexion',[])
               console.log("rows lenght : "+ rows.length);
               for(var i=0; i<rows.length; i++)
               {
-     
-                 for (var j = 0; j < rows[i].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++) 
+
+                 for (var j = 0; j < rows[i].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++)
                   {
 
                     //Ville
-                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "libelle") 
+                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "libelle")
                      {
                        $scope.ville_Libelle_1 = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
                        $scope.ville_Libelle = $scope.ville_Libelle_1.replace("<![CDATA[", "").replace("]]>", "");
@@ -383,7 +396,7 @@ angular.module('moduleconnexion',[])
                       }
                   };
               };
-             
+
 
           })
           .error(function(data) //
@@ -403,9 +416,9 @@ angular.module('moduleconnexion',[])
           data    : $requestdata,
           headers: {"Content-Type": 'text/xml'}
          })
-          .success(function(data) 
+          .success(function(data)
           {
-            
+
              datajson=xmlParser.xml_str2json(data);
              console.log("========Categorie professionnelle =======");
              console.log(datajson);
@@ -415,12 +428,12 @@ angular.module('moduleconnexion',[])
               console.log("rows lenght : "+ rows.length);
               for(var i=0; i<rows.length; i++)
               {
-     
-                 for (var j = 0; j < rows[i].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++) 
+
+                 for (var j = 0; j < rows[i].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++)
                   {
 
                     //Libelle categorie professionnel
-                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "libelle") 
+                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "libelle")
                      {
                        $scope.categrie_pro_Libelle_1 = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
                        $scope.categrie_pro_Libelle = $scope.categrie_pro_Libelle_1.replace("<![CDATA[", "").replace("]]>", "");
@@ -449,9 +462,9 @@ angular.module('moduleconnexion',[])
           data    : $requestdata,
           headers: {"Content-Type": 'text/xml'}
          })
-          .success(function(data) 
+          .success(function(data)
           {
-            
+
              datajson=xmlParser.xml_str2json(data);
              console.log("========Savoir faire =======");
              console.log(datajson);
@@ -461,12 +474,12 @@ angular.module('moduleconnexion',[])
               console.log("rows lenght : "+ rows.length);
               for(var i=0; i<rows.length; i++)
               {
-     
-                 for (var j = 0; j < rows[i].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++) 
+
+                 for (var j = 0; j < rows[i].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++)
                   {
 
                     //Libelle savoir faire
-                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "libelle") 
+                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "libelle")
                      {
                        $scope.savoir_faire_Libelle_1 = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
                        $scope.savoir_faire_Libelle = $scope.savoir_faire_Libelle_1.replace("<![CDATA[", "").replace("]]>", "");
@@ -474,7 +487,7 @@ angular.module('moduleconnexion',[])
                        $scope.doctauth.savoir_faire_Libelle = $scope.savoir_faire_Libelle;
                       }
                     //Id_Type_savoir_faire
-                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "fk_user_type_savoir_faire") 
+                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "fk_user_type_savoir_faire")
                      {
                        $scope.fk_user_type_savoir_faire = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
                        $scope.id_type_savoir_faire = $scope.fk_user_type_savoir_faire.replace("<![CDATA[", "").replace("]]>", "");
@@ -504,9 +517,9 @@ angular.module('moduleconnexion',[])
           data    : $requestdata,
           headers: {"Content-Type": 'text/xml'}
          })
-          .success(function(data) 
+          .success(function(data)
           {
-            
+
              datajson=xmlParser.xml_str2json(data);
              console.log("========Type Savoir faire =======");
              console.log(datajson);
@@ -517,12 +530,12 @@ angular.module('moduleconnexion',[])
               console.log("rows lenght : "+ rows.length);
               for(var i=0; i<rows.length; i++)
               {
-     
-                  for (var j = 0; j < rows[i].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++) 
+
+                  for (var j = 0; j < rows[i].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++)
                   {
 
                     //Libelle type savoir faire
-                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "libelle") 
+                    if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "libelle")
                     {
                           $scope.type_savoir_faire_Libelle_1 = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
                           $scope.type_savoir_faire_Libelle = $scope.type_savoir_faire_Libelle_1.replace("<![CDATA[", "").replace("]]>", "");
@@ -532,7 +545,7 @@ angular.module('moduleconnexion',[])
                     }
                   };
               };
-            
+
 
           })
           .error(function(data) //
@@ -544,9 +557,9 @@ angular.module('moduleconnexion',[])
 })
 
 
-//========================================= 
+//=========================================
 //=========================================   Réinitialisation du mot de passe
-//========================================= 
+//=========================================
 .controller('reinitialisermdpCtrl',function($scope,$state,$ionicHistory,$http,xmlParser,appAuthentification,docteurRemdp)
 {
   $scope.appauth = appAuthentification;
@@ -556,8 +569,8 @@ angular.module('moduleconnexion',[])
   {
     $state.go('accueil');
   };
-  
-  $scope.goBack = function() 
+
+  $scope.goBack = function()
   {
     $ionicHistory.goBack();
   };
@@ -577,10 +590,10 @@ angular.module('moduleconnexion',[])
     else
     {
       $scope.buttonValiderDisabled = false;
-      
+
         $scope.emailError = false;
     }
-    
+
   };
   $scope.validValue();
 
@@ -597,7 +610,7 @@ angular.module('moduleconnexion',[])
           data    : "<fr.protogen.connector.model.DataModel><entity>user_compte</entity><dataMap/><rows /><token><username/><password/><nom>Jakjoud Abdeslam</nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId>"+ $scope.appauth.sessionId +"</sessionId><status>SUCCES</status><id>206</id><beanId>0</beanId></token><expired></expired><unrecognized></unrecognized><status></status><operation>GET</operation><clauses><fr.protogen.connector.model.SearchClause><field>email</field><clause></clause><gt>"+$scope.email+"</gt><lt>"+$scope.email+"</lt><type>TEXT</type></fr.protogen.connector.model.SearchClause></clauses><page>1</page><pages>5</pages><nbpages>5</nbpages><iddriver>0</iddriver><ignoreList></ignoreList></fr.protogen.connector.model.DataModel>",
           headers: {"Content-Type": 'text/xml'}
          })
-          .success(function(data) 
+          .success(function(data)
           {
             console.log("email form : "+$scope.email);
 
@@ -609,12 +622,12 @@ angular.module('moduleconnexion',[])
                 console.log("rows lenght : "+ rows.length);
                 // for(var i=0; i<rows.length; i++)
                 // {
-     
-                  for (var j = 0; j < rows[0].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++) 
+
+                  for (var j = 0; j < rows[0].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++)
                   {
 
                     //Email
-                    if (rows[0].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "email") 
+                    if (rows[0].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "email")
                      {
                         $scope.email1 = rows[0].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
                         $scope.email1 = $scope.email1.replace("<![CDATA[", "").replace("]]>", "");
@@ -624,9 +637,9 @@ angular.module('moduleconnexion',[])
 
                       }
                   };
-                // }; 
+                // };
               console.log(datajson);
-             
+
             }
             else
             {
@@ -639,7 +652,7 @@ angular.module('moduleconnexion',[])
 
              console.log("erreur recherche email");
           });
-          
+
     };
   };
   /*
@@ -655,14 +668,14 @@ Requête :
     console.log("email fonction envoie: "+$scope.docteurremdp.email_rm);
     if ($scope.appauth.sessionId != null)
     {
-      
+
       $http({
           method  : 'POST',
           url     : 'http://ns389914.ovh.net:8080/tolk/api/envoimail',
           data    : "<fr.protogen.connector.model.MailModel><sendTo>"+$scope.docteurremdp.email_rm+"</sendTo><title>Reinitialisation mot de passe</title><content>Vous pouvez réinitialiser votre mot de passe en activant le lien : test</content><status></status></fr.protogen.connector.model.MailModel>",
           headers: {"Content-Type": 'text/xml'}
          })
-          .success(function(data) 
+          .success(function(data)
           {
 
              $scope.msg= "Message Envoyé avec succès !";
@@ -675,7 +688,7 @@ Requête :
              console.log("erreur envoie");
              $scope.msg= "Echec d'envoie !";
           });
-          
+
     };
   };
 

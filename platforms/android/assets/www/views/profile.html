@@ -1,48 +1,53 @@
 <ion-view view-title="Inscription Etape5">
-  <ion-content >
-
+  <ion-content ng-controller="profileCtrl" delegate-handle="content">
   <div>
-    <div id="page_red" style="height:160px;"></div>
-    <div style="height:60px;"></div>
-    <div class="img-profile"></div>
-  </div>
-  <p class="div_doctor_name">Docteur Eric Maupas</p>
-  <div class="div_orthodontiste">Orthodontiste</div>
+    <div id="page_red" style="height:30vh;">
+       
+      <center><img src="img/logo TOLK me - blanc - fond transparent.svg" style="width:30vw;margin-top:1vh;"></center>
+      <a href="#/menu_general"><img src="img/Troistirets.png" class="toggle-img-profil"></a>
+      <a href="#"><img src="img/droite.png" class="droite-img"></a>
+     <center class="col envoyer-mail-profil">
+      <label style="float:left;color:white"><b>Envoyer</b></label> <label style="float:right;color:white"><b>mon profil</b></label>
+      <img src="img/fleche01.png" class="fleche01-img">
+    </center>
 
-  <div class="row" style="vertical-align:middle;">
-      <center class="col doctor-block-info">
-        <span class="menu-list-title">En liaison avec</span><br>
-        <span class="menu-list-title"><b>12</b></span><br>
-        <span class="menu-list-title">correspondants</span>
-      </center>
-      <center class="col doctor-block-info">
-        <span class="menu-list-title">A partager</span><br>
-        <span class="menu-list-title"><b>8</b></span><br>
-        <span class="menu-list-title">publications</span>
-      </center>
+    </div>
+    <div style="height:35px;"></div>
+    <div class="img-profile-4"></div>
   </div>
-
-  <br>
+  <p class="div_doctor_name">{{doctauth.nom}} &nbsp;&nbsp;{{doctauth.prenom}}</p>
+  <div class="div_orthodontiste">{{doctauth.specialite_Libelle}}</div>
+  <div class="div_doctor">{{doctauth.ville_Libelle}}</div>
   
-  <div class="row" style="vertical-align:middle;">
-      <center class="col col-25" style="vertical-align:bottom;"> <img src="img/profile.png" style="height:50px;" /></center>
-      <div class="col col-75"> <br/><span class="menu-list-subtitle big">Expertise</span></div>
-  </div>
-  <div class="separator-red-bold"></div>
 
   <br>
-  <div class="row">
-      <center class="col col-25"> <img src="img/publications.png" style="height:50px;"></center>
-      <div class="col col-75"><span class="menu-list-subtitle big">Mes actualités & publications</span><br></div>
-  </div>
-  <div class="separator-red-bold"></div>
-
   <br>
-  <div class="row">
-      <center class="col col-25"> <img src="img/etoile.png" style="height:50px;"></center>
-      <div class="col col-75"> <br/><span class="menu-list-subtitle big">Coordonnées</span><br> </div>
+  <br>
+
+  <div class="row haut-profil" style="vertical-align:middle;">
+      <center class="col col-25" style="vertical-align:bottom;"> <img src="img/profile.png" style="height:7vh;margin-left:-6vw;margin-top:-4vh" /></center>
+      <div class="col col-75"> <br/><span class="menu-list-subtitle-menu-gen">Comp&eacute;tences</span></div>
   </div>
   <div class="separator-red-bold"></div>
+  <a href="#"> <img src="img/fleche-bas.png" class="fleche-bas"></a>
+  
+        
+  <div>
+  <div class="row haut-coordonnees" style="vertical-align:middle;">
+      <center class="col col-25" style="vertical-align:bottom;"> <img src="img/livre.png" style="height:5vh;margin-left:-6vw;margin-top:-3vh" /></center>
+      <div class="col col-75"> <br/><span class="menu-list-subtitle-menu-gen">Coordonn&eacute;es</span></div>
+  </div>
+  <div class="separator-red-bold1"></div>
+  <a href="#"> <img src="img/fleche-bas.png" class="fleche-bas"></a>
+
+  
+  <div class="row haut-horaire" style="vertical-align:middle;">
+      <center class="col col-25" style="vertical-align:bottom;"> <img src="img/horaire.png" style="height:5vh;margin-left:-6vw;margin-top:-3vh" /></center>
+      <div class="col col-75"> <br/><span class="menu-list-subtitle-menu-gen">Horaires de consultation</span></div>
+  </div>
+  <div class="separator-red-bold1"></div>
+  <a href="#"> <img src="img/fleche-bas.png" class="fleche-bas"></a>
+
 
   </ion-content>
 </ion-view>
