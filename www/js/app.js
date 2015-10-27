@@ -15,6 +15,8 @@ angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontroller
       if (window.StatusBar) {
         StatusBar.styleDefault();
       }
+
+      ionic.Platform.isFullScreen = true;
     });
   })
 
@@ -62,7 +64,7 @@ angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontroller
     docteurInscription.cp = '';
     docteurInscription.ville = '';
     docteurInscription.adresse = '';
-    docteurInscription.adresseCmp = '';
+    docteurInscription.adresse_num = '';
     docteurInscription.tel = '';
     docteurInscription.email = '';
 
@@ -103,12 +105,6 @@ angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontroller
     docteurAuthentification.correspondants = [];
     return docteurAuthentification;
   })
-  .factory('docteurRemdp', function () {
-
-    docteurRemdp = {};
-    docteurRemdp.email_rm = '';
-    return docteurRemdp;
-  })
 
   .factory('formatString', function(xmlParser)
   {
@@ -117,10 +113,10 @@ angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontroller
       {
         var jsonResp = xmlParser.xml_str2json(data);
         var jsonText = JSON.stringify(jsonResp);
-        jsonText = jsonText.replace("fr.protogen.connector.model.DataModel", "dataModel");
-        jsonText = jsonText.replace("fr.protogen.connector.model.DataRow", "dataRow");
-        jsonText = jsonText.replace("fr.protogen.connector.model.DataEntry", "dataEntry");
-        jsonText = jsonText.replace("fr.protogen.connector.model.DataCouple", "dataCouple");
+        jsonText = jsonText.replace(/fr.protogen.connector.model.DataModel/g, "dataModel");
+        jsonText = jsonText.replace(/fr.protogen.connector.model.DataRow/g, "dataRow");
+        jsonText = jsonText.replace(/fr.protogen.connector.model.DataEntry/g, "dataEntry");
+        jsonText = jsonText.replace(/fr.protogen.connector.model.DataCouple/g, "dataCouple");
         jsonText = jsonText.replace( /<!\[CDATA\[/g, '').replace( /\]\]>/g, "");
 
 

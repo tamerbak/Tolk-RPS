@@ -4,7 +4,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 //=================================
 //=================================    Insriptions
 //=================================
-.controller('inscription1Ctrl',function($ionicHistory,$scope,$state,$http,xmlParser,docteurInscription,appAuthentification,formatString)
+.controller('inscription1Ctrl',function($ionicHistory,$scope,$state,$http,$ionicPopup,xmlParser,docteurInscription,appAuthentification,formatString)
 {
 
   $scope.dr = docteurInscription;
@@ -14,17 +14,6 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
   $scope.lastNames = [];
   $scope.firstNames = [];
   $scope.civilites = ["Dr","Mr","Mme","Mlle"];
-
-
-    $scope.selectedSpecialitee=function()
-    {
-        $scope.specia = $scope.dr.specialite;
-        console.log($scope.dr.specialite);
-        $scope.buttonSpecialiteeDisabled = ($scope.dr.specialite != "") ?  false : true;
-    };
-
-
-
 
   $scope.updatespecialite=function(typed)
   {
@@ -43,12 +32,12 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
              $scope.appauth.sessionId = $datajson['fr.protogen.connector.model.AmanToken'].sessionId;
              $scope.getSpecialitiesFromServer(typed);
 
-
           })
           .error(function(data) //
           {
             console.log(data);
-             console.log("erreur");
+            console.log("erreur");
+
           });
 
     }
@@ -92,6 +81,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
             else
             {
               $scope.erreur = "Probleme serveur";
+              console.log("Probleme serveur");
             }
 
 
@@ -157,7 +147,6 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 
   $scope.updateNomPrenom = function(typed)
   {
-    $scope.validValue();
     console.log("Session: "+$scope.appauth.sessionId);
     if ($scope.appauth.sessionId == "")
     {
@@ -241,11 +230,11 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
           .success(function(data)
           {
 
-            datajson=xmlParser.xml_str2json(data);
-            if (datajson['fr.protogen.connector.model.DataModel'].status != "FAILURE")
+            datajson=formatString.formatServerResult(data);
+            if (datajson.dataModel.status != "FAILURE")
             {
                 console.log(datajson);
-                $scope.setNomEtPrenom(datajson['fr.protogen.connector.model.DataModel']['rows']['fr.protogen.connector.model.DataRow']);
+                $scope.setNomEtPrenom(datajson.dataModel.rows.dataRow);
             }
             else
             {
@@ -276,14 +265,13 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
       for(var i=0; i<rows.length; i++)
       {
         console.log("rows lenght : "+ rows.length);
-          for (var j = 0; j < rows[i].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++)
+          for (var j = 0; j < rows[i].dataRow.dataEntry.length ; j++)
           {
-            console.log("dataRow lenght : "+ rows[i].dataRow['fr.protogen.connector.model.DataEntry'].length);
-              if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "prenom")
+            console.log("dataRow lenght : "+ rows[i].dataRow.dataEntry.length);
+              if (rows[i].dataRow.dataEntry[j].attributeReference == "prenom")
               {
                   var tempPrenom = "";
-                  tempPrenom = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
-                  tempPrenom = tempPrenom.replace("<![CDATA[", "").replace("]]>", "");
+                  tempPrenom = rows[i].dataRow.dataEntry[j].value;
 
                   if ($scope.firstNames.indexOf(tempPrenom) < 0 && $scope.firstNames.length < 10)
                   {
@@ -291,11 +279,10 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
                   }
               }
 
-              if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "nom")
+              if (rows[i].dataRow.dataEntry[j].attributeReference == "nom")
               {
                   var tempNom = "";
-                  tempNom = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
-                  tempNom = tempNom.replace("<![CDATA[", "").replace("]]>", "");
+                  tempNom = rows[i].dataRow.dataEntry[j].value;
 
 
                   if ($scope.lastNames.indexOf(tempNom) < 0 && $scope.lastNames.length < 10)
@@ -318,13 +305,6 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
     $ionicHistory.goBack();
   };
 
-  $scope.validValue = function()
-  {
-    $scope.showAccountNotExistError = false;
-    if ($scope.dr.prenom != "" && $scope.dr.nom != "" && $scope.dr.titre != "") $scope.buttonValiderDisabled = false;
-    else $scope.buttonValiderDisabled = true;
-  };
-
   $scope.inscription2 = function()
   {
     if ($scope.appauth.sessionId == "")
@@ -334,7 +314,11 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
     }
     if ($scope.dr.prenom == "" || $scope.dr.nom == "" || $scope.dr.civilite == "" || $scope.dr.specialite == "")
     {
-      alert("Vous devez remplir tous les champs!");
+      var alertPopup = $ionicPopup.alert(
+      {
+        title: 'Tolk',
+        template: "Vous devez remplir tous les champs!"
+      });
       return
     }
 
@@ -344,6 +328,11 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 
     if (($scope.specialites_id[$scope.dr.specialite] == null) || ($scope.specialites_id[$scope.dr.specialite] == ""))
     {
+      var alertPopup = $ionicPopup.alert(
+      {
+        title: 'Tolk',
+        template: "La spécialité selectionnée n'existe pas."
+      });
        alert("Spécialité n'existe pas");
        return;
     }
@@ -387,11 +376,11 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
           .success(function(data)
           {
 
-            datajson=xmlParser.xml_str2json(data);
-            if (datajson['fr.protogen.connector.model.DataModel'].status != "FAILURE")
+            datajson=formatString.formatServerResult(data);
+            if (datajson.dataModel.status != "FAILURE")
             {
                 console.log(datajson);
-                $scope.setPraticienId(datajson['fr.protogen.connector.model.DataModel']['rows']['fr.protogen.connector.model.DataRow']);
+                $scope.setPraticienId(datajson.dataModel.rows.dataRow);
             }
             else
             {
@@ -418,22 +407,31 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 
       console.log("rows lenght : "+ rows);
 
-       if (rows == null) { $state.go('inscription2'); return; };
+      if (rows == null)
+      {   
+
+        var alertPopup = $ionicPopup.alert(
+        {
+          title: 'Tolk',
+          template: "Ce praticien n'existe pas!"
+        });
+        // $state.go('inscription2'); 
+        return; 
+      };
 
       rows = [].concat( rows );
       if (rows.length > 1) return;
 
-        console.log("rows lenght : "+ rows.length);
-          for (var j = 0; j < rows[0].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++)
-          {
-            console.log("dataRow lenght : "+ rows[0].dataRow['fr.protogen.connector.model.DataEntry'].length);
-              if (rows[0].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "pk_user_praticien")
-              {
+      console.log("rows lenght : "+ rows.length);
+      for (var j = 0; j < rows[0].dataRow.dataEntry.length ; j++)
+      {
+        console.log("dataRow lenght : "+ rows[0].dataRow.dataEntry.length);
+        if (rows[0].dataRow.dataEntry[j].attributeReference == "pk_user_praticien")
+        {
 
-                  $scope.dr.praticien_id = rows[0].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
-                  $scope.dr.praticien_id = $scope.dr.praticien_id.replace("<![CDATA[", "").replace("]]>", "");
-              }
-          }
+          $scope.dr.praticien_id = rows[0].dataRow.dataEntry[j].value;
+        }
+      }
       console.log("praticien_id: ");
       console.log($scope.dr.praticien_id);
 
@@ -451,7 +449,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 //=========================================
 //========================================= Inscription Controller 2
 //=========================================
-.controller('inscription2Ctrl',function($ionicHistory,$scope,$state,$http,$cordovaGeolocation,xmlParser,docteurInscription,appAuthentification)
+.controller('inscription2Ctrl',function($ionicHistory,$scope,$state,$http,$ionicPopup,$cordovaGeolocation,xmlParser,docteurInscription,appAuthentification,formatString)
 {
 
   $scope.dr = docteurInscription;
@@ -462,6 +460,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
   $scope.villes_id = [];
   $scope.adresses = [];
   $scope.adresses_id = [];
+   $scope.adresses_num = "";
 
   $scope.buttonValiderDisabled = true;
 
@@ -475,22 +474,153 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
     $state.go('accueil');
   };
 
-  $scope.validValue = function()
-  {
-    if ($scope.dr.cp != "" && $scope.dr.district != "" && $scope.dr.adresse != "") $scope.buttonValiderDisabled = false;
-    else $scope.buttonValiderDisabled = true;
-  };
-
   $scope.inscription3 = function()
   {
+    $scope.dr.adresse_id ="";
     console.log("adress : " + $scope.dr.adresse + "    adress is: " + $scope.adresses_id[$scope.dr.adresse]);
+
+
+    if ($scope.dr.cp == "")
+    {
+        var alertPopup = $ionicPopup.alert(
+        {
+          title: 'Tolk',
+          template: "Vous devez entrer un code postal."
+        });
+        // $state.go('inscription2'); 
+        return; 
+    }
+
+    if ($scope.dr.ville == "")
+    {
+        var alertPopup = $ionicPopup.alert(
+        {
+          title: 'Tolk',
+          template: "Vous devez choisir une ville."
+        });
+        // $state.go('inscription2'); 
+        return; 
+    }
+
+    if ($scope.dr.adresse_num == "")
+    {
+        var alertPopup = $ionicPopup.alert(
+        {
+          title: 'Tolk',
+          template: "Vous devez entrer le numéro de l'adresse."
+        });
+        // $state.go('inscription2'); 
+        return; 
+    }
+
+    if ($scope.dr.adresse == "")
+    {
+        var alertPopup = $ionicPopup.alert(
+        {
+          title: 'Tolk',
+          template: "Vous n'avez pas saisi votre adresse."
+        });
+        // $state.go('inscription2'); 
+        return; 
+    }
+
+
+    requestCP = "<fr.protogen.connector.model.SearchClause>" +
+                  "<field>cp</field>" +
+                  "<clause></clause>" +
+                  "<gt>"+$scope.dr.cp+"</gt>" +
+                  "<lt>"+$scope.dr.cp+"</lt>" +
+                  "<type>TEXT</type>" +
+                  "</fr.protogen.connector.model.SearchClause>";
+    requestVille = "<fr.protogen.connector.model.SearchClause>" +
+                  "<field>district</field>" +
+                  "<clause></clause>" +
+                  "<gt>"+$scope.dr.ville+"</gt>" +
+                  "<lt>"+$scope.dr.ville+"</lt>" +
+                  "<type>TEXT</type>" +
+                  "</fr.protogen.connector.model.SearchClause>";
+    requestAdresse = "<fr.protogen.connector.model.SearchClause>" +
+                  "<field>adresse</field>" +
+                  "<clause></clause>" +
+                  "<gt>"+$scope.dr.adresse+"</gt>" +
+                  "<lt>"+$scope.dr.adresse+"</lt>" +
+                  "<type>TEXT</type>" +
+                  "</fr.protogen.connector.model.SearchClause>";
+    requestAdresse_num = "<fr.protogen.connector.model.SearchClause>" +
+                  "<field>num</field>" +
+                  "<clause></clause>" +
+                  "<gt>"+$scope.dr.adresse_num+"</gt>" +
+                  "<lt>"+$scope.dr.adresse_num+"</lt>" +
+                  "<type>TEXT</type>" +
+                  "</fr.protogen.connector.model.SearchClause>";
+
+    $requestdata = "<fr.protogen.connector.model.DataModel><entity>user_adresse</entity><dataMap/><rows/><token><username/><password/><nom>Jakjoud Abdeslam</nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId>" + $scope.appauth.sessionId + "</sessionId><status>SUCCES</status><id>206</id><beanId>0</beanId></token><expired></expired><unrecognized></unrecognized><status></status><operation>GET</operation><clauses>"+
+    requestCP + requestVille + requestAdresse + requestAdresse_num +"</clauses><page>1</page><pages>20</pages><nbpages>100</nbpages><iddriver>0</iddriver><ignoreList></ignoreList></fr.protogen.connector.model.DataModel>";
+    console.log("request full adresse: " + $requestdata);
+    $http(
+    {
+        method  : 'POST',
+        url     : 'http://ns389914.ovh.net:8080/tolk/api/das',
+        data    : $requestdata,
+        headers: {"Content-Type": 'text/xml'}
+    })
+    .success(function(data)
+    {
+        datajson=formatString.formatServerResult(data);
+        if (datajson.dataModel.status != "FAILURE")
+        {
+            console.log(datajson.dataModel.rows.dataRow);
+
+            rows = [].concat( datajson.dataModel.rows.dataRow.dataRow);
+            
+            if (rows.length == 1) 
+            {
+              adresse = datajson.dataModel.rows.dataRow.dataRow.dataEntry;
+
+              for (var i = 0; i < adresse.length; i++) 
+              {
+                if (adresse[i].attributeReference == "pk_user_adresse")
+                {
+                  $scope.dr.adresse_id = adresse[i].value;
+                  break;
+                }
+              };
+              if ($scope.dr.adresse_id != "") 
+              {
+                $state.go('inscription3');
+              }
+            }
+            else
+            {
+              var alertPopup = $ionicPopup.alert(
+              {
+                title: 'Tolk',
+                template: "Adresse saisie n'est pas correcte."
+              });
+            }
+
+        }
+        else
+        {
+          var alertPopup = $ionicPopup.alert(
+          {
+            title: 'Tolk',
+            template: "Probleme serveur."
+          });
+        }
+
+    })
+    .error(function(data) //
+    {
+        console.log("erreur");
+    });
+
     $scope.dr.adresse_id = $scope.adresses_id[$scope.dr.adresse];
-    $state.go('inscription3');
+    
   };
 
   $scope.updateCPs = function(typed)
   {
-    $scope.validValue();
     if ($scope.appauth.sessionId == '')
     {
       $http({
@@ -538,12 +668,12 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 
     }
     /*
-    if ($scope.dr.district != "")
+    if ($scope.dr.ville != "")
     {
-      requestDistrict = "<fr.protogen.connector.model.SearchClause>" +
+      requestVille = "<fr.protogen.connector.model.SearchClause>" +
                   "<field>district</field>" +
                   "<clause></clause>" +
-                  "<gt>"+$scope.dr.district+"</gt>" +
+                  "<gt>"+$scope.dr.ville+"</gt>" +
                   "<lt></lt>" +
                   "<type>TEXT</type>" +
                   "</fr.protogen.connector.model.SearchClause>";
@@ -647,7 +777,6 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 
   $scope.updateVilles = function(typed)
   {
-    $scope.validValue();
     if ($scope.appauth.sessionId == '')
     {
       $http({
@@ -692,12 +821,12 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 
     }
     /*
-    if ($scope.dr.district != "")
+    if ($scope.dr.ville != "")
     {
-      requestDistrict = "<fr.protogen.connector.model.SearchClause>" +
+      requestVille = "<fr.protogen.connector.model.SearchClause>" +
                   "<field>district</field>" +
                   "<clause></clause>" +
-                  "<gt>"+$scope.dr.district+"</gt>" +
+                  "<gt>"+$scope.dr.ville+"</gt>" +
                   "<lt></lt>" +
                   "<type>TEXT</type>" +
                   "</fr.protogen.connector.model.SearchClause>";
@@ -803,7 +932,6 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 
   $scope.updateAdresses = function(typed)
   {
-    $scope.validValue();
     console.log("Session: "+$scope.appauth.sessionId);
     if ($scope.appauth.sessionId == "")
     {
@@ -839,7 +967,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
   {
     var requestCP = "";
     var requestAdresse = "";
-    var requestDistrict= "";
+    var requestVille= "";
 
     if ($scope.dr.cp != "")
     {
@@ -855,7 +983,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 
     if ($scope.dr.ville != "")
     {
-      requestDistrict = "<fr.protogen.connector.model.SearchClause>" +
+      requestVille = "<fr.protogen.connector.model.SearchClause>" +
                   "<field>district</field>" +
                   "<clause></clause>" +
                   "<gt>"+$scope.dr.ville+"</gt>" +
@@ -878,7 +1006,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
     }
 
     $requestdata = "<fr.protogen.connector.model.DataModel><entity>user_adresse</entity><dataMap/><rows/><token><username/><password/><nom>Jakjoud Abdeslam</nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId>" + $scope.appauth.sessionId + "</sessionId><status>SUCCES</status><id>206</id><beanId>0</beanId></token><expired></expired><unrecognized></unrecognized><status></status><operation>GET</operation><clauses>"+
-     requestCP + requestDistrict + requestAdresse+"</clauses><page>1</page><pages>20</pages><nbpages>100</nbpages><iddriver>0</iddriver><ignoreList></ignoreList></fr.protogen.connector.model.DataModel>";
+     requestCP + requestVille + requestAdresse+"</clauses><page>1</page><pages>20</pages><nbpages>100</nbpages><iddriver>0</iddriver><ignoreList></ignoreList></fr.protogen.connector.model.DataModel>";
     console.log("request adresse");
     console.log($requestdata);
     $http({
@@ -900,7 +1028,6 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
             {
               $scope.erreur = "Probleme serveur";
             }
-             /* https://global.gotomeeting.com/join/168546893 */
 
           })
           .error(function(data) //

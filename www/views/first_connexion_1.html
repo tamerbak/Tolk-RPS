@@ -1,55 +1,61 @@
 <ion-view view-title="first_connexion_1">
-<ion-content class="padding" style="overflow:hidden;" ng-controller="first_connexion_1Ctrl" has-bouncing="false" overflow-scroll="true">
+<ion-content class="padding" style:"overflow:hidden" ng-controller="first_connexion_1Ctrl" has-bouncing="false">
 
-<header class="inscription_header" style=>
+<header class="inscription_header" >
   <div class="inscription_header_div_img"><img src="img/logo_tolk_v2.png"></div>
   <div class="inscription_titre">R&eacute;seau professionnel de sant&eacute;</div>
 </header>
 
 
-<article class="inscription_article">
+<article class="inscription_article" >
   <button ng-click="goBack()" class="button button-clear button-light inscription_button_back"><i
     class="inscription_flesh_left fa-angle-left"></i> &nbsp;Précédent
   </button>
 
   <div class="inscription_cadre ">
 
-    <center>
-      <p id="inscription_2_lieu_exercice">
-        1&egrave;re connexion
-      </p>
-    </center>
+    <div class="row row_element_5" style="background-color: red;">
+        <center class="col col_inscription">
+            <p class="cadre_title" >
+                1&egrave;re connexion
+            </p>
+        </center>
+    </div>
 
-
-    <div class="row">
+    <div class="row  row_element_5 row-center"  style="background-color: green;">
       <div class="col col_inscription">
         <label class="inscription_4_label">
         <input type="password" ng-model="mdp1" ng-change="identiques()" placeholder="Choisissez un mot de passe"
-        class="firstconnexion1_input_text inscription_3_input inscription_3_input_1"/>
+        class="inscription_3_input "/>
         </label>
       </div>
     </div>
 
 
-    <div class="row">
+    <div class="row  row_element_5 row-center"  style="background-color: gray;">
       <div class="col col_inscription">
         <label class="inscription_4_label">
         <input type="password" ng-model="mdp2" ng-change="identiques()" placeholder="Confirmez votre mot de passe"
-        class="firstconnexion1_input_text inscription_3_input inscription_3_input_1"/>
-        <span style="color: red">{{ message2 }}</span>
+        class="inscription_3_input"/>
         </label>
       </div>
     </div>
 
+    <div class="row row_element_5 row-center"  style="background-color: blue;">
+      <div class="col col_inscription">
+        <center style="color: red">{{ message2 }}</center>
+      </div>
+    </div>
 
-    <div class="row">
-      <div class="col col_inscription" style="padding: 0;">
+    <div class="row row_element_5 " style="background-color: pink;">
+      <div class="col col_inscription">
         <p id="inscription_1_info_bottom">
           <br/><u>support@me.com</u> - <b id="phonenumber">01 85 08 92 69</b>
         </p>
       </div>
     </div>
   </div>
+
 </article>
 
 <footer class="inscription_footer">
@@ -60,7 +66,7 @@
                 </button>
             </div>
             <div class="col inscription_footer_button_right">
-                <button ng-disabled="buttonValiderDisabled" class="inscription_footer_button button-light" ng-click="to_first_connexion_2()()">
+                <button ng-disabled="buttonValiderDisabled" class="inscription_footer_button button-light" ng-click="btnUpdatePasswordPressed()()">
                   Valider
                 </button>
           <!-- id="connexion_ceercomptered" -->

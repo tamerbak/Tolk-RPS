@@ -304,14 +304,6 @@
     font-size: 6vw;
   }
 
-  .connexion_mpo {
-    font-size: 4vw;
-    color: #D94C45;
-    margin-top: 1vh;
-    font-weight: bolder;
-    text-align: center;
-  }
-
   /* Footer */
   .connexion_footer {
     background-color: white;
@@ -670,8 +662,8 @@
     color: white;
     font-family: bentonsansextralight;
     font-size: 13vw;
-    padding-left: 1vw;
-    margin-top: 3vh;
+    line-height: 13vw;
+    padding-top: 10vw;
     text-align: center;
   }
 
@@ -679,8 +671,7 @@
     color: white;
     font-family: bentonsansextralight;
     font-size: 6vw;
-    padding-left: 1vw;
-    margin-top: 3vh;
+    margin-top: 10vh;
     text-align: center;
   }
 
@@ -688,8 +679,6 @@
     color: white;
     font-family: bentonsansextralight;
     font-size: 5vw;
-    padding-left: 1vw;
-    margin-top: 10vh;
     text-align: center;
   }
 
@@ -700,10 +689,6 @@
     padding-left: 1vw;
     margin-top: -1vh;
     text-align: center;
-  }
-
-  .firstconnexion2_mdp {
-    margin-top: 5vh;
   }
 
   .firstconnexion2_separator_white {
@@ -741,8 +726,6 @@
     color: white;
     font-family: bentonsansMedium;
     font-size: 6vw;
-    padding-left: 1vw;
-    margin-top: 1.5vh;
     text-align: center;
   }
 

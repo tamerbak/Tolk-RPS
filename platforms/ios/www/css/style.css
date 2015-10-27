@@ -75,6 +75,27 @@ ion-view
 {
   background-color: #424242 !important;
 }
+
+.row_element_4
+{
+	height: 25%;
+	min-height: 25%;
+	max-height: 25%;
+}
+.row_element_5
+{
+	height: 20%;
+	min-height: 20%;
+	max-height: 20%;
+}
+.row_element_6
+{
+	margin-top:0 !important;
+	height: 16%;
+	min-height: 16%;
+	max-height: 16%;
+}
+
 /* ======================                 ======================
  * ======================     Accueil     ======================
    ======================                 ======================*/
@@ -672,7 +693,7 @@ select > .placeholder
 .inscription_3_input
 {
 	background-color: transparent;
-	width: 90vw;
+	width: 100%;
 	text-align: center;
 	color: white !important;
 	font-family: bentonsans;
@@ -681,7 +702,7 @@ select > .placeholder
 	margin-left: auto;
 	margin-right: auto;
 	display: block;
-	padding-top: 1em !important;
+	padding-top: 0.5em !important;
 }
 .inscription_4_pourquoi
 {
@@ -1554,80 +1575,6 @@ color: #e14640;
 /* ======================                      ======================
  * ======================     Connexion        ======================
    ======================                      ======================*/
-#connexion_page_red
-{
-	background-color: #E94041;
-	height: 100%;
-	padding-top: 5vh;
-	margin-top: -4vh;
-	margin-left: -4vw;
-	margin-right: -4vw;
-}
-.connexion_cadre
-{
-	background-color: white;
-	margin-left: -4vw;
-	margin-right: -4vw;
-}
-.connexion_container
-{
-	margin-left: auto;
-	margin-right: auto;
-	width: 100vw;
-	position: relative;
-	border: none;
-
-}
-#connexion_inscription-top-info-white
-{
-	color: #E94041;
-	font-size: 28px;
-	text-align: center;
-	line-height: 40px;
-	vertical-align: middle;
-	margin: auto;
-}
-.connexion_list
-{
-	padding-left: 15vw;
-	padding-right: 15vw;
-}
-.connexion_list > label
-{
-	border-top: 0;
-	border-right: 0;
-	border-left: 0;
-	border-bottom: 1px solid #E94041;
-	margin: auto;
-	text-align: center;
-	padding: 5px;
-	padding-bottom: 0px;
-
-
-}
-.connexion_list > label > select
-{
-	font-family: bentonsansextralight;
-	margin: auto;
-	position: relative;
-	font-size: 25px;
-	font-weight: normal;
-	padding: 0;
-
-}
-.connexion_list > label > select > option
-{
-	font-family: bentonsansextralight;
-	margin: auto;
-	max-width: 75%;
-	font-weight: normal;
-}
-.connexion_input-text
-{
-	width: 100%;
-	text-align: center;
-	display: inline;
-}
 .connexion_label
 {
     background-color: transparent;
@@ -1646,10 +1593,15 @@ color: #e14640;
 	padding-bottom: 0px;
 
 }
-.connexion_label > input
+
+.connexion_mpo
 {
-    width: 80vw;
+    font-size: 4vw;
+    color:white;
+    font-weight: bolder;
+    text-align: center;
 }
+
 .connexion_verif_adresse{
 	margin-top: -10vh;
 	color: black;
@@ -1678,7 +1630,16 @@ color: #e14640;
 /* ======================                      ======================
  * ====================== mot de passe oublié  ======================
    ======================                      ======================*/
-
+.cadre_title
+{
+    font-family: bentonsansextraLight;
+    color: white;
+    font-size: 7vw;
+    line-height: 7vw;
+    text-align: center;
+    font-weight: 900;
+    margin-top: 1vh;
+}
  .motdepasseoublie
  {
     color: white;

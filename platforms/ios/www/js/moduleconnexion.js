@@ -13,7 +13,7 @@ angular.module('moduleconnexion',[])
 
  $scope.accueil = function()
   {
-    $state.go('accueil');
+    $ionicHistory.goBack();
   };
 
   $scope.reinitialisermdp = function()
@@ -27,15 +27,20 @@ angular.module('moduleconnexion',[])
     $ionicHistory.goBack();
   };
 
+
   $scope.first_connexion_1 = function()
   {
     $state.go('first_connexion_1/:praticien_id');
   };
 
+  $scope.textchanged = function()
+  {
+    $scope.msg = "";
+  };
 
   $scope.seconnecter = function()
   {
-      if($scope.tel == null || $scope.mdp == null)
+      if($scope.tel == "" || $scope.mdp == "")
       {
           $scope.msg = "Vous devez remplir tous les champs!";
           return;
@@ -560,14 +565,14 @@ angular.module('moduleconnexion',[])
 //=========================================
 //=========================================   Réinitialisation du mot de passe
 //=========================================
-.controller('reinitialisermdpCtrl',function($scope,$state,$ionicHistory,$http,xmlParser,appAuthentification,docteurRemdp)
+.controller('reinitialisermdpCtrl',function($scope,$state,$ionicHistory,$http,xmlParser,appAuthentification,formatString)
 {
   $scope.appauth = appAuthentification;
-  $scope.docteurremdp = docteurRemdp;
+  $scope.email = "";
 
     $scope.accueil = function()
   {
-    $state.go('accueil');
+    $ionicHistory.goBack(-2);
   };
 
   $scope.goBack = function()
@@ -578,28 +583,30 @@ angular.module('moduleconnexion',[])
 
   $scope.validValue = function()
   {
-    console.log("firas");
-    var re = /[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}/igm;
-    if (!re.test($scope.docteurremdp.email))
+    var re = /^([a-zA-Z0-9])+([a-zA-Z0-9._%+-])+\@([a-zA-Z0-9_.-])+\.(([a-zA-Z]){2,6})$/;
+
+    if (!re.test($scope.email) && $scope.email != "")
     {
-        $scope.buttonValiderDisabled = true;
         $scope.emailError = true;
-        $scope.buttonValiderDisabled = true;
-        return;
     }
     else
     {
-      $scope.buttonValiderDisabled = false;
 
         $scope.emailError = false;
     }
 
   };
-  $scope.validValue();
 
 
   $scope.validationreinitialisermdp = function()
   {
+    var re = /^([a-zA-Z0-9])+([a-zA-Z0-9._%+-])+\@([a-zA-Z0-9_.-])+\.(([a-zA-Z]){2,6})$/;
+
+    if (!re.test($scope.email) || $scope.email == "")
+    {
+        return;
+    }
+
   console.log("clicked");
     if ($scope.appauth.sessionId != "")
     {
@@ -614,32 +621,23 @@ angular.module('moduleconnexion',[])
           {
             console.log("email form : "+$scope.email);
 
-             datajson=xmlParser.xml_str2json(data);
-             if(datajson['fr.protogen.connector.model.DataModel']['rows'] != "")
-             {
-                var rows = datajson['fr.protogen.connector.model.DataModel']['rows']['fr.protogen.connector.model.DataRow'];
+            datajson=formatString.formatServerResult(data);
+            if(datajson.dataModel.rows != "")
+            {
+                var rows = datajson.dataModel.rows.dataRow;
                 rows = [].concat( rows );
                 console.log("rows lenght : "+ rows.length);
-                // for(var i=0; i<rows.length; i++)
-                // {
 
-                  for (var j = 0; j < rows[0].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++)
-                  {
+                for (var j = 0; j < rows[0].dataRow.dataEntry.length ; j++)
+                {
 
-                    //Email
-                    if (rows[0].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "email")
-                     {
-                        $scope.email1 = rows[0].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
-                        $scope.email1 = $scope.email1.replace("<![CDATA[", "").replace("]]>", "");
-                        console.log("Email après verif : "+$scope.email1);
-                        $scope.docteurremdp.email_rm = $scope.email1;
-                        $scope.envoiereinitialisermdp();
+                    if (rows[0].dataRow.dataEntry[j].attributeReference == "email")
+                    {
+                      emailTemp = rows[0].dataRow.dataEntry[j].value;
+                      $scope.envoiereinitialisermdp(emailTemp);
 
-                      }
-                  };
-                // };
-              console.log(datajson);
-
+                    }
+                };
             }
             else
             {
@@ -663,16 +661,16 @@ Requête :
 
   */
   //Envoi Email
-  $scope.envoiereinitialisermdp = function()
+  $scope.envoiereinitialisermdp = function(email)
   {
-    console.log("email fonction envoie: "+$scope.docteurremdp.email_rm);
-    if ($scope.appauth.sessionId != null)
+    console.log("email fonction envoie: "+email);
+    if ($scope.appauth.sessionId != "")
     {
 
       $http({
           method  : 'POST',
           url     : 'http://ns389914.ovh.net:8080/tolk/api/envoimail',
-          data    : "<fr.protogen.connector.model.MailModel><sendTo>"+$scope.docteurremdp.email_rm+"</sendTo><title>Reinitialisation mot de passe</title><content>Vous pouvez réinitialiser votre mot de passe en activant le lien : test</content><status></status></fr.protogen.connector.model.MailModel>",
+          data    : "<fr.protogen.connector.model.MailModel><sendTo>"+ email +"</sendTo><title>Reinitialisation mot de passe</title><content>Vous pouvez réinitialiser votre mot de passe en activant le lien : test</content><status></status></fr.protogen.connector.model.MailModel>",
           headers: {"Content-Type": 'text/xml'}
          })
           .success(function(data)
@@ -684,8 +682,6 @@ Requête :
           .error(function(data) //
           {
             console.log(data);
-
-             console.log("erreur envoie");
              $scope.msg= "Echec d'envoie !";
           });
 

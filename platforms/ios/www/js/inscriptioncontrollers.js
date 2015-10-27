@@ -873,13 +873,17 @@ angular.module('inscriptioncontrollers', ['autocomplete'])
 //=========================================   First connection 1
 //=========================================
 
-.controller('first_connexion_1Ctrl',function($scope,$state,appAuthentification,docteurAuthentification)
+.controller('first_connexion_1Ctrl',function($scope,$state,$http,$ionicHistory,xmlParser,appAuthentification,docteurAuthentification)
 {
   $scope.appauth = appAuthentification;
   $scope.doctauth = docteurAuthentification;
   $scope.accueil = function()
   {
-    $state.go('accueil');
+    $ionicHistory.goBack(-2);
+  };
+  $scope.goBack = function()
+  {
+    $ionicHistory.goBack();
   };
   $scope.notEmpty=function()
   {
@@ -903,9 +907,9 @@ angular.module('inscriptioncontrollers', ['autocomplete'])
       $scope.message2 = "";
     }
     else if ($scope.mdp1 == $scope.mdp2) 
-      {
+    {
         $scope.message = "";
-      $scope.message2 = "";
+        $scope.message2 = "";
     }
     else
     {
@@ -913,20 +917,112 @@ angular.module('inscriptioncontrollers', ['autocomplete'])
     }
 
   };
-  $scope.first_connexion_1 = function()
+
+   $scope.btnUpdatePasswordPressed = function()
   {
-    $state.go('first_connexion_1');
-  };
-   $scope.to_first_connexion_2 = function()
-  {
-    if($scope.mdp1 == null || $scope.mdp2 == null || $scope.mdp1 == "" || $scope.mdp2 == "")
+    if($scope.mdp1 == null || $scope.mdp2 == null || $scope.mdp1 == "" || $scope.mdp2 == "" || $scope.mdp1 != $scope.mdp2)
     {
-      $scope.message2 = "Erreur de saisie !";
+      return ;
     }
     else
     {
-       $state.go('first_connexion_2');
+       $scope.updatePassword($scope.mdp1);
     };
+
+  };
+
+  $scope.updatePassword = function(mdp)
+  {
+      if ($scope.appauth.sessionId == "") { $state.goBack(-10); return; };
+      if ($scope.doctauth.id_compte == ""){ $state.goBack(-10); return; };
+
+      /*"<fr.protogen.connector.model.DataEntry>" +
+                                "<label>&lt;![CDATA[Premiere connexion]]&gt;</label>" +
+                                "<attributeReference>premiere_connexion</attributeReference>" +
+                                "<type>TEXT</type>" +
+                                "<value>&lt;![CDATA[NON]]&gt;</value>" +
+                              "</fr.protogen.connector.model.DataEntry>" +
+                              */
+
+      requestUpdatePassword = "<fr.protogen.connector.model.DataModel>" +
+                        "<entity>user_compte</entity>" +
+                        "<dataMap/>" +
+                        "<rows>" +
+                          "<fr.protogen.connector.model.DataRow>" +
+                            "<dataRow>" +
+                              "<fr.protogen.connector.model.DataEntry>" +
+                                "<label>&lt;![CDATA[ID Compte]]&gt;</label>" +
+                                "<attributeReference>pk_user_compte</attributeReference>" +
+                                "<type>PK</type>" +
+                                "<value>"+ $scope.doctauth.id_compte +"</value>" +
+                              "</fr.protogen.connector.model.DataEntry>" +
+
+                              "<fr.protogen.connector.model.DataEntry>" +
+                                "<label>&lt;![CDATA[Mot de passe]]&gt;</label>" +
+                                "<attributeReference>mot_de_passe</attributeReference>" +
+                                "<type>TEXT</type>" +
+                                "<value>&lt;![CDATA["+ mdp +"]]&gt;</value>" +
+                              "</fr.protogen.connector.model.DataEntry>" +
+
+                              
+
+                            "</dataRow>" +
+                          "</fr.protogen.connector.model.DataRow>" +
+                        "</rows>" +
+                        "<token>" +
+                          "<username></username>" +
+                          "<password></password>" +
+                          "<nom>Jakjoud Abdeslam</nom>" +
+                          "<appId>FRZ48GAR4561FGD456T4E</appId>" +
+                          "<sessionId>" + $scope.appauth.sessionId + "</sessionId>" +
+                          "<status>SUCCES</status>" +
+                          "<id>206</id>" +
+                          "<beanId>0</beanId>" +
+                        "</token>" +
+                        "<expired></expired>" +
+                        "<unrecognized></unrecognized>" +
+                        "<status></status>" +
+                        "<operation>UPDATE</operation>" +
+                        "<clauses/>" +
+                        "<page>1</page>" +
+                        "<pages>5</pages>" +
+                        "<nbpages>0</nbpages>" +
+                        "<iddriver>0</iddriver>" +
+                        "<ignoreList></ignoreList>" +
+                      "</fr.protogen.connector.model.DataModel>";
+
+      console.log("request update password " + mdp + "for account " + $scope.doctauth.id_compte );
+      console.log(requestUpdatePassword);
+
+      $http({
+          method  : 'POST',
+          url     : 'http://ns389914.ovh.net:8080/tolk/api/das',
+          data    : requestUpdatePassword,
+          headers: {"Content-Type": 'text/xml'}
+         })
+          .success(function(data)
+          {
+
+            datajson=xmlParser.xml_str2json(data);
+            if (datajson['fr.protogen.connector.model.DataModel'].status != "FAILURE")
+            {
+              console.log("result update password");
+              console.log(datajson);
+              $state.go('first_connexion_2');
+
+            }
+            else
+            {
+              $scope.erreur = "Probleme serveur";
+            }
+
+          })
+          .error(function(data) //
+          {
+            console.log(data);
+             console.log("erreur");
+          });
+
 
   };
 })
@@ -936,18 +1032,24 @@ angular.module('inscriptioncontrollers', ['autocomplete'])
 //=========================================
 
 
-.controller('first_connexion_2Ctrl',function($scope,$state){
-  $scope.first_connexion_2 = function()
-  {
-       $state.go('first_connexion_2');
-  };
+.controller('first_connexion_2Ctrl',function($scope,$state,$ionicHistory,docteurAuthentification)
+{
+  $scope.doctauth = docteurAuthentification;
+  $scope.doctauth.civilite = "mr";
+  $scope.doctauth.prenom = "Firas";
+  $scope.doctauth.nom = "KADHUM";
+
   $scope.accueil = function()
   {
-    $state.go('accueil');
+    $ionicHistory.goBack(-3);
   };
-  $scope.profile = function()
+  $scope.goBack = function()
   {
-    $state.go('profile');
+    $ionicHistory.goBack();
+  };
+  $scope.menu_general = function()
+  {
+    $state.go('menu_general');
   };
 })
 .controller('first_connexion_3Ctrl',function($scope,$state,appAuthentification,docteurAuthentification)

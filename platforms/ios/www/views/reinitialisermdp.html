@@ -13,37 +13,46 @@
         <button ng-click="goBack()" class="button button-clear button-light inscription_button_back"><i class="inscription_flesh_left fa-angle-left"></i> &nbsp;Précédent</button>
 
         <div class="inscription_cadre">
-            <div class="motdepasseoublie">Mot de passe oublié</div>
-            <div class="motdepasseoublie_mdp">
-      
-              <!-- section message d'erreur -->
-                <section >
-                    <center>
-                        <p class="connexion_message"> {{msg}} </p>
-                    <center>
-                </section>
-          
-                <label class="connexion_label">
-                    <input type="email" name="Identifiant" ng-change="validValue()" ng-model="docteurremdp.email" class="inscription_3_input inscription_3_input_1 motdepasseoublie_input_text" placeholder="Votre adresse e-mail"/>
-                    <center class="assertive" ng-show="emailError">Email est invalide</center>
-                
-                </label>
 
-
+            <div class="row row_element_5">
+                <center class="col col_inscription">
+                    <p class="cadre_title" >
+                      Mot de passe oublié
+                    </p>
+                </center>
             </div>
 
-            <section >
-                <center><p class="mdp_message_email_sent"> {{msg_email_sent}} </p><center>
-            </section>
+            <div class="row row_element_5">
+                <center class="col col_inscription">
+                    <p class="connexion_message"> {{msg}} </p>
+                    <p class="mdp_message_email_sent"> {{msg_email_sent}} </p>
+                </center>
+            </div>
+
+            <div class="row row_element_5">
+                <div class="col col_inscription">
+                    <label class="inscription_4_label">
+                        <input type="email" name="email" ng-change="validValue()" ng-model="email" class="inscription_3_input inscription_3_input_2" placeholder="Votre adresse email"/>
+                    </label>
+                </div>
+            </div>
+
+            <div class="row row_element_5">
+                <div class="col col_inscription">
+                    <center class="assertive" ng-show="emailError">Email est invalide</center>
+                </div>
+            </div>
 
 
-            <center id="inscription_fin_bottom">
-                <br /><u>support@me.com</u>
-                <br /><b id="phonenumber">01 85 08 92 69</b>
-            </center>
+            <div class="row row_element_5"><div class="col col_inscription" style="padding: 0;">
+               <p id="inscription_1_info_bottom">
+                 <br /><u>support@me.com</u> - <b id="phonenumber">01 85 08 92 69</b>
+             </p>
+            </div></div>
 
         </div>  
     </article>
+
                             
     <footer class="inscription_footer">
         <div class="row inscription_footer_row">

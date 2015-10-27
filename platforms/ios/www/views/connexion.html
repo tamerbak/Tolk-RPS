@@ -1,48 +1,64 @@
 <ion-view view-title="Connexion">
-      <ion-content class="padding" style:"overflow:hidden"  ng-controller="connexionCtrl" has-bouncing="false">
+      <ion-content class="padding" style:"overflow:hidden" ng-controller="connexionCtrl" has-bouncing="false">
 
     <header class="inscription_header">
             <div class="inscription_header_div_img"><img src="img/logo_tolk_v2.png"></div>
             <div class="inscription_titre">R&eacute;seau professionnel de sant&eacute;</div>
     </header>
 
-
-
     <article class="inscription_article">
       <button ng-click="goBack()" class="button button-clear button-light inscription_button_back"><i class="inscription_flesh_left fa-angle-left"></i> &nbsp;Précédent</button>
 
         <div class="inscription_cadre">
 
-          <div class="connexion">
-            <span>Connectez-vous!</span>
-
+          <div class="row row_element_6" style="background-color: red;">
+            <div class="col col_inscription">
+              <center>
+                <p class="cadre_title">
+                  Connectez-vous!
+                </p>
+              </center>
+            </div>
           </div>
 
-          <div class="connexion_mdp">
+          <div class="row row_element_6" style="background-color: green;">
+            <div class="col col_inscription" style="padding: 0;">
+              <p id="inscription_1_info_bottom">
+                <span class="connexion_message" style="display:block; margin: auto; text-align: center;"> &nbsp;{{msg}} </span>
+              </p>
+            </div>
+          </div>
 
-
-              <label class="connexion_label">
-                  <input type="text" name="tel" ng-model="tel" class="inscription_3_input inscription_3_input_1" placeholder="Identifiant"/>
+          <div class="row row_element_6" style="background-color: gray;">
+            <div class="col col_inscription">
+              <label class="connexion_label"><!-- connexion_label -->
+                <input type="text" name="tel" ng-change="textchanged()" ng-model="tel" class="inscription_3_input" placeholder="Identifiant"/>
               </label>
+            </div>
+          </div>
 
-              <label class="connexion_label">
-                  <input type="password" name="tel" ng-model="mdp" class="inscription_3_input inscription_3_input_2" placeholder="Mot de passe"/>
+          <div class="row row_element_6" style="background-color: blue;">
+            <div class="col col_inscription">
+              <label class="connexion_label"><!-- connexion_label -->
+                <input type="password" name="mdp" ng-change="textchanged()" ng-model="mdp" class="inscription_3_input" placeholder="Mot de passe"/>
               </label>
+            </div>
+          </div>
 
-         </div>
+          <div class="row row_element_6 row-center" style="background-color: pink;">
+            <div class="col col_inscription">
+              <p ng-click="reinitialisermdp()" class="connexion_mpo" style="cursor: pointer" ><i class="fa fa-arrow-circle-right fa-lg"></i>&nbsp;<b>Mot de passe oubli&eacute;</b></p>
+            </div>
+          </div>
 
-          <!-- section mot de passe oublié -->
-          <section >
-            <p ng-click="reinitialisermdp()" class="connexion_mpo" style="cursor: pointer" ><i class="fa fa-arrow-circle-right fa-lg"></i>&nbsp;<strong><b>Mot de passe oubli&eacute;</b></strong></p>
-          </section>
-          <!-- Fin section mot de passe oublié -->
-
-          <center id="inscription_fin_bottom">
-            <br /><u>support@me.com</u>
-            <br /><b id="phonenumber">01 85 08 92 69</b>
-          </center>
-
-          <span class="connexion_message" style="display:block; margin: auto; text-align: center;"> &nbsp;{{msg}} </span>
+          <div class="row row_element_6" style="background-color: blue;">
+            <div class="col col_inscription" style="padding: 0;">
+              <p id="inscription_1_info_bottom">
+                <br/><u>support@me.com</u> - <b id="phonenumber">01 85 08 92 69</b>
+              </p>
+            </div>
+          </div>
+          
         </div>
     </article>
 
