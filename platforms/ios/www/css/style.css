@@ -2127,17 +2127,17 @@ color: #e14640;
     right: 0;
     z-index: -1;
     display: block;
-    /*background-image: url(../img/bg.png);*/
+    background-image: url(../img/bg.png);
     background-repeat: no-repeat;
-    background-size: 120%;
+    background-size: 120% 100%;
 
     width: 170%;
-    height: 240%;
-    -webkit-filter:brightness(88%) blur(24px);
-    -moz-filter:brightness(88%) blur(24px);
-    -o-filter:brightness(88%) blur(24px);
-    -ms-filter:brightness(88%) blur(24px);
-    filter:brightness(88%) blur(24px);
+    height: 100%;
+    -webkit-filter:brightness(88%) blur(5px);
+    -moz-filter:brightness(88%) blur(5px);
+    -o-filter:brightness(88%) blur(5px);
+    -ms-filter:brightness(88%) blur(5px);
+    filter:brightness(88%) blur(5px);
 }
 .menu_general_header
 {
@@ -2511,7 +2511,7 @@ color: #e14640;
 .btn_white
 {
 	color: white !important;
-}
+}o
 
 input::-webkit-input-placeholder
 {
@@ -2524,4 +2524,8 @@ input:-moz-placeholder
 input:-ms-input-placeholder
 { /* IE10+ */
   color: white;
+}
+
+ion-view , ion-nav-view {
+	background-color: transparent !important;
 }
