@@ -4,7 +4,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 //=================================
 //=================================    Insriptions
 //=================================
-.controller('inscription1Ctrl',function($ionicHistory,$scope,$state,$http,$ionicPopup,xmlParser,docteurInscription,appAuthentification,formatString)
+.controller('inscription1Ctrl',function($ionicHistory,$scope,$state,$http,popup,$ionicPopup,xmlParser,docteurInscription,appAuthentification,formatString)
 {
 
   $scope.dr = docteurInscription;
@@ -471,7 +471,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
           console.log(datajson);
           if (datajson.dataModel.rows != "") 
           {
-             popup.showpopup("Ce praticien a déjà un compte, si vous avez oublié vos identifiants allez sur la page connexion et choisissez mot de passe oublié.");
+             popup.showpopup("Ce praticien a déjà un compte, si vous avez oublié vos identifiants, allez sur la page connexion et choisissez mot de passe oublié.");
              return;
           }
           else
@@ -492,8 +492,6 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
         popup.showpopup("Probleme de connexion, vérifier cotre connexion et réessayer");
         return;
     });
-
-      $state.go('inscription2');
 
   };
 
