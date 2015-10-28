@@ -64,7 +64,7 @@ angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontroller
     docteurInscription.cp = '';
     docteurInscription.ville = '';
     docteurInscription.adresse = '';
-    docteurInscription.adresseCmp = '';
+    docteurInscription.adresse_num = '';
     docteurInscription.tel = '';
     docteurInscription.email = '';
 
@@ -123,6 +123,18 @@ angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontroller
         jsonText = JSON.parse(jsonText);
         return jsonText;
       }
+    }
+  })
+
+  .service('popup', function($ionicPopup)
+  {
+    this.showpopup = function(message)
+    {
+        var alertPopup = $ionicPopup.alert(
+        {
+          title: 'Tolk',
+          template: message
+        });
     }
   })
 

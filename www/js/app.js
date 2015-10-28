@@ -126,6 +126,18 @@ angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontroller
     }
   })
 
+  .service('popup', function($ionicPopup)
+  {
+    this.showpopup = function(message)
+    {
+        var alertPopup = $ionicPopup.alert(
+        {
+          title: 'Tolk',
+          template: message
+        });
+    }
+  })
+
 
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/index.html");

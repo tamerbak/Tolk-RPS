@@ -54,8 +54,11 @@
     margin-top: 2vh;
   }
 
-  #inscription_1_info_bottom {
+  .inscription_1_info_bottom {
     font-size: 4vw;
+  }
+  .inscription_1_info_bottom_2 {
+    font-size: 3.6vw;
   }
 
   #connexion_ceercomptered {
@@ -86,18 +89,15 @@
     margin-top: 5vh;
   }
 
-  .inscription_4_pourquoi {
-
-    margin-top: 8vh;
-  }
-
-  .inscription_4_contidion_general {
-    margin-top: 7vh;
-  }
-
   #inscription_4_ceercomptered {
     margin-top: 3vh;
     margin-bottom: 6vh;
+  }
+
+  #inscription_merci {
+    margin-top: 3vh;
+    font-size: 16vw;
+    line-height: 16vw;
   }
 
   #inscription_fin_top {

@@ -96,6 +96,14 @@ ion-view
 	max-height: 16%;
 }
 
+.row_element_6_demi
+{
+	margin-top:0 !important;
+	height: 8%;
+	min-height: 8%;
+	max-height: 8%;
+}
+
 /* ======================                 ======================
  * ======================     Accueil     ======================
    ======================                 ======================*/
@@ -528,13 +536,22 @@ ion-view
     width: 100%;
 
 }
-#inscription_1_info_bottom
+.inscription_1_info_bottom
 {
 	font-family: bentonsansLight !important;
 	text-align: center;
 	font-weight: 700;
 	color: white;
 	margin-bottom: 0;
+
+}
+.inscription_1_info_bottom_2
+{
+	font-family: bentonsans !important;
+	text-align: center;
+	font-weight: 700;
+	color: white;
+	margin-top: 5px;
 
 }
 #connexion_ceercomptered
@@ -675,7 +692,7 @@ select > .placeholder
 .inscription_4_label
 {
     background-color: transparent;
-    width: 90vw;
+    width: 90%;
     color: white;
     position: relative;
     z-index: 2;
@@ -732,6 +749,16 @@ select > .placeholder
     min-width: 100px;
     padding-left: 20px;
     padding-right: 20px;
+}
+
+.button-home
+{
+	float: right;
+	color: white;
+}
+.fa-1-5x
+{
+	font-size: 1.5em;
 }
 
 /*========================                       ========================
@@ -1459,9 +1486,8 @@ color: #e14640;
 }
 .tooltip-num-usage
 {
-	color: white;
+	color: #E94041;
 	padding: 10px;
-	background-color: #E94041;
 	text-align: justify;
 	width: 284px !important;
 	margin-top: -10px;

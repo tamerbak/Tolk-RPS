@@ -25,12 +25,14 @@
           <center>{{erreur}}</center>
         </div>
 -->
-       <div class="row inscription_first_row"><div class="col col_inscription">
-         <autocomplete id="autocomplete-specialite" class="inscription_autocomplete inscription_element_"
+      <div class="row inscription_first_row">
+          <div class="col col_inscription">
+              <autocomplete id="autocomplete-specialite" class="inscription_autocomplete inscription_element_"
                        ng-model="dr.specialite" data="specialites" on-type="updatespecialite"
                        attr-placeholder="Votre Specialite">
-         </autocomplete>
-       </div></div>
+              </autocomplete>
+          </div>
+      </div>
        <div class="row"><div class="col col_inscription">
          <autocomplete id="autocomplete-nom" class="inscription_autocomplete inscription_element_" ng-model="dr.nom"
                        data="lastNames" on-type="updateNomPrenom" attr-placeholder="Votre Nom">

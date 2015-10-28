@@ -10,38 +10,46 @@
         <article class="inscription_article">
             <button ng-click="goBack()" class="button button-clear button-light inscription_button_back"><i class="inscription_flesh_left fa-angle-left"></i> &nbsp;Précédent</button>
             <div class="inscription_cadre">
-              <center>
-                  <p id="inscription_2_lieu_exercice">
-                      Votre adresse d'exercice
-                  </p>
-              </center>
+                <div class="row row_element_5">
+                    <div class="col col_inscription">
+                        <center>
+                            <p id="inscription_2_lieu_exercice"> Votre adresse d'exercice </p>
+                        </center>
+                    </div>
+                </div>
 
+                <div class="row row_element_5">
+                    <div class="col col_inscription">
+                        <autocomplete id="autocomplete-cp" class="inscription_autocomplete inscription_2_input_bottom_space" ng-model="dr.cp" data="cps" on-type="updateCPs" attr-placeholder="Code postal">
+                        </autocomplete>
+                    </div>
+                </div>
+                <div class="row row_element_5">
+                    <div class="col col_inscription">
+                        <autocomplete id="autocomplete-ville" class="inscription_autocomplete inscription_2_input_bottom_space" ng-model="dr.ville" data="villes" on-type="updateVilles" attr-placeholder="Ville">
+                        </autocomplete>
+                    </div>
+                </div>
+                <div class="row row_element_5">
+                    <div class="col-20 col_inscription">
+                        <label class="inscription_4_label" style="margin-top:-4vh;">
+                            <input type="text" name="adresse_num" ng-model="dr.adresse_num" class="inscription_3_input inscription_3_input_2" placeholder="Num"/>
+                        </label>
+                    </div>
+                    <div class="col-80 col_inscription">
+                        <autocomplete id="autocomplete-adresse" class="inscription_autocomplete inscription_2_input_bottom_space" ng-model="dr.adresse" data="adresses" on-type="updateAdresses" attr-placeholder="Adresse">
+                        </autocomplete>
+                    </div>
+                </div>
 
-          <div class="row"><div class="col col_inscription">
-              <autocomplete id="autocomplete-cp" class="inscription_autocomplete inscription_2_input_bottom_space" ng-model="dr.cp" data="cps" on-type="updateCPs" attr-placeholder="Code postal">
-              </autocomplete>
-          </div></div>
-          <div class="row"><div class="col col_inscription">
-              <autocomplete id="autocomplete-ville" class="inscription_autocomplete inscription_2_input_bottom_space" ng-model="dr.ville" data="villes" on-type="updateVilles" attr-placeholder="Ville">
-              </autocomplete>
-          </div></div>
-          <div class="row">
-            <div class="col-20 col_inscription">
-              <label class="inscription_4_label" style="margin-top:-4vh;">
-              <input type="text" name="adresse_num" ng-model="dr.adresse_num" class="inscription_3_input inscription_3_input_2" placeholder="Num"/>
-            </label>
-            </div>
-            <div class="col-80 col_inscription">
-              <autocomplete id="autocomplete-adresse" class="inscription_autocomplete inscription_2_input_bottom_space" ng-model="dr.adresse" data="adresses" on-type="updateAdresses" attr-placeholder="Adresse">
-              </autocomplete>
-            </div>
-          </div>
+                <div class="row row_element_5">
+                    <div class="col col_inscription">
+                        <center>
+                            <p id="inscription_1_info_bottom" ng-click="showMapa()"> &gt; Vérifier vote adresse sur le plan</p>
+                        </center>
+                    </div>
+                </div>
 
-              <center>
-                  <p id="inscription_1_info_bottom" ng-click="showMapa()">
-                      &gt; Vérifier vote adresse sur le plan
-                  </p>
-              </center>
             </div>
 
       </article>

@@ -11,16 +11,18 @@
       <a ng-click="goBack()" class="button button-clear button-light inscription-button-back">&lt;&nbsp;précédent</a>
 
       <div class="inscription_cadre">
-        <div class="row">
+
+        <div class="row row_element_4 row-center">
           <div class="col col_inscription">
             <label class="inscription_4_label">
               <input type="text" name="tel" ng-change="validValue()" ng-model="dr.tel"
-                     class="inscription_3_input inscription_3_input_1" placeholder="Votre numéro de mobile"/>
+                     class="inscription_3_input" placeholder="Votre numéro de mobile"/>
             </label>
 
           </div>
         </div>
-        <div class="row">
+
+        <div class="row  row_element_4 row-center">
           <div class="col col_inscription">
 
               <center>
@@ -32,26 +34,28 @@
 
           </div>
         </div>
-        <div class="row">
+
+        <div class="row  row_element_4 row-center">
           <div class="col col_inscription">
 
             <label class="inscription_4_label">
               <input type="email" name="email" ng-change="validValue()" ng-model="dr.email"
-                     class="inscription_3_input inscription_3_input_2" placeholder="Votre adresse email"/>
+                     class="inscription_3_input" placeholder="Votre adresse email"/>
             </label>
 
             <center class="assertive" ng-show="emailError">Email est invalide</center>
           </div>
         </div>
-        <div class="row">
+
+        <div class="row  row_element_4 row-center">
           <div class="col col_inscription">
-            <center class="inscription_4_contidion_general">
-              <input ng-change="validValue()" ng-model="checkbox" type="checkbox"><span
-              class="inscription_4_checkbox_confirmation">&nbsp;J'accepte les Conditions Générales d'Utilisation</span></input>
+            <center>
+              <p><input ng-change="validValue()" ng-model="checkbox" type="checkbox"><span
+              class="inscription_4_checkbox_confirmation">&nbsp;J'accepte les Conditions Générales d'Utilisation</span></input></p>
+              <p id="inscription_1_info_bottom">{{message_de_verification}}</p>
             </center>
           </div>
         </div>
-
 
       </div>
 

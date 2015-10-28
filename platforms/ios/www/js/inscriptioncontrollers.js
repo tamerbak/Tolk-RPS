@@ -936,12 +936,7 @@ angular.module('inscriptioncontrollers', ['autocomplete'])
       if ($scope.appauth.sessionId == "") { $state.goBack(-10); return; };
       if ($scope.doctauth.id_compte == ""){ $state.goBack(-10); return; };
 
-      /*"<fr.protogen.connector.model.DataEntry>" +
-                                "<label>&lt;![CDATA[Premiere connexion]]&gt;</label>" +
-                                "<attributeReference>premiere_connexion</attributeReference>" +
-                                "<type>TEXT</type>" +
-                                "<value>&lt;![CDATA[NON]]&gt;</value>" +
-                              "</fr.protogen.connector.model.DataEntry>" +
+      /*
                               */
 
       requestUpdatePassword = "<fr.protogen.connector.model.DataModel>" +
@@ -955,6 +950,13 @@ angular.module('inscriptioncontrollers', ['autocomplete'])
                                 "<attributeReference>pk_user_compte</attributeReference>" +
                                 "<type>PK</type>" +
                                 "<value>"+ $scope.doctauth.id_compte +"</value>" +
+                              "</fr.protogen.connector.model.DataEntry>" +
+                              
+                              "<fr.protogen.connector.model.DataEntry>" +
+                                "<label>&lt;![CDATA[Premiere connexion]]&gt;</label>" +
+                                "<attributeReference>premiere_connexion</attributeReference>" +
+                                "<type>TEXT</type>" +
+                                "<value>&lt;![CDATA[NON]]&gt;</value>" +
                               "</fr.protogen.connector.model.DataEntry>" +
 
                               "<fr.protogen.connector.model.DataEntry>" +
@@ -1035,9 +1037,6 @@ angular.module('inscriptioncontrollers', ['autocomplete'])
 .controller('first_connexion_2Ctrl',function($scope,$state,$ionicHistory,docteurAuthentification)
 {
   $scope.doctauth = docteurAuthentification;
-  $scope.doctauth.civilite = "mr";
-  $scope.doctauth.prenom = "Firas";
-  $scope.doctauth.nom = "KADHUM";
 
   $scope.accueil = function()
   {

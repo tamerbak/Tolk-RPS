@@ -449,7 +449,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 //=========================================
 //========================================= Inscription Controller 2
 //=========================================
-.controller('inscription2Ctrl',function($ionicHistory,$scope,$state,$http,$ionicPopup,$cordovaGeolocation,xmlParser,docteurInscription,appAuthentification,formatString)
+.controller('inscription2Ctrl',function($ionicHistory,$scope,$state,$http,popup,$ionicPopup,$cordovaGeolocation,xmlParser,docteurInscription,appAuthentification,formatString)
 {
 
   $scope.dr = docteurInscription;
@@ -482,45 +482,25 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 
     if ($scope.dr.cp == "")
     {
-        var alertPopup = $ionicPopup.alert(
-        {
-          title: 'Tolk',
-          template: "Vous devez entrer un code postal."
-        });
-        // $state.go('inscription2'); 
+        popup.showpopup("Vous devez entrer un code postal.");
         return; 
     }
 
     if ($scope.dr.ville == "")
     {
-        var alertPopup = $ionicPopup.alert(
-        {
-          title: 'Tolk',
-          template: "Vous devez choisir une ville."
-        });
-        // $state.go('inscription2'); 
+        popup.showpopup("Vous devez choisir une ville.");
         return; 
     }
 
     if ($scope.dr.adresse_num == "")
     {
-        var alertPopup = $ionicPopup.alert(
-        {
-          title: 'Tolk',
-          template: "Vous devez entrer le numéro de l'adresse."
-        });
-        // $state.go('inscription2'); 
+        popup.showpopup("Vous devez entrer le numéro de l'adresse.");
         return; 
     }
 
     if ($scope.dr.adresse == "")
     {
-        var alertPopup = $ionicPopup.alert(
-        {
-          title: 'Tolk',
-          template: "Vous n'avez pas saisi votre adresse."
-        });
-        // $state.go('inscription2'); 
+        popup.showpopup("Vous n'avez pas saisi votre adresse."); 
         return; 
     }
 
@@ -570,6 +550,11 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
         if (datajson.dataModel.status != "FAILURE")
         {
             console.log(datajson.dataModel.rows.dataRow);
+            if (datajson.dataModel.rows == "")
+            {
+                popup.showpopup("L'adresse saisie n'existe pas"); 
+                return; 
+            }
 
             rows = [].concat( datajson.dataModel.rows.dataRow.dataRow);
             
@@ -592,21 +577,13 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
             }
             else
             {
-              var alertPopup = $ionicPopup.alert(
-              {
-                title: 'Tolk',
-                template: "Adresse saisie n'est pas correcte."
-              });
+              popup.showpopup("Adresse saisie n'est pas correcte.");
             }
 
         }
         else
         {
-          var alertPopup = $ionicPopup.alert(
-          {
-            title: 'Tolk',
-            template: "Probleme serveur."
-          });
+          popup.showpopup("Probleme serveur.");
         }
 
     })
@@ -855,12 +832,11 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
          })
           .success(function(data)
           {
-
-            datajson=xmlParser.xml_str2json(data);
-            if (datajson['fr.protogen.connector.model.DataModel'].status != "FAILURE")
+            datajson=formatString.formatServerResult(data);
+            if (datajson.dataModel.status != "FAILURE")
             {
               console.log(datajson);
-              $scope.setVilles(datajson['fr.protogen.connector.model.DataModel']['rows']['fr.protogen.connector.model.DataRow']);
+              $scope.setVilles(datajson.dataModel.rows.dataRow);
             }
             else
             {
@@ -893,14 +869,14 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
     {
       var indexofville = -1;
       var indexofvilleID = -1;
-      for (var j = 0; j < rows[i].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++)
+      for (var j = 0; j < rows[i].dataRow.dataEntry.length ; j++)
       {
-        if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "libelle")
+        if (rows[i].dataRow.dataEntry[j].attributeReference == "libelle")
         {
           indexofville = j;
           continue;
         }
-        if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "pk_user_ville")
+        if (rows[i].dataRow.dataEntry[j].attributeReference == "pk_user_ville")
         {
           indexofvilleID = j;
           continue;
@@ -909,13 +885,10 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
       if (indexofville != -1 && indexofvilleID != -1)
       {
           var tempVille = "";
-          tempVille = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][indexofville].value;
-          tempVille = tempVille.replace("<![CDATA[", "").replace("]]>", "");
+          tempVille = rows[i].dataRow.dataEntry[indexofville].value;
 
           var tempVilleID = "";
-          tempVilleID = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][indexofvilleID].value;
-          tempVilleID = tempVilleID.replace("<![CDATA[", "").replace("]]>", "");
-
+          tempVilleID = rows[i].dataRow.dataEntry[indexofvilleID].value;
 
             if ($scope.villes.indexOf(tempVille) < 0  && $scope.villes.length < 7)
             {
@@ -1169,21 +1142,26 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 //=====================================
 //===================================== Inscription Controller 3
 //=====================================
-.controller('inscription3Ctrl',function($scope,$state,$ionicHistory,$ionicPopover,docteurInscription,appAuthentification)
+.controller('inscription3Ctrl',function($scope,$state,$http,$ionicHistory,formatString,$ionicPopover,popup,docteurInscription,appAuthentification)
 {
   $scope.goBack = function()
   {
     $ionicHistory.goBack();
   }
+
+  $scope.accueil = function()
+  {
+    $ionicHistory.goBack(-3);
+  }
+  
   $scope.dr = docteurInscription;
   $scope.appauth = appAuthentification;
 
   $scope.validValue = function()
   {
-    var re = /[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}/igm;
-    if (!re.test($scope.dr.email))
+    var re = /^([a-zA-Z0-9])+([a-zA-Z0-9._%+-])+\@([a-zA-Z0-9_.-])+\.(([a-zA-Z]){2,6})$/;
+    if (!re.test($scope.dr.email) && $scope.dr.email != "")
     {
-        $scope.buttonValiderDisabled = true;
         $scope.emailError = true;
         return;
     }
@@ -1192,16 +1170,9 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
         $scope.emailError = false;
     }
 
-    if ($scope.dr.tel != "" && $scope.dr.email != "" && $scope.checkbox == true)
-    {
-        $scope.buttonValiderDisabled = false;
-    }
-    else $scope.buttonValiderDisabled = true;
   };
-  $scope.validValue();
 
-
-  var templateText ="Votre numéro de mobile sera utilisé pour l'<b>activation de votre compte</b>. Un SMS vous sera envoyé pour garantir la sécurité maximum de vos données.<br/><br/>Votre numéro de mobile restera à usage interne de la société TOLK exclusivement dans le cadre du bon fonctionement de nos services."
+  var templateText ="Votre numéro de mobile est votre identifiant, il sera utilisé pour l'<b>activation de votre compte</b>. Un SMS vous sera envoyé pour garantir la sécurité maximum de vos données.<br/><br/>Votre numéro de mobile restera à usage interne de la société TOLK exclusivement dans le cadre du bon fonctionement de nos services."
   var template = '<ion-popover-view class="tooltip-num-usage"><ion-content class="padding">'+templateText+'</ion-content></ion-popover-view>';
 
   $scope.popover = $ionicPopover.fromTemplate(template, {scope: $scope});
@@ -1224,35 +1195,174 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 
   $scope.inscription4 = function()
   {
-    $state.go('inscription4');
+    tel = $scope.dr.tel;
+    email = $scope.dr.email;
+
+    var re = /^([a-zA-Z0-9])+([a-zA-Z0-9._%+-])+\@([a-zA-Z0-9_.-])+\.(([a-zA-Z]){2,6})$/;
+
+    if ($scope.dr.tel == "")
+    {
+        popup.showpopup("Vous devez insérer votre numéro de téléphone.");
+        return; 
+    }
+
+    if ($scope.dr.email == "")
+    {
+        popup.showpopup("Vous devez entrer votre email."); 
+        return; 
+    }
+
+    if (!re.test($scope.dr.email))
+    {
+        popup.showpopup("L'email entré n'est pas correcte"); 
+        return; 
+    }
+
+    if ($scope.checkbox != true)
+    {
+        popup.showpopup("Vous ne pouvez pas continuer sans accepter les conditions générales d'utilisation"); 
+        return; 
+    }
+
+    //do the verification
+    $scope.message_de_verification = "Vérification de numéro de tel ...";
+    //verification d'unicité de numero de tel
+
+    requesttelverification = "<fr.protogen.connector.model.SearchClause>" +
+                            "<field>tel</field>" +
+                            "<clause></clause>" +
+                            "<gt>"+tel+"</gt>" +
+                            "<lt>"+tel+"</lt>" +
+                            "<type>TEXT</type>" +
+                            "</fr.protogen.connector.model.SearchClause>";
+
+    $requestdata = "<fr.protogen.connector.model.DataModel><entity>user_compte</entity><dataMap/><rows/><token><username/><password/><nom>Jakjoud Abdeslam</nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId>" + $scope.appauth.sessionId + "</sessionId><status>SUCCES</status><id>206</id><beanId>0</beanId></token><expired></expired><unrecognized></unrecognized><status></status><operation>GET</operation>"+
+    "<clauses>"+ requesttelverification +"</clauses><page>1</page><pages>10</pages><nbpages>100</nbpages><iddriver>0</iddriver><ignoreList></ignoreList></fr.protogen.connector.model.DataModel>";
+
+    $http(
+    {
+        method  : 'POST',
+        url     : 'http://ns389914.ovh.net:8080/tolk/api/das',
+        data    :  $requestdata,
+        headers: {"Content-Type": 'text/xml'}
+    })
+    .success(function(data)
+    {
+      datajson=formatString.formatServerResult(data);
+
+      $scope.message_de_verification = "";
+        if (datajson.dataModel.status != "FAILURE")
+        {
+          console.log(datajson);
+          if (datajson.dataModel.rows != "") 
+          {
+             popup.showpopup("Le numéro de telephone existe déjà");
+             return;
+          }
+          else
+          {
+              $scope.emailExistenceVerification(email);
+          }
+        }
+        else
+        {
+            popup.showpopup("Probleme de connexion");
+            return;
+        }
+
+    })
+    .error(function(data) //
+    {
+        $scope.message_de_verification = "Vérification de numéro de tel";
+        popup.showpopup("Probleme de connexion, vérifier cotre connexion et réessayer");
+        return;
+    });
+
   };
+
+  $scope.emailExistenceVerification = function(email)
+  {
+      //verification de l'email
+    $scope.message_de_verification = "Vérification d'email";
+    requestemailverification = "<fr.protogen.connector.model.SearchClause>" +
+                            "<field>email</field>" +
+                            "<clause></clause>"  +
+                            "<gt>"+email+"</gt>" +
+                            "<lt>"+email+"</lt>" +
+                            "<type>TEXT</type>"  +
+                            "</fr.protogen.connector.model.SearchClause>";
+
+    $requestdataemail = "<fr.protogen.connector.model.DataModel><entity>user_compte</entity><dataMap/><rows/><token><username/><password/><nom>Jakjoud Abdeslam</nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId>" + $scope.appauth.sessionId + "</sessionId><status>SUCCES</status><id>206</id><beanId>0</beanId></token><expired></expired><unrecognized></unrecognized><status></status><operation>GET</operation>"+
+    "<clauses>"+ requestemailverification +"</clauses><page>1</page><pages>10</pages><nbpages>100</nbpages><iddriver>0</iddriver><ignoreList></ignoreList></fr.protogen.connector.model.DataModel>";
+
+    $http(
+    {
+        method  : 'POST',
+        url     : 'http://ns389914.ovh.net:8080/tolk/api/das',
+        data    :  $requestdataemail,
+        headers: {"Content-Type": 'text/xml'}
+    })
+    .success(function(data)
+    {
+      $scope.message_de_verification = "";
+      datajson=formatString.formatServerResult(data);
+      console.log("answer"+datajson);
+        if (datajson.dataModel.status != "FAILURE")
+        {
+          console.log(datajson);
+          if (datajson.dataModel.rows != "") 
+          {
+             popup.showpopup("L'email saisi existe déjà");
+             return;
+          }
+          else
+          {
+              $state.go('inscription4');
+          }
+        }
+        else
+        {
+            popup.showpopup("Probleme de connexion");
+            return;
+        }
+
+    })
+    .error(function(data) //
+    {
+      $scope.message_de_verification = "";
+        popup.showpopup("Probleme de connexion, vérifier cotre connexion et réessayer");
+        return;
+    });
+
+    
+  };
+
 
 })
 
-.controller('inscription4Ctrl',function($scope,$state,$http,xmlParser,docteurInscription,appAuthentification)
+.controller('inscription4Ctrl',function($scope,$state,$ionicHistory,$http,xmlParser,docteurInscription,appAuthentification)
 {
 
   $scope.dr = docteurInscription;
+  $scope.showRefresh = false;
   // $scope.dr.civilite = "Dr";
   // $scope.dr.prenom = "Alexandre";
   // $scope.dr.nom = "Durand";
   $scope.appauth = appAuthentification;
   console.log("controller 4");
 
-  $scope.connexion = function()
-  {
-    $state.go('connexion');
-  };
 
   $scope.accueil = function()
   {
-    $state.go('accueil');
+    $ionicHistory.goBack(-4);
   };
 
   $scope.inscriptionenligne =function()
   {
+    $scope.showRefresh = false;
 
     console.log("Session: "+$scope.appauth.sessionId);
+    $scope.message_de_confirmation = "Veuillez patienter pendant la création de votre compte";
     if ($scope.appauth.sessionId == "")
     {
 
@@ -1417,18 +1527,25 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
             if (datajson['fr.protogen.connector.model.DataModel'].status != "FAILURE")
             {
               console.log(datajson);
+              $scope.message_de_confirmation = "Vous allez recevoir un SMS de connexion";
+
               // $scope.setAdresses(datajson['fr.protogen.connector.model.DataModel']['rows']['fr.protogen.connector.model.DataRow']);
             }
             else
             {
               $scope.erreur = "Probleme serveur";
+              $scope.message_de_confirmation = "Une erreur est survenue, veuillez réesseyer SVP";
+              $scope.showRefresh = true;
             }
 
           })
           .error(function(data) //
           {
-            console.log(data);
+             console.log(data);
              console.log("erreur");
+             $scope.message_de_confirmation = "Une erreur est survenue, veuillez réesseyer SVP";
+             $scope.showRefresh = true;
+
           });
 
 
