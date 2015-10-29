@@ -147,7 +147,7 @@ angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontroller
       {
         name: 'accueil',
         url: '/',
-        templateUrl: 'views/accueil.html'
+        templateUrl: 'views/mescorrespondants.html'
       })
       .state('home',
       {

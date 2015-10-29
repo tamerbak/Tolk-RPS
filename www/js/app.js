@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontrollers', 'datacontrollers', 'moduleinscriptions', 'moduleconnexion'])
+angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontrollers', 'datacontrollers', 'moduleinscriptions', 'moduleconnexion','modulecorrespondants'])
 
   .run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
@@ -147,7 +147,7 @@ angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontroller
       {
         name: 'accueil',
         url: '/',
-        templateUrl: 'views/accueil.html'
+        templateUrl: 'views/mescorrespondants.html'
       })
       .state('home',
       {
@@ -217,6 +217,13 @@ angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontroller
         url: '/mescorrespondants',
         templateUrl: 'views/mescorrespondants.html'
       })
+      .state('ajouterCorrespondant',
+      {
+        cache: false,
+        name: 'ajouterCorrespondant',
+        url: '/mescorrespondants/ajoutercorrespondant',
+        templateUrl: 'views/ajoutercorrespondant.html'
+      })
       .state('correspondant',
       {
         name: 'correspondant/:param1',
@@ -225,6 +232,7 @@ angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontroller
       })
       .state('messageconsultation',
       {
+        cache: false,
         name: 'messageconsultation/:param1/:param2',
         url: '/messageconsultation/:param1/:param2',
         templateUrl: 'views/messageconsultation.html'

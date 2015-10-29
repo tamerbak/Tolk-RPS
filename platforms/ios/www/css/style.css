@@ -2313,6 +2313,43 @@ color: #e14640;
   margin-top: 10px;
   margin-bottom: 10px;
 }
+.mescorrespondants_bar
+{
+	border-bottom: 1px solid #ddd;
+	height: 44px;
+	position: relative;
+}
+.mescorrespondants_titre
+{
+	font-size: 15px;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 500;
+    line-height: 44px;
+}
+.mescorrespondants_bar_button
+{
+	padding: 0px !important;
+	font-size: 15px !important;
+	min-height: 31px;
+    line-height: 32px;
+    font-weight: 300;
+}
+
+.mescorrespondants_list_item
+{
+	border-width: 0px !important;
+	border-top: 0px !important;
+	border-left: 0px !important;
+	border-right: 0px !important;
+	border-bottom: 1px solid #ddd !important;
+
+}
+.col-bar
+{
+	padding: 0px;
+}
 .messages_right_icon
 {
   text-align: right;
@@ -2511,7 +2548,7 @@ color: #e14640;
 .btn_white
 {
 	color: white !important;
-}o
+}
 
 input::-webkit-input-placeholder
 {

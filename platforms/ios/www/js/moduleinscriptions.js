@@ -4,7 +4,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 //=================================
 //=================================    Insriptions
 //=================================
-.controller('inscription1Ctrl',function($ionicHistory,$scope,$state,$http,$ionicPopup,xmlParser,docteurInscription,appAuthentification,formatString)
+.controller('inscription1Ctrl',function($ionicHistory,$scope,$state,$http,popup,$ionicPopup,xmlParser,docteurInscription,appAuthentification,formatString)
 {
 
   $scope.dr = docteurInscription;
@@ -428,16 +428,74 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
         console.log("dataRow lenght : "+ rows[0].dataRow.dataEntry.length);
         if (rows[0].dataRow.dataEntry[j].attributeReference == "pk_user_praticien")
         {
-
           $scope.dr.praticien_id = rows[0].dataRow.dataEntry[j].value;
         }
       }
       console.log("praticien_id: ");
       console.log($scope.dr.praticien_id);
 
-      $state.go('inscription2');
+      $scope.compte_existant_verification($scope.dr.praticien_id)
+      
 
   };
+
+  $scope.compte_existant_verification = function(praticien_id)
+  {
+        //verification de l'email
+    $scope.message_de_verification = "Vérification du compte";
+    requestcompteverification = "<fr.protogen.connector.model.SearchClause>" +
+                            "<field>fk_user_praticien</field>" +
+                            "<clause></clause>"  +
+                            "<gt>"+praticien_id+"</gt>" +
+                            "<lt>"+praticien_id+"</lt>" +
+                            "<type>fk_user_praticien</type>"  +
+                            "</fr.protogen.connector.model.SearchClause>";
+
+    $requestdatacompte = "<fr.protogen.connector.model.DataModel><entity>user_compte</entity><dataMap/><rows/><token><username/><password/><nom>Jakjoud Abdeslam</nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId>" + $scope.appauth.sessionId + "</sessionId><status>SUCCES</status><id>206</id><beanId>0</beanId></token><expired></expired><unrecognized></unrecognized><status></status><operation>GET</operation>"+
+    "<clauses>"+ requestcompteverification +"</clauses><page>1</page><pages>10</pages><nbpages>100</nbpages><iddriver>0</iddriver><ignoreList></ignoreList></fr.protogen.connector.model.DataModel>";
+
+    $http(
+    {
+        method  : 'POST',
+        url     : 'http://ns389914.ovh.net:8080/tolk/api/das',
+        data    :  $requestdatacompte,
+        headers: {"Content-Type": 'text/xml'}
+    })
+    .success(function(data)
+    {
+      $scope.message_de_verification = "";
+      datajson=formatString.formatServerResult(data);
+      console.log("answer"+datajson);
+        if (datajson.dataModel.status != "FAILURE")
+        {
+          console.log(datajson);
+          if (datajson.dataModel.rows != "") 
+          {
+             popup.showpopup("Ce praticien a déjà un compte, si vous avez oublié vos identifiants, allez sur la page connexion et choisissez mot de passe oublié.");
+             return;
+          }
+          else
+          {
+              $state.go('inscription2');
+          }
+        }
+        else
+        {
+            popup.showpopup("Probleme de connexion");
+            return;
+        }
+
+    })
+    .error(function(data) //
+    {
+      $scope.message_de_verification = "";
+        popup.showpopup("Probleme de connexion, vérifier cotre connexion et réessayer");
+        return;
+    });
+
+  };
+
+
 
   $scope.accueil = function()
   {
