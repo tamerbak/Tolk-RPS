@@ -1484,6 +1484,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 
   $scope.inscrirelepraticien = function()
   {
+    console.log("inscrirelepraticien");
     if ($scope.dr.praticien_id == "")
     {
         $http(
@@ -1503,14 +1504,15 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
             }
             else
             {
+                console.log("erreur status gde");
                 $scope.message_de_confirmation = "Une erreur est survenue, veuillez réesseyer SVP";
                 $scope.showRefresh = true;
-
             }
         })
         .error(function(data) //
         {
              console.log(data);
+             console.log("erreur http gde");
              $scope.message_de_confirmation = "Une erreur est survenue, veuillez réesseyer SVP";
              $scope.showRefresh = true;
 
@@ -1550,7 +1552,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
                                   "<attributeReference>fk_user_praticien</attributeReference>" +
                                   "<type>fk_user_praticien</type>" +
                                   "<list/>" +
-                                  "<value>"+ $scope.dr.praticien_id+"</value>"
+                                  "<value>"+ $scope.dr.praticien_id+"</value>"+
                               "</fr.protogen.connector.model.DataEntry>" +
 
                               "<fr.protogen.connector.model.DataEntry>" +
@@ -1629,7 +1631,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
             }
             else
             {
-              $scope.erreur = "Probleme serveur";
+              console.log("erreur success compte");
               $scope.message_de_confirmation = "Une erreur est survenue, veuillez réesseyer SVP";
               $scope.showRefresh = true;
             }
@@ -1638,7 +1640,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
           .error(function(data) //
           {
              console.log(data);
-             console.log("erreur");
+             console.log("erreur http compte");
              $scope.message_de_confirmation = "Une erreur est survenue, veuillez réesseyer SVP";
              $scope.showRefresh = true;
 
@@ -1646,7 +1648,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 
     };
 
-        //$scope.inscriptionenligne();
+        $scope.inscriptionenligne();
         /*
                                       "<fr.protogen.connector.model.DataEntry>" +
                                   "<label>&lt;![CDATA[lien]]&gt;</label>" +
