@@ -1533,7 +1533,7 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova'])
             }
             */
         })
-        .error(function(data) //
+        .error(function(data) 
         {
              console.log(data);
              console.log("erreur http gde");
