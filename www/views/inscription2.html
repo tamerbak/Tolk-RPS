@@ -33,11 +33,11 @@
                 <div class="row row_element_5">
                     <div class="col-20 col_inscription">
                         <label class="inscription_4_label" style="margin-top:-4vh;">
-                            <input type="text" name="adresse_num" ng-model="dr.adresse_num" class="inscription_3_input inscription_3_input_2" placeholder="Num"/>
+                            <input type="text" name="adresse_num" ng-model="dr.adresse_num" class="inscription_3_input inscription_3_input_2" placeholder="N&deg;"/>
                         </label>
                     </div>
                     <div class="col-80 col_inscription">
-                        <autocomplete id="autocomplete-adresse" class="inscription_autocomplete inscription_2_input_bottom_space" ng-model="dr.adresse" data="adresses" on-type="updateAdresses" attr-placeholder="Adresse">
+                        <autocomplete id="autocomplete-adresse" class="inscription_autocomplete inscription_2_input_bottom_space" ng-model="dr.adresse" data="adresses" on-type="updateAdresses" attr-placeholder="Rue/Voie">
                         </autocomplete>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
                 <div class="row row_element_5">
                     <div class="col col_inscription">
                         <center>
-                            <p class="inscription_1_info_bottom" ng-click="showMapa()"> &gt; Vérifier vote adresse sur le plan</p>
+                            <a class="inscription_1_info_bottom" ng-click="showMap()"> &gt; Vérifier votre adresse sur le plan</a>
                         </center>
                     </div>
                 </div>
