@@ -2,13 +2,13 @@ angular.module('moduleconnexion',[])
 //=========================================
 //=========================================   connexion
 //=========================================
-.controller('connexionCtrl',function($scope,$state,$http,$ionicHistory,xmlParser,appAuthentification,docteurAuthentification)
+.controller('connexionCtrl',function($scope,$state,$http,$ionicHistory,popup,xmlParser,appAuthentification,docteurAuthentification)
 {
   $scope.appauth = appAuthentification;
   $scope.doctauth = docteurAuthentification;
 
 //$scope.tel="003311111111";
- $scope.tel = "0200";
+ $scope.tel = "0110";
  $scope.mdp = "1234";
 
  $scope.accueil = function()
@@ -40,9 +40,15 @@ angular.module('moduleconnexion',[])
 
   $scope.seconnecter = function()
   {
-      if($scope.tel == "" || $scope.mdp == "")
+      if($scope.tel == "")
       {
-          $scope.msg = "Vous devez remplir tous les champs!";
+          popup.showpopup("Veuillez saisir votre identifiant (votre numéro de tel");
+          return;
+      }
+
+      if($scope.mdp == "")
+      {
+          popup.showpopup("Veuillez saisir votre mot de passe");
           return;
       }
 
@@ -602,8 +608,14 @@ angular.module('moduleconnexion',[])
   {
     var re = /^([a-zA-Z0-9])+([a-zA-Z0-9._%+-])+\@([a-zA-Z0-9_.-])+\.(([a-zA-Z]){2,6})$/;
 
-    if (!re.test($scope.email) || $scope.email == "")
+    if ($scope.email == "")
     {
+        popup.showpopup("Veuillez saisir votre email");
+        return;
+    }
+    if (!re.test($scope.email))
+    {
+      popup.showpopup("Veuillez saisir un email valid.");
         return;
     }
 

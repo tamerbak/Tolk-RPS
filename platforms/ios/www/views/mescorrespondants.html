@@ -32,7 +32,7 @@
 
           <div class="col col-20 col-bar">
               <div class="buttons messages_right_icon" >
-                  <button class="button button-clear icon ion-person-add button-dark mescorrespondants_bar_button" ng-click="addSomething()"></button>
+                  <button ng-click="ajoutercorrespondant()" class="button button-clear icon ion-person-add button-dark mescorrespondants_bar_button"></button>
               </div>
           </div>
           <div class="clearboth"></div>
@@ -43,14 +43,28 @@
           <div ng-show="showAucunCorrespondant" class="row row-center message_nomessage">
             <p class="message_nomessage_p">Pas de correspondant, commencer par en ajouter</p>
           </div>
+
+          <ion-list>
+              <ion-item ng-repeat="correspondant in doctauth.correspondants" class="item item-avatar item-icon-right mescorrespondants_list_item" ng-click="correspondantDetail('{{correspondant.id}}')">
+                  <img ng-src="img/ionic.png"><!--"{{item.img}}"-->
+                  <h2>{{correspondant.name}}</h2>
+                  <p>{{correspondant.lastMessage.object}}</p>
+                  <i class="icon ion-ios-arrow-right"></i>
+                  <ion-option-button class="button-positive" ng-click="share(item)">Share</ion-option-button>
+                  <ion-option-button class="button-info" ng-click="edit(item)">Edit</ion-option-button>
+                  <ion-delete-button class="ion-minus-circled" ng-click="items.splice($index, 1)"></ion-delete-button>
+                  <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(item, $fromIndex, $toIndex)"></ion-reorder-button>
+              </ion-item>
+          </ion-list>
+
           <!-- ng-click="correspondant({{correspondant.name}}) -->
-          <a class="item item-avatar mescorrespondants_list_item" ng-repeat="correspondant in doctauth.correspondants"
+          <a class="item item-avatar mescorrespondants_list_item item-icon-right" ng-repeat="correspondant in doctauth.correspondants"
              ng-click="correspondantDetail('{{correspondant.id}}')">
             <img src="img/ionic.png">
 
             <h2>{{correspondant.name}}</h2>
-
             <p>{{correspondant.lastMessage.object}}</p>
+            <i class="icon ion-ios-arrow-right"></i>
           </a>
         </div>
       </div>

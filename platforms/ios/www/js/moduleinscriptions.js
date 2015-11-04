@@ -312,14 +312,28 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
       $state.go('accueil');
       return;
     }
-    if ($scope.dr.prenom == "" || $scope.dr.nom == "" || $scope.dr.civilite == "" || $scope.dr.specialite == "")
+    if ($scope.dr.specialite == "")
     {
-      var alertPopup = $ionicPopup.alert(
-      {
-        title: 'Tolk',
-        template: "Vous devez remplir tous les champs!"
-      });
-      return
+      popup.showpopup("Veuillez saisir votre specialité");
+      return;
+    }
+
+    if ($scope.dr.nom == "")
+    {
+      popup.showpopup("Veuillez saisir votre nom");
+      return;
+    }
+
+    if ($scope.dr.prenom == "")
+    {
+      popup.showpopup("Veuillez saisir votre prénom");
+      return;
+    }
+
+    if ($scope.dr.civilite == "")
+    {
+      popup.showpopup("Veuillez saisir votre civilité");
+      return;
     }
 
     var requestPrenom = "";
@@ -328,13 +342,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 
     if (($scope.specialites_id[$scope.dr.specialite] == null) || ($scope.specialites_id[$scope.dr.specialite] == ""))
     {
-      var alertPopup = $ionicPopup.alert(
-      {
-        title: 'Tolk',
-        template: "La spécialité selectionnée n'existe pas."
-      });
-       alert("Spécialité n'existe pas");
-       return;
+      popup.showpopup("La spécialité selectionnée n'existe pas.");
     }
 
     requestSpecialitee = "<fr.protogen.connector.model.SearchClause>" +
@@ -540,25 +548,26 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 
     if ($scope.dr.cp == "")
     {
-        popup.showpopup("Vous devez entrer un code postal.");
+
+        popup.showpopup("Veuillez saisir votre code postal.");
         return; 
     }
 
     if ($scope.dr.ville == "")
     {
-        popup.showpopup("Vous devez choisir une ville.");
+        popup.showpopup("Veuillez saisir votre ville.");
         return; 
     }
 
     if ($scope.dr.adresse_num == "")
     {
-        popup.showpopup("Vous devez entrer le numéro de l'adresse.");
+        popup.showpopup("Veuillez saisir le numéro de votre adresse.");
         return; 
     }
 
     if ($scope.dr.adresse == "")
     {
-        popup.showpopup("Vous n'avez pas saisi votre adresse."); 
+        popup.showpopup("Veuillez saisir votre adresse."); 
         return; 
     }
 
@@ -1260,13 +1269,13 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 
     if ($scope.dr.tel == "")
     {
-        popup.showpopup("Vous devez insérer votre numéro de téléphone.");
+        popup.showpopup("Veuillez saisir votre numéro de téléphone.");
         return; 
     }
 
     if ($scope.dr.email == "")
     {
-        popup.showpopup("Vous devez entrer votre email."); 
+        popup.showpopup("Veuillez saisir votre email."); 
         return; 
     }
 

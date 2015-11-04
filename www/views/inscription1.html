@@ -26,15 +26,14 @@
 -->
       <div class="row inscription_first_row">
           <div class="col col_inscription">
-              <autocomplete id="autocomplete-specialite" class="inscription_autocomplete inscription_element_"
-                       ng-model="dr.specialite" data="specialites" on-type="updatespecialite"
+              <autocomplete id="autocomplete-specialite" class="inscription_autocomplete inscription_element_" ng-model="dr.specialite" attr-focus="viderSpecialite()" attr-inputid="abc" data="specialites" on-type="updatespecialite" 
                        attr-placeholder="Votre Specialite">
               </autocomplete>
           </div>
       </div>
        <div class="row"><div class="col col_inscription">
          <autocomplete id="autocomplete-nom" class="inscription_autocomplete inscription_element_" ng-model="dr.nom"
-                       data="lastNames" on-type="updateNomPrenom" attr-placeholder="Votre Nom">
+                       data="lastNames" on-type="updateNomPrenom" attr-placeholder="Votre Nom" >
          </autocomplete>
        </div></div>
        <div class="row"><div class="col col_inscription">
@@ -51,16 +50,10 @@
        </div></div>
        <div class="row"><div class="col col_inscription" style="padding: 0;">
          <p class="inscription_1_info_bottom">
-           Si votre spécialité n'apparait pas dans la liste,<br />contactez nous
+           Si votre spécialité n'apparait pas dans la liste,<br />contactez-nous
            <br /><u>support@me.com</u> - <b id="phonenumber">01 85 08 92 69</b>
          </p>
        </div></div>
-
-
-
-
-
-
 
 
       </div>

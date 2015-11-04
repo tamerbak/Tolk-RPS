@@ -10,6 +10,11 @@
   <content src="index.html"/>
   <access origin="*"/>
 
+  <preference name="KeyboardDisplayRequiresUserAction" value="false" />
+  <feature name="Keyboard">
+      <param name="ios-package" value="IonicKeyboard" onload="true" />
+  </feature>
+
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>

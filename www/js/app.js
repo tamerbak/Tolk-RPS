@@ -132,7 +132,7 @@ angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontroller
     {
         var alertPopup = $ionicPopup.alert(
         {
-          title: 'Tolk',
+          title: '<img src="img/logo_TOLK_me_rouge_sur_transparent.svg" class="logo_popup">',
           template: message
         });
     }
@@ -147,7 +147,7 @@ angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontroller
       {
         name: 'accueil',
         url: '/',
-        templateUrl: 'views/mescorrespondants.html'
+        templateUrl: 'views/accueil.html'
       })
       .state('home',
       {

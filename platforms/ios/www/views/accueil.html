@@ -1,5 +1,5 @@
-<ion-view view-title="Page d'accueil">
-  <ion-content class="padding screen" ng-controller="accueilCtrl" has-bouncing="false">
+<ion-view view-title="Page d'accueil"  ng-controller="accueilCtrl">
+  <ion-content class="padding screen" has-bouncing="false">
 
     <header class="accueil_header">
       <div><img src="img/logo_tolk_v2.png" class="tolk_img"></div>
@@ -7,8 +7,7 @@
     </header>
 
     <article class="accueil_article rslides" id="slider1">
-      <ion-slide-box auto-play="true" number="5000" does-continue="true" on-slide-changed="slideHasChanged($index)"
-                     show-pager="false">
+      <ion-slide-box auto-play="true" number="5000" does-continue="true" on-slide-changed="slideHasChanged($index)" show-pager="false">
 
         <!-- =========== Slide 1 =========-->
         <ion-slide>
@@ -43,7 +42,7 @@
           <section>
             <p class="accueil_optimisez">Maîtrisez</p>
 
-            <p class="accueil_desc">votre pr&eacute;sence Internet</p>
+            <p class="accueil_desc">votre identité professionnelle</p>
 
             <div class="accueil_bull_position">
               <div class="accueil_page-bull"></div>

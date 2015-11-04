@@ -13,50 +13,46 @@
     <article class="correspondant_article" style="background-color: white;">
 
       <div class="list">
-        <div class="bar item" style="width:inherit;">
-          <ion-header-bar class="bar-stable row">
-            <button ng-click="goBack()" class="button button-clear button-dark">
-              <i class="ion-chevron-left"></i>
-              <span style="font-weight:800;">Retour</span>
-            </button>
+          <div class="bar row row-center mescorrespondants_bar" style="width:inherit;">
 
-            <h1 class="title">{{$praticienCorrespondant.name}}</h1>
+              <div class="col col-25 col-bar">
+                  <button ng-click="goBack()" class="button button-clear button-dark mescorrespondants_bar_button">
+                      <i class="ion-chevron-left"></i>
+                      <span style="font-weight:800;">Retour</span>
+                  </button>
+              </div>
+    
+              <div class="col col-65 col-bar mescorrespondants_titre">
+                  <span class="">{{$praticienCorrespondant.name}}</span>
+              </div>
+    
+              <div class="col col-20 col-bar">
+                  <div class="buttons messages_right_icon" >
+                      <button ng-click="ajoutercorrespondant()" class="button button-clear icon button-dark mescorrespondants_bar_button">Profile</button>
+                  </div>
+              </div>
+              <div class="clearboth"></div>
+          </div>
 
-            <button class="button button-clear button-dark" ng-click="addSomething()">Profile</button>
-
-          </ion-header-bar>
-        </div>
-
-        <!-- ng-click="correspondant({{correspondant.name}}) -->
-        <ion-nav-view name="navigation">
+        <div class="">
           <div ng-show="showAucunMessage" class="row row-center message_nomessage">
             <p class="message_nomessage_p">Aucun <br/>message</p>
           </div>
 
-          <div ng-show="showList">
-            <div ng-repeat="message in messagesView">
-              <a class="item padding" ng-click="correspondantMessage('{{idCorrespondant}}','{{message.id}}')">
-                <div class="row row-center">
-                  <div class="col-10">
-                    <i class="{{message.icon}} fa-2x"></i>
-                  </div>
+          <ion-list ng-show="showList">
+              <ion-item ng-repeat="message in messagesView" class="item item-icon-left item-icon-right mescorrespondants_list_item" ng-click="correspondantMessage('{{idCorrespondant}}','{{message.id}}')">
+                  <i class="icon {{message.icon}} fa-2x"></i>
+                  <h2>{{message.objet}}</h2>
+                  <p>{{message.datenvoie}}</p>
+                  <i class="icon ion-ios-arrow-right"></i>
+                  <ion-option-button class="button-positive" ng-click="share(item)">Share</ion-option-button>
+                  <ion-option-button class="button-info" ng-click="edit(item)">Edit</ion-option-button>
+                  <ion-delete-button class="ion-minus-circled" ng-click="items.splice($index, 1)"></ion-delete-button>
+                  <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(item, $fromIndex, $toIndex)"></ion-reorder-button>
+              </ion-item>
+          </ion-list>
 
-                  <div class="col-80">
-                    <h2>{{message.objet}}</h2>
-                    <p>{{message.datenvoie}}</p>
-                  </div>
-
-                  <div class="col-10 messages_right_icon">
-                    <i class="ion-chevron-right"></i>
-                  </div>
-
-                </div>
-
-              </a>
-            </div>
-
-          </div>
-        </ion-nav-view>
+        </div>
       </div>
     </article>
 

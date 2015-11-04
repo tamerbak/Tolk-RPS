@@ -1,8 +1,11 @@
 angular.module('accueilcontrollers', [])
-.controller('accueilCtrl',function($scope,$ionicHistory,$state,$http,xmlParser,appAuthentification)
+.controller('accueilCtrl',function($scope,$ionicHistory,$state,$http,xmlParser,appAuthentification,$ionicSlideBoxDelegate)
 {
-  $ionicHistory.clearHistory();
-  console.log("called");
+  $scope.$on('$ionicView.enter', function()
+  {
+      $ionicSlideBoxDelegate.start();
+    
+  });
 
 	$scope.appauth = appAuthentification;
   	if ($scope.appauth.sessionId == null || $scope.appauth.sessionId == "")
@@ -20,6 +23,7 @@ angular.module('accueilcontrollers', [])
              $scope.appauth.sessionId = datajson['fr.protogen.connector.model.AmanToken'].sessionId;
              console.log($scope.appauth.sessionId);
 
+
           })
           .error(function(data) //
           {
@@ -28,6 +32,8 @@ angular.module('accueilcontrollers', [])
           });
 
     };
+
+
   $scope.accueil = function()
   {
     $state.go('accueil');

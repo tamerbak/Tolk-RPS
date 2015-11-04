@@ -34,6 +34,16 @@ app.directive('autocomplete', function() {
         return $scope.selectedIndex;
       };
 
+      $scope.viderchamp = function(element)
+      {
+
+        if (element.target.id == "abc") 
+        {
+          element.target.value = "";
+
+        };
+      };
+
       // watches if the parameter filter should be changed
       var watching = true;
 
@@ -248,6 +258,7 @@ app.directive('autocomplete', function() {
             placeholder="{{ attrs.placeholder }}"\
             class="{{ attrs.inputclass }}"\
             id="{{ attrs.inputid }}"\
+            ng-focus = "viderchamp($event)"\
             ng-required="{{ autocompleteRequired }}" />\
           <ul ng-show="completing && (suggestions | filter:searchFilter).length > 0">\
             <li\
