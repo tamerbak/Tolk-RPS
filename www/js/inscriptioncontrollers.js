@@ -1,4 +1,4 @@
-angular.module('inscriptioncontrollers', ['autocomplete'])
+angular.module('inscriptioncontrollers', ['autocomplete', 'fileServices'])
 
 
 //=========================================
@@ -52,7 +52,7 @@ angular.module('inscriptioncontrollers', ['autocomplete'])
 //=========================================
 //=========================================   Menu general
 //=========================================
-.controller('menu_generalCtrl',function($scope,$state,$http,xmlParser,appAuthentification,docteurAuthentification)
+.controller('menu_generalCtrl',function($scope,$rootScope,$state,$http,xmlParser,appAuthentification,docteurAuthentification)
 {
   $scope.appauth = appAuthentification;
   $scope.doctauth = docteurAuthentification;
@@ -61,6 +61,12 @@ angular.module('inscriptioncontrollers', ['autocomplete'])
   {
     $state.go('mescorrespondants');
   };
+  
+	$scope.loadAllComptes= function(){
+		$state.go('mescontacts');
+		console.log("Je suis dans loadAllComptes() - Menu General");
+		//$rootScope.$broadcast('load-list-comptes', {params: {'fk':"ff"}});
+	}
 
 })
 
@@ -261,25 +267,88 @@ angular.module('inscriptioncontrollers', ['autocomplete'])
   };
 
 })
-.controller('profileCtrl',function($scope,$state,docteurAuthentification,appAuthentification){
-    $scope.appauth = appAuthentification;
-  $scope.doctauth = docteurAuthentification;
-  $scope.profile = function()
-  {
-    $state.go('profile');
-  }
-})
+		
+		// MODIFIER PAR OMAR - 04-11-2015
+		.controller('profileCtrl',function($scope,$state,docteurAuthentification,appAuthentification, UploadFile){
+			
+			$scope.appauth = appAuthentification;
+			$scope.doctauth = docteurAuthentification;
+			$scope.formData={};
+			$scope.formData.imageProfile="img/1.48.jpg";
+			
+			$scope.profile = function(){
+				$state.go('profile');
+			}
+			
+			$scope.$on("$ionicView.beforeEnter", function(scopes, states){
+				console.log("je suis ds $ionicView.beforeEnter");
+				$scope.init();
+			});
+			
+			$scope.init=function(){
+				// INITIALISATION 
+				$scope.formData.imageProfile=docteurAuthentification.imageP;
+				if($scope.formData.imageProfile.length <= 0)
+					$scope.formData.imageProfile=docteurAuthentification.imageP;
+			}
+			
+			$scope.loadImage=function(img){
+			
+				console.log("files.length : "+img.files.length);
+				console.log("files[0] : "+img.files[0]);
+				
+				function el(id){
+					var elem = document.getElementById(id);
+					if(typeof elem !== 'undefined' && elem !== null){
+						return elem;
+					}
+				} // Get elem by ID
+				
+				if(img.files && img.files[0]){
+				
+					var FR= new FileReader();
+					FR.onload = function(e){
+						// RECUPERE FILE-NAME
+						$scope.formData.imageName=img.files[0].name;
+						// RECUPERE ENCODAGE-64
+						$scope.formData.imageEncode=e.target.result;
+						console.log("image : "+$scope.formData.imageEncode);
+						console.log("id_compte : "+$scope.doctauth.id_compte)
+						$scope.doctauth.imageP=$scope.formData.imageEncode;
+						
+						// PERSIST IN BD
+						UploadFile.uploadFile("user_compte", $scope.formData.imageEncode, $scope.doctauth.id_compte)
+							.then(
+								function(resp){
+									
+									// UPDATE IMAGE
+									el('imgP').src=$scope.formData.imageEncode;
+									el('Mbody').style.backgroundImage='url("'+$scope.formData.imageEncode+'")';
+									// SET EN SERVICE
+									docteurAuthentification.imageP=$scope.formData.imageEncode;
+								},
+								function(err){
+									console.log("une erreur est survenue lors d'Upload Image");
+								}
+							);
+					};       
+					FR.readAsDataURL(img.files[0]);
+					//$scope.$apply(function(){});
+				}
+			}
+		})
+		
 .controller('promo1Ctrl',function($scope,$state){
-  $scope.promo1 = function()
-  {
-    $state.go('promo1');
-  }
-})
+	 $scope.promo1 = function()
+		{
+			$state.go('promo1');
+		  }
+		})
 .controller('previsualisationCtrl',function($scope,$state){
-  $scope.previsualtions = function()
-  {
-    $state.go('previsualtion');
-  };
+		  $scope.previsualtions = function()
+		  {
+			$state.go('previsualtion');
+		  };
 
 })
 

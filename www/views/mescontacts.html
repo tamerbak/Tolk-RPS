@@ -1,0 +1,20 @@
+<ion-view view-title="mes_contacts">
+
+  <ion-content ng-controller="mesContactsCtrl" class="padding" has-bouncing="false" overflow-scroll="true" data-ng-init="initComptes()">
+
+
+    <header class="menu_general_header">
+      <!--  <span><i class="fa ion-navicon-round fa-2x menu_general_img_toggle"></i></span> -->
+		<span><img src="img/logo_tolk_v2.png" class="menu_general_tolk_img"></span>
+		<span class="menu_general_docteur">
+			<span>{{doctauth.civilite + ' ' +doctauth.prenom+ ' '+ doctauth.nom}}</span>
+			<span class="menu_general_profil_bull"><i class="fa fa-user-md fa-2x menu_general_profil_img"></i></span>
+		</span>
+
+      <div class="clearboth"></div>
+    </header>
+
+  </ion-content>
+</ion-view>
+
+

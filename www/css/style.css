@@ -145,6 +145,25 @@ ion-view
 	{
 		display: none;
 	}
+	
+	.effet_bright{
+		position: fixed;
+		margin: -60%;
+		top: 35%;
+		left: 10%;
+		right: 0;
+		z-index: -1;
+		display: block;
+		
+		background-image: url('img/1.48.jpg');background-size: cover;
+		width: 170%;
+		height: 100%;
+		-webkit-filter:brightness(88%) blur(5px);
+		-moz-filter:brightness(88%) blur(5px);
+		-o-filter:brightness(88%) blur(5px);
+		-ms-filter:brightness(88%) blur(5px);
+		filter:brightness(88%) blur(5px);
+    }
   /****************/
 .accueil_titre
 {

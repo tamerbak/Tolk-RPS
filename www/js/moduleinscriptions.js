@@ -1,4 +1,4 @@
-angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCordova'])
+angular.module('moduleinscriptions', ['autocomplete','ngCordova'])
 
 
 //=================================

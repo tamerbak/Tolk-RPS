@@ -1,8 +1,8 @@
-angular.module('moduleconnexion',[])
+angular.module('moduleconnexion',['fileServices'])
 //=========================================
 //=========================================   connexion
 //=========================================
-.controller('connexionCtrl',function($scope,$state,$http,$ionicHistory,popup,xmlParser,appAuthentification,docteurAuthentification)
+.controller('connexionCtrl',function($scope,$state,$http,$ionicHistory,popup, formatString,xmlParser,appAuthentification,docteurAuthentification, UploadFile)
 {
   $scope.appauth = appAuthentification;
   $scope.doctauth = docteurAuthentification;
@@ -40,6 +40,13 @@ angular.module('moduleconnexion',[])
 
   $scope.seconnecter = function()
   {
+	  function el(id){
+		var elem = document.getElementById(id);
+		if(typeof elem !== 'undefined' && elem !== null){
+			return elem;
+		}
+	 } // Get elem by ID
+				
       if($scope.tel == "")
       {
           popup.showpopup("Veuillez saisir votre identifiant (votre numéro de tel");
@@ -54,7 +61,7 @@ angular.module('moduleconnexion',[])
 
       if ($scope.appauth.sessionId == null || $scope.appauth.sessionId == "")
       {
-        $state.goBack(-10);
+        $ionicHistory.goBack(-1);
       }
       else
       {
@@ -88,6 +95,32 @@ angular.module('moduleconnexion',[])
                       $scope.id_compte = $scope.id_compte.replace("<![CDATA[", "").replace("]]>", "");
                       console.log("Compte: "+$scope.id_compte);
                       $scope.doctauth.id_compte = $scope.id_compte;
+			  
+					  // RECUPERATION IMAGE PROFILE
+					  $scope.doctauth.imageP='';
+					  if($scope.id_compte){
+						  UploadFile.downloadFile('user_compte', Number($scope.id_compte))
+						  .then(
+							function(resp){
+								console.log('data : '+resp.data);
+								datajson=formatString.formatServerResult(resp.data);
+								// RECUPERATION IMAGE
+								//console.log("datajson : "+JSON.stringify(datajson.streamedFile.stream));
+								var stream=datajson.streamedFile.stream;
+								if(stream){
+									console.log("stream : "+stream);
+									docteurAuthentification.imageP=stream;
+									// UPDATE BACK-GROUND IMAGE
+									el('Mbody').style.backgroundImage='url("'+stream+'")';
+								}
+								
+							},
+							function(err){
+								console.log("une erreur est survenue lors telechargement d'image");
+							}
+						  )
+					  }
+			  
                     }
 
                     //Telephone
@@ -96,6 +129,7 @@ angular.module('moduleconnexion',[])
                        $scope.telephone = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
                        $scope.tele = $scope.telephone.replace("<![CDATA[", "").replace("]]>", "");
                         console.log("Telephone: "+$scope.tele);
+						$scope.doctauth.telephone = $scope.tele;
                       }
                       //Horaire
                     if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "horaire")
@@ -155,7 +189,7 @@ angular.module('moduleconnexion',[])
                       }
                   };
               };
-
+			  
              console.log(datajson);
              if($scope.doctauth.id_prat != null) $scope.praticienbyId();
 
