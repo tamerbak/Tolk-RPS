@@ -46,22 +46,24 @@
     <script src="js/accueilcontrollers.js"></script>
     <script src="js/inscriptioncontrollers.js"></script>
     <script src="http://example.gajotres.net/include/angular-google-maps/angular-google-maps.min.js"></script>
-    <script src="http://example.gajotres.net/include/loadsh/lodash.min.js"></script>
+  <script src="http://example.gajotres.net/include/loadsh/lodash.min.js"></script>
+    <!-- <script src="lib/angular-google-maps/dist/angular-google-maps.min.js"></script> -->
+    <!-- <script src="lib/lodash/lodash.min.js"></script> -->
 
     <script src="js/app.js"></script>
 
 
   </head>
-  <body ng-controller="MainController">
+  <body ng-controller="MainController" style="background-color : #656565;">
   <div class="image_menu_general"></div>
 
 
-    <ion-nav-view>
+    <ion-nav-view style="background-color : #656565;" class="slide-left-right">
 
     </ion-nav-view>
 
   </body>
 
-  <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+   <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
   <!--<script src="https://maps-api-ssl.google.cosm/maps/api/js?libraries=places"></script>-->
 </html>

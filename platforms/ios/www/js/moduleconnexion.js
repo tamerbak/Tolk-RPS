@@ -48,7 +48,7 @@ angular.module('moduleconnexion',[])
 
       if($scope.mdp == "")
       {
-          popup.showpopup("Veuillez saisir votre identifiant (votre numéro de tel");
+          popup.showpopup("Veuillez saisir votre mot de passe");
           return;
       }
 

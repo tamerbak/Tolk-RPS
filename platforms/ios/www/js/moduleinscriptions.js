@@ -343,6 +343,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
     if (($scope.specialites_id[$scope.dr.specialite] == null) || ($scope.specialites_id[$scope.dr.specialite] == ""))
     {
       popup.showpopup("La spécialité selectionnée n'existe pas.");
+      return;
     }
 
     requestSpecialitee = "<fr.protogen.connector.model.SearchClause>" +
@@ -418,32 +419,30 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
       if (rows == null)
       {   
 
-        var alertPopup = $ionicPopup.alert(
-        {
-          title: 'Tolk',
-          template: "Ce praticien n'existe pas!"
-        });
-        // $state.go('inscription2'); 
+        // popup.showpopup("Ce praticien n'existe pas!");
+          $scope.dr.praticien_id = "";
+          $state.go('inscription2'); 
         return; 
-      };
-
-      rows = [].concat( rows );
-      if (rows.length > 1) return;
-
-      console.log("rows lenght : "+ rows.length);
-      for (var j = 0; j < rows[0].dataRow.dataEntry.length ; j++)
-      {
-        console.log("dataRow lenght : "+ rows[0].dataRow.dataEntry.length);
-        if (rows[0].dataRow.dataEntry[j].attributeReference == "pk_user_praticien")
-        {
-          $scope.dr.praticien_id = rows[0].dataRow.dataEntry[j].value;
-        }
       }
-      console.log("praticien_id: ");
-      console.log($scope.dr.praticien_id);
+      else
+      {
+        rows = [].concat( rows );
+        if (rows.length > 1) return;
 
-      $scope.compte_existant_verification($scope.dr.praticien_id)
-      
+        console.log("rows lenght : "+ rows.length);
+        for (var j = 0; j < rows[0].dataRow.dataEntry.length ; j++)
+        {
+            console.log("dataRow lenght : "+ rows[0].dataRow.dataEntry.length);
+            if (rows[0].dataRow.dataEntry[j].attributeReference == "pk_user_praticien")
+            {
+                $scope.dr.praticien_id = rows[0].dataRow.dataEntry[j].value;
+            }
+        }
+        console.log("praticien_id: ");
+        console.log($scope.dr.praticien_id);
+
+        $scope.compte_existant_verification($scope.dr.praticien_id);
+      }
 
   };
 
@@ -1162,6 +1161,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
       {
           $state.go('inscription_map');
       }
+      $state.go('inscription_map');
   };
 
 
@@ -1179,7 +1179,8 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
             timeout: 20000,
             maximumAge: 0
         };
-        $cordovaGeolocation.getCurrentPosition(posOptions).then(function (position) {
+        $cordovaGeolocation.getCurrentPosition(posOptions).then(function (position) 
+        {
             var lat  = position.coords.latitude;
             var longi = position.coords.longitude;
 
@@ -1464,6 +1465,8 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
   {
     var requestInscription = "";
     var requestPraticien = "";
+    
+    $scope.message_de_confirmation = "Vous allez recevoir un SMS de connexion";
 
     if ($scope.dr.praticien_id == "")
     {
