@@ -673,10 +673,10 @@
     text-align: center;
   }
 
-  .firstconnexion2_Dr_alexandre {
+  .firstconnexion2_nom_prenom {
     color: white;
     font-family: bentonsansextralight;
-    font-size: 6vw;
+    font-size: 6.5vw;
     margin-top: 10vh;
     text-align: center;
   }
@@ -913,7 +913,7 @@
   /* ======================                        ======================
    * ======================   Mes correspondants   ======================
      ======================                        ======================*/
-  /* Background */
+  /* Background 
   .image_mescorrespondants {
     position: fixed;
     margin: -60%;
@@ -933,7 +933,7 @@
     -o-filter: brightness(88%) blur(24px);
     -ms-filter: brightness(88%) blur(24px);
     filter: brightness(88%) blur(24px);
-  }
+  }*/
 
   /* Header */
   .mescorrespondants_header {

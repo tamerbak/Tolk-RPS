@@ -177,8 +177,8 @@ angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontroller
       })
       .state('inscription_map',
       {
-        name: 'inscription_map',
-        url: '/inscription_map',
+        name: 'inscription_map/:lat/:lng',
+        url: '/inscription_map/:lat/:lng',
         templateUrl: 'views/inscription_map.html'
       })
       .state('inscription3',

@@ -117,7 +117,7 @@ ion-view
   height: 25vh;
 }
 /* Background */
-   .image_home_v2{
+  /* .image_home_v2{
      position: absolute;
 
      left:-10px;
@@ -140,7 +140,7 @@ ion-view
       -ms-filter:brightness(60%) blur(19px);
       filter:brightness(60%) blur(19px);
     }
-
+*/
     .scroll-bar-indicator
 	{
 		display: none;
@@ -2125,6 +2125,19 @@ color: #e14640;
 .image_menu_general
 {
     position: fixed;
+
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    display: block;
+    background-image: url(../img/bg.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+
+    /*
+
     margin: -60%;
     top: 35%;
     left: 10%;
@@ -2142,6 +2155,7 @@ color: #e14640;
     -o-filter:brightness(88%) blur(5px);
     -ms-filter:brightness(88%) blur(5px);
     filter:brightness(88%) blur(5px);
+    */
 }
 .menu_general_header
 {

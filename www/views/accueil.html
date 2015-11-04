@@ -1,5 +1,5 @@
 <ion-view view-title="Page d'accueil"  ng-controller="accueilCtrl">
-  <ion-content class="padding screen" has-bouncing="false">
+  <ion-content class="padding screen slide-left-right" has-bouncing="false">
 
     <header class="accueil_header">
       <div><img src="img/logo_tolk_v2.png" class="tolk_img"></div>
@@ -13,45 +13,31 @@
         <ion-slide>
           <section>
             <p class="accueil_optimisez">Optimisez</p>
-
             <p class="accueil_desc">votre r&eacute;seau de correspondants</p>
-
-            <div class="accueil_bull_position">
-              <div class="accueil_page-bull selected"></div>
-              <div class="accueil_page-bull"></div>
-              <div class="accueil_page-bull"></div>
-            </div>
           </section>
         </ion-slide>
         <!-- =========== Slide 2 =========-->
         <ion-slide>
           <section>
             <p class="accueil_optimisez">Suivez & partagez</p>
-
             <p class="accueil_desc">votre actualit&eacute; professionnelle</p>
-
-            <div class="accueil_bull_position">
-              <div class="accueil_page-bull"></div>
-              <div class="accueil_page-bull selected"></div>
-              <div class="accueil_page-bull"></div>
-            </div>
           </section>
         </ion-slide>
         <!-- =========== Slide 3 =========-->
         <ion-slide>
           <section>
             <p class="accueil_optimisez">Maîtrisez</p>
-
             <p class="accueil_desc">votre identité professionnelle</p>
-
-            <div class="accueil_bull_position">
-              <div class="accueil_page-bull"></div>
-              <div class="accueil_page-bull"></div>
-              <div class="accueil_page-bull selected"></div>
-            </div>
           </section>
         </ion-slide>
+
       </ion-slide-box>
+
+        <div class="accueil_bull_position">
+              <div class="accueil_page-bull {{page_bull_1}}"></div>
+              <div class="accueil_page-bull {{page_bull_2}}"></div>
+              <div class="accueil_page-bull {{page_bull_3}}"></div>
+        </div>
 
     </article>
 

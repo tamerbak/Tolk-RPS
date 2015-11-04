@@ -233,6 +233,9 @@ angular.module('inscriptioncontrollers', ['autocomplete'])
 {
   $scope.doctauth = docteurAuthentification;
 
+  $scope.doctauth.civilite = "Dr";
+  $scope.doctauth.prenom = "ALexandre";
+  $scope.doctauth.nom = "Durand";
   $scope.accueil = function()
   {
     $ionicHistory.goBack(-3);
@@ -246,21 +249,7 @@ angular.module('inscriptioncontrollers', ['autocomplete'])
     $state.go('menu_general');
   };
 })
-.controller('first_connexion_3Ctrl',function($scope,$state,appAuthentification,docteurAuthentification)
-{
-  $scope.appauth = appAuthentification;
-  $scope.doctauth = docteurAuthentification;
-  $scope.first_connexion_3 = function()
-  {
-    $state.go('first_connexion_3');
-  };
 
-  $scope.accueil = function()
-  {
-    $state.go('accueil');
-  };
-
-})
 .controller('profileCtrl',function($scope,$state,docteurAuthentification,appAuthentification){
     $scope.appauth = appAuthentification;
   $scope.doctauth = docteurAuthentification;
