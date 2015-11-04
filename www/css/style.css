@@ -169,12 +169,13 @@ ion-view
   text-align: center;
 }
 .accueil_page-bull {
-  width: 10px;
-  height: 10px;
+
+  width: 14px;
+  height: 14px;
   border: 1px solid white;
   margin: 4px;
-  border-radius: 5px;
-  float: left;
+  border-radius: 7px;
+  display: inline-block;
 }
 .accueil_page-bull.selected
 {
@@ -377,6 +378,7 @@ ion-view
 {
 	height: 11vh;
 }
+
 #inscription_merci
 {
     font-family: bentonsansExtralight;
@@ -558,6 +560,32 @@ ion-view
 	margin-top: 5px;
 
 }
+.inscription_2_info_bottom 
+{
+	font-family: bentonsansLight !important;
+	text-align: center;
+	font-weight: 700;
+	color: white;
+	margin-bottom: 0;
+    font-size: 5vw;
+ }
+ .inscription_2_label_num
+ {
+ 	background-color: transparent;
+    width: 100%;
+    color: white;
+    position: relative;
+    z-index: 2;
+    display: block;
+    font-size: 14px;
+    border-top: 0;
+    border-right: 0;
+    border-left: 0;
+    border-bottom: 1px solid white;
+    margin: auto;
+    text-align: center;
+    padding-bottom: 0px;
+ }
 #connexion_ceercomptered
 {
 	  color: #E94041;

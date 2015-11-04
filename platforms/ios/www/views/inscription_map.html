@@ -1,5 +1,5 @@
 <ion-view view-title="Inscription map">
-    <ion-content class="screen" height="100%" ng-controller="inscription2Ctrl"  has-bouncing="false"  data-tap-disabled="true">
+    <ion-content class="screen" height="100%" ng-controller="inscriptionMapCtrl"  has-bouncing="false"  data-tap-disabled="true">
 
 
 <!--       header avec logo      -->
@@ -12,7 +12,10 @@
             <a ng-click="goBack()" class="button button-clear button-light inscription-button-back">&lt;&nbsp;précédent</a>
             <div class="inscription_cadre">
 
-                <ui-gmap-google-map center='map.center' zoom='map.zoom'></ui-gmap-google-map>
+                <ui-gmap-google-map center='map.center' zoom='map.zoom'>
+                    <ui-gmap-marker coords='map.center' idkey='1' >
+                    </ui-gmap-marker>
+                </ui-gmap-google-map>
                 <!-- <div  data-tap-disabled="true" id="map"></div> -->
             </div>
 
