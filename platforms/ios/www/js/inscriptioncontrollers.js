@@ -233,9 +233,9 @@ angular.module('inscriptioncontrollers', ['autocomplete'])
 {
   $scope.doctauth = docteurAuthentification;
 
-  $scope.doctauth.civilite = "Dr";
-  $scope.doctauth.prenom = "ALexandre";
-  $scope.doctauth.nom = "Durand";
+  // $scope.doctauth.civilite = "Dr";
+  // $scope.doctauth.prenom = "ALexandre";
+  // $scope.doctauth.nom = "Durand";
   $scope.accueil = function()
   {
     $ionicHistory.goBack(-3);

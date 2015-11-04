@@ -112,21 +112,11 @@
 
    /* Article */
 
-   .accueil_article{
-    background-color: transparent;
-    height: 62vh;
-   }
     .accueil_bull_position{
     padding-top: 25vh;
     margin-left: 40%
     }
 
-
-   /* Footer */
-   .accueil_footer{
-    background-color: transparent;
-    height: 10vh;
-   }
    #accueil_connexion
 {
     color: white;
@@ -874,12 +864,6 @@
     margin-top: 1vh;
    }
 
-   /* Article */
-
-   .accueil_article{
-    background-color: transparent;
-    height: 62vh;
-   }
     .accueil_bull_position{
     padding-top: 25vh;
     margin-left: 40%
@@ -889,11 +873,7 @@
     {
     background-color: white;
     }
-   /* Footer */
-   .accueil_footer{
-    background-color: transparent;
-    height: 10vh;
-   }
+
    #accueil_connexion
 {
     color: white;
@@ -1639,12 +1619,6 @@
     margin-top: 1vh;
    }
 
-   /* Article */
-
-   .accueil_article{
-    background-color: transparent;
-    height: 62vh;
-   }
     .accueil_bull_position{
     padding-top: 25vh;
     margin-left: 40%
@@ -1654,11 +1628,7 @@
     {
     background-color: white;
     }
-   /* Footer */
-   .accueil_footer{
-    background-color: transparent;
-    height: 10vh;
-   }
+
    #accueil_connexion
 {
     color: white;

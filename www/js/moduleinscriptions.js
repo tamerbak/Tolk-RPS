@@ -307,6 +307,7 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova'])
 
   $scope.inscription2 = function()
   {
+    console.log("inscription2 function");
     if ($scope.appauth.sessionId == "")
     {
       $state.go('accueil');
@@ -339,22 +340,32 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova'])
     var requestPrenom = "";
     var requestNom = "";
     var requestSpecialitee = "";
-
+/*
     if (($scope.specialites_id[$scope.dr.specialite] == null) || ($scope.specialites_id[$scope.dr.specialite] == ""))
     {
       popup.showpopup("La spécialité selectionnée n'existe pas.");
       return;
     }
+    */
+    if (($scope.specialites_id[$scope.dr.specialite] == null) || ($scope.specialites_id[$scope.dr.specialite] == ""))
+    {
+      // popup.showpopup("La spécialité selectionnée n'existe pas.");
+      //return;
+      requestSpecialitee = "";
+      $scope.dr.specialite_id = "";
 
-    requestSpecialitee = "<fr.protogen.connector.model.SearchClause>" +
+    }
+    else
+    {
+      requestSpecialitee = "<fr.protogen.connector.model.SearchClause>" +
                   "<field>fk_user_specialite</field>" +
                   "<clause></clause>" +
                   "<gt>"+$scope.specialites_id[$scope.dr.specialite]+"</gt>" +
                   "<lt>"+$scope.specialites_id[$scope.dr.specialite]+"</lt>" +
                   "<type>fk_user_specialite</type>" +
                   "</fr.protogen.connector.model.SearchClause>";
-    $scope.dr.specialite_id = $scope.specialites_id[$scope.dr.specialite];
-
+      $scope.dr.specialite_id = $scope.specialites_id[$scope.dr.specialite];
+    }
 
     requestPrenom = "<fr.protogen.connector.model.SearchClause>" +
                   "<field>prenom</field>" +
@@ -388,17 +399,20 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova'])
             datajson=formatString.formatServerResult(data);
             if (datajson.dataModel.status != "FAILURE")
             {
+                console.log("inscription2 http success success");
                 console.log(datajson);
                 $scope.setPraticienId(datajson.dataModel.rows.dataRow);
             }
             else
             {
+                console.log("inscription2 http success FAILURE");
                 $scope.erreur = "Probleme serveur";
             }
 
           })
           .error(function(data) //
           {
+            console.log("inscription2 http error");
             console.log(data);
              console.log("erreur");
           });
@@ -409,6 +423,7 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova'])
 
   $scope.setPraticienId = function(rows)
   {
+    console.log("inscription2 http error");
       console.log(JSON.stringify(rows));
 
       $scope.firstNames.length = 0;
@@ -1482,32 +1497,41 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova'])
     }
   };
 
+  $scope.absentpresent = "present a valider";
+
   $scope.inscrirelepraticien = function()
   {
     console.log("inscrirelepraticien");
+    datarequest = $scope.dr.civilite+';'+$scope.dr.nom+';'+$scope.dr.prenom+';'+$scope.dr.specialite;
+    console.log(datarequest);
     if ($scope.dr.praticien_id == "")
     {
         $http(
         {
           method  : 'POST',
-          url     : 'http://ns389914.ovh.net:8080/tolk/gde',
-          data    : $scope.dr.civilite+";"+$scope.dr.nom+";"+$scope.dr.prenom+";"+$scope.dr.specialite,
-          headers: {"Content-Type": 'text/xml'}
+          url     : 'http://ns389914.ovh.net:8080/tolk/api/gde',
+          data    : datarequest,
+          headers: {"Content-Type": 'text/plain'}
         })
         .success(function(data)
         {
-            console.log(data);
+          console.log("success http gde");
+            console.log("print");
+            /*
             if (data.status == "SUCCES") 
             {
+              console.log("success status gde");
                 $scope.dr.praticien_id = data.id;
+                $scope.absentpresent = "absent a valider";
                 $scope.sauvegarderlecompte();
             }
             else
             {
-                console.log("erreur status gde");
+                console.log("success status gde");
                 $scope.message_de_confirmation = "Une erreur est survenue, veuillez réesseyer SVP";
                 $scope.showRefresh = true;
             }
+            */
         })
         .error(function(data) //
         {
@@ -1520,6 +1544,7 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova'])
     }
     else
     {
+        $scope.absentpresent = "present a valider";
         $scope.sauvegarderlecompte();
     }
 
@@ -1561,6 +1586,22 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova'])
                                   "<type>fk_user_adresse</type>" +
                                   "<list/>" +
                                   "<value>"+ $scope.dr.adresse_id+"</value>" +
+                              "</fr.protogen.connector.model.DataEntry>" +
+
+                              "<fr.protogen.connector.model.DataEntry>" +
+                                  "<label>&lt;![CDATA[Lien]]&gt;</label>" +
+                                  "<attributeReference>lien</attributeReference>" +
+                                  "<type>TEXT</type>" +
+                                  "<list/>" +
+                                  "<value>"+ $scope.absentpresent+"</value>" +
+                              "</fr.protogen.connector.model.DataEntry>" +
+
+                              "<fr.protogen.connector.model.DataEntry>" +
+                                  "<label>&lt;![CDATA[Activation]]&gt;</label>" +
+                                  "<attributeReference>activation</attributeReference>" +
+                                  "<type>TEXT</type>" +
+                                  "<list/>" +
+                                  "<value>Non</value>" +
                               "</fr.protogen.connector.model.DataEntry>" +
 
                               "<fr.protogen.connector.model.DataEntry>" +

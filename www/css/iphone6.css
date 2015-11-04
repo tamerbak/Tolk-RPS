@@ -21,10 +21,6 @@
     padding-bottom: 4vh;
   }
 
-  .inscription_1_list {
-
-  }
-
   .inscription_article {
     display: block;
     height: 73vh;
@@ -37,6 +33,7 @@
     max-height: 64vh;
     min-height: 64vh;
   }
+
   .inscription_first_row
   {
     margin-top: 3vh;
@@ -45,6 +42,7 @@
   .inscription_autocomplete {
     padding-top: 1vh;
   }
+
   .inscription_element_
   {
     height: 10vh;
@@ -57,8 +55,14 @@
   .inscription_1_info_bottom {
     font-size: 4vw;
   }
+
   .inscription_1_info_bottom_2 {
     font-size: 3.6vw;
+  }
+
+  .inscription_2_label_num
+  {
+      margin-top: -4vh;
   }
 
   #connexion_ceercomptered {
@@ -140,18 +144,12 @@
 
   /* Article */
   .accueil_article {
-    height: 68vh;
+    height: 63vh;
   }
-
 
   .accueil_bull_position {
     padding-top: 27vh;
     margin-left: 40%
-  }
-
-  /* Footer */
-  .accueil_footer {
-    background-color: transparent;
   }
 
   #accueil_connexion {

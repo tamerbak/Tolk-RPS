@@ -92,7 +92,8 @@ app.directive('autocomplete', function() {
 
       // selecting a suggestion with RIGHT ARROW or ENTER
       $scope.select = function(suggestion){
-        if(suggestion){
+        if(suggestion)
+        {
           $scope.searchParam = suggestion;
           $scope.searchFilter = suggestion;
           if($scope.onSelect)
@@ -102,6 +103,7 @@ app.directive('autocomplete', function() {
         $scope.completing = false;
         setTimeout(function(){watching = true;},1000);
         $scope.setIndex(-1);
+        // $cordovaKeyboard.close();
       };
 
 

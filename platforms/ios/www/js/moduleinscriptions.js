@@ -307,6 +307,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 
   $scope.inscription2 = function()
   {
+    console.log("inscription2 function");
     if ($scope.appauth.sessionId == "")
     {
       $state.go('accueil');
@@ -339,22 +340,32 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
     var requestPrenom = "";
     var requestNom = "";
     var requestSpecialitee = "";
-
+/*
     if (($scope.specialites_id[$scope.dr.specialite] == null) || ($scope.specialites_id[$scope.dr.specialite] == ""))
     {
       popup.showpopup("La spécialité selectionnée n'existe pas.");
       return;
     }
+    */
+    if (($scope.specialites_id[$scope.dr.specialite] == null) || ($scope.specialites_id[$scope.dr.specialite] == ""))
+    {
+      // popup.showpopup("La spécialité selectionnée n'existe pas.");
+      //return;
+      requestSpecialitee = "";
+      $scope.dr.specialite_id = "";
 
-    requestSpecialitee = "<fr.protogen.connector.model.SearchClause>" +
+    }
+    else
+    {
+      requestSpecialitee = "<fr.protogen.connector.model.SearchClause>" +
                   "<field>fk_user_specialite</field>" +
                   "<clause></clause>" +
                   "<gt>"+$scope.specialites_id[$scope.dr.specialite]+"</gt>" +
                   "<lt>"+$scope.specialites_id[$scope.dr.specialite]+"</lt>" +
                   "<type>fk_user_specialite</type>" +
                   "</fr.protogen.connector.model.SearchClause>";
-    $scope.dr.specialite_id = $scope.specialites_id[$scope.dr.specialite];
-
+      $scope.dr.specialite_id = $scope.specialites_id[$scope.dr.specialite];
+    }
 
     requestPrenom = "<fr.protogen.connector.model.SearchClause>" +
                   "<field>prenom</field>" +
@@ -388,17 +399,20 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
             datajson=formatString.formatServerResult(data);
             if (datajson.dataModel.status != "FAILURE")
             {
+                console.log("inscription2 http success success");
                 console.log(datajson);
                 $scope.setPraticienId(datajson.dataModel.rows.dataRow);
             }
             else
             {
+                console.log("inscription2 http success FAILURE");
                 $scope.erreur = "Probleme serveur";
             }
 
           })
           .error(function(data) //
           {
+            console.log("inscription2 http error");
             console.log(data);
              console.log("erreur");
           });
@@ -409,6 +423,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 
   $scope.setPraticienId = function(rows)
   {
+    console.log("inscription2 http error");
       console.log(JSON.stringify(rows));
 
       $scope.firstNames.length = 0;
@@ -420,8 +435,8 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
       {   
 
         // popup.showpopup("Ce praticien n'existe pas!");
-          $scope.dr.praticien_id = "";
-          $state.go('inscription2'); 
+         $scope.dr.praticien_id = "";
+         $state.go('inscription2'); 
         return; 
       }
       else
@@ -1156,57 +1171,63 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
       if ($scope.dr.cp == '' || $scope.dr.ville == '' || $scope.dr.adresse == '')// || $scope.dr.adresseCmp == '')
       {
           $scope.showMessageErrorAllFieldRequiered = true;
+          popup.showpopup("Veuillez saisir les champs requis");
+
       }
       else
       {
-          $state.go('inscription_map');
+          //var address ="1334 Emerson St, NE Washington DC"; //ADDRESS, CITY, STATE ZIP
+          var address =$scope.dr.adresse_num +" "+$scope.dr.adresse+", "+$scope.dr.ville+", "+$scope.dr.cp; //ADDRESS, CITY, STATE ZIP
+          console.log(address);
+          $scope.location = {};
+          $scope.queryResults = {};
+          $scope.queryError = {};
+
+          $http.get('https://maps.googleapis.com/maps/api/geocode/json?address=' +
+              address + '&key=AIzaSyBZVOSPh0Z4mv9jljJWzZNSug6upuec7Sg')
+              .then(function(_results){
+                  $scope.queryResults = _results.data.results;
+                  var location = $scope.queryResults[0].geometry.location;
+                  console.log("test : "+$scope.queryResults[0].geometry.location_type);
+                  console.log(location);
+                  $scope.lat=location.lat;
+                  $scope.lng=location.lng;
+                  if($scope.queryResults[0].geometry.location_type!="APPROXIMATE")
+                    $state.go('inscription_map',  {'lat':$scope.lat,'lng':$scope.lng});
+                  else
+                      popup.showpopup("Google Map ne reconnait pas votre adresse. Veuillez confirmer que c'est bien votre adresse.");
+              },
+              function error(_error){
+                  $scope.queryError = _error;
+                  popup.showpopup("Google Map ne reconnait pas votre adresse. Veuillez confirmer que c'est bien votre adresse.");
+
+              });
       }
-      $state.go('inscription_map');
   };
 
 
 
     // document.addEventListener("deviceready", onDeviceReady, false);
 
-    $scope.aa= function () {
-        /*
-        $ionicLoading.show({
-            template: '<ion-spinner icon="bubbles"></ion-spinner><br/>Acquiring location!'
-        });
-         */
-        var posOptions = {
-            enableHighAccuracy: true,
-            timeout: 20000,
-            maximumAge: 0
-        };
-        $cordovaGeolocation.getCurrentPosition(posOptions).then(function (position) 
-        {
-            var lat  = position.coords.latitude;
-            var longi = position.coords.longitude;
 
-            var myLatlng = new google.maps.LatLng(lat, longi);
-
-            var mapOptions = {
-                center: myLatlng,
-                zoom: 16,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
-
-            // var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-
-            // $scope.map = map;
-            $scope.map = { center: { latitude: lat, longitude: longi }, zoom: 16 };
-            // $ionicLoading.hide();
-
-        }, function(err) {
-            // $ionicLoading.hide();
-            console.log(err);
-        });
-    };
-    $scope.aa();
 
 })
+//=====================================
+//===================================== Inscription Controller map
+//=====================================
+.controller('inscriptionMapCtrl',function($scope,$http,$state,$stateParams,$ionicHistory)
+    {
+        $scope.mapInit= function () {
+            $scope.map = { center: { latitude: $stateParams.lat, longitude: $stateParams.lng }, zoom: 16 };
+        };
+        $scope.goBack = function()
+        {
+            console.log('back');
+            $ionicHistory.goBack();
+        }
+        $scope.mapInit();
 
+})
 //=====================================
 //===================================== Inscription Controller 3
 //=====================================
@@ -1413,6 +1434,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 
   $scope.dr = docteurInscription;
   $scope.showRefresh = false;
+  $scope.erreur_numero = "";
   // $scope.dr.civilite = "Dr";
   // $scope.dr.prenom = "Alexandre";
   // $scope.dr.nom = "Durand";
@@ -1422,6 +1444,20 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 
   $scope.accueil = function()
   {
+    docteurInscription = {};
+    $scope.dr.specialite = '';
+    $scope.dr.specialite_id = '';
+    $scope.dr.civilite = '';
+    $scope.dr.nom = '';
+    $scope.dr.prenom = '';
+    $scope.dr.praticien_id = '';
+    $scope.dr.adresse_id = '';
+    $scope.dr.cp = '';
+    $scope.dr.ville = '';
+    $scope.dr.adresse = '';
+    $scope.dr.adresse_num = '';
+    $scope.dr.tel = '';
+    $scope.dr.email = '';
     $ionicHistory.goBack(-4);
   };
 
@@ -1445,7 +1481,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
              datajson=xmlParser.xml_str2json(data);
              $scope.appauth.sessionId= datajson['fr.protogen.connector.model.AmanToken'].sessionId;
              console.log($scope.appauth.sessionId);
-             $scope.inscrireleclient();
+             $scope.inscrirelepraticien();
 
           })
           .error(function(data) //
@@ -1457,35 +1493,66 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
     }
     else
     {
-      $scope.inscrireleclient();
+      $scope.inscrirelepraticien();
     }
   };
 
-  $scope.inscrireleclient = function()
+  $scope.absentpresent = "present a valider";
+
+  $scope.inscrirelepraticien = function()
   {
+    console.log("inscrirelepraticien");
+    datarequest = $scope.dr.civilite+';'+$scope.dr.nom+';'+$scope.dr.prenom+';'+$scope.dr.specialite;
+    console.log(datarequest);
+    if ($scope.dr.praticien_id == "")
+    {
+        $http(
+        {
+          method  : 'POST',
+          url     : 'http://ns389914.ovh.net:8080/tolk/api/gde',
+          data    : datarequest,
+          headers: {"Content-Type": 'text/plain'}
+        })
+        .success(function(data)
+        {
+            console.log(data);
+            if (data.status == "SUCCES") 
+            {
+                $scope.dr.praticien_id = data.id;
+                $scope.absentpresent = "absent a valider";
+                $scope.sauvegarderlecompte();
+            }
+            else
+            {
+                console.log("erreur status gde");
+                $scope.message_de_confirmation = "Une erreur est survenue, veuillez réesseyer SVP";
+                $scope.showRefresh = true;
+            }
+        })
+        .error(function(data) //
+        {
+             console.log(data);
+             console.log("erreur http gde");
+             $scope.message_de_confirmation = "Une erreur est survenue, veuillez réesseyer SVP";
+             $scope.showRefresh = true;
+
+        });
+    }
+    else
+    {
+        $scope.absentpresent = "present a valider";
+        $scope.sauvegarderlecompte();
+    }
+
+  };
+
+  $scope.sauvegarderlecompte = function()
+  {
+    
     var requestInscription = "";
     var requestPraticien = "";
     
     $scope.message_de_confirmation = "Vous allez recevoir un SMS de connexion";
-
-    if ($scope.dr.praticien_id == "")
-    {
-      requestPraticien = "<fr.protogen.connector.model.DataEntry>" +
-                                "<label>&lt;![CDATA[Praticien]]&gt;</label>" +
-                                "<attributeReference>fk_user_praticien</attributeReference>" +
-                                "<type>fk_user_praticien</type>" +
-                                "<list/>" +
-                                "<value>"+ $scope.dr.praticien_id+"</value>";
-    }
-    else
-    {
-        requestPraticien = "<fr.protogen.connector.model.DataEntry>" +
-                                "<label>&lt;![CDATA[Praticien]]&gt;</label>" +
-                                "<attributeReference>fk_user_praticien</attributeReference>" +
-                                "<type>fk_user_praticien</type>" +
-                                "<list/>" +
-                                "<value>"+ $scope.dr.praticien_id+"</value>";
-    }
 
       requestInscription = "<fr.protogen.connector.model.DataModel>" +
                         "<entity>user_compte</entity>" +
@@ -1493,70 +1560,68 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
                         "<rows>" +
                           "<fr.protogen.connector.model.DataRow>" +
                             "<dataRow>" +
-                              "<fr.protogen.connector.model.DataEntry>" +
-                                "<label>&lt;![CDATA[ID Compte]]&gt;</label>" +
-                                "<attributeReference>pk_user_compte</attributeReference>" +
-                                "<type>PK</type>" +
-                                "<value></value>" +
-                              "</fr.protogen.connector.model.DataEntry>" +
 
-                              requestPraticien +
-
-                              "</fr.protogen.connector.model.DataEntry>" +
                               "<fr.protogen.connector.model.DataEntry>" +
-                                "<label>&lt;![CDATA[Adresse]]&gt;</label>" +
-                                "<attributeReference>fk_user_adresse</attributeReference>" +
-                                "<type>fk_user_adresse</type>" +
-                                "<list/>" +
-                                "<value>"+ $scope.dr.adresse_id+"</value>" +
-                              "</fr.protogen.connector.model.DataEntry>" +
-                              "<fr.protogen.connector.model.DataEntry>" +
-                                "<label>&lt;![CDATA[Spécialité]]&gt;</label>" +
-                                "<attributeReference>fk_user_specialite</attributeReference>" +
-                                "<type>fk_user_specialite</type>" +
-                                "<list/>" +
-                                "<value>"+ $scope.dr.specialite_id+"</value>" +
+                                  "<label>&lt;![CDATA[ID Compte]]&gt;</label>" +
+                                  "<attributeReference>pk_user_compte</attributeReference>" +
+                                  "<type>PK</type>" +
+                                  "<value></value>" +
                               "</fr.protogen.connector.model.DataEntry>" +
 
                               "<fr.protogen.connector.model.DataEntry>" +
-                                "<label>&lt;![CDATA[Tél]]&gt;</label>" +
-                                "<attributeReference>tel</attributeReference>" +
-                                "<type>TEXT</type>" +
-                                "<value>&lt;![CDATA["+$scope.dr.tel+"]]&gt;</value>" +
+                                  "<label>&lt;![CDATA[Praticien]]&gt;</label>" +
+                                  "<attributeReference>fk_user_praticien</attributeReference>" +
+                                  "<type>fk_user_praticien</type>" +
+                                  "<list/>" +
+                                  "<value>"+ $scope.dr.praticien_id+"</value>"+
                               "</fr.protogen.connector.model.DataEntry>" +
 
                               "<fr.protogen.connector.model.DataEntry>" +
-                                "<label>&lt;![CDATA[email]]&gt;</label>" +
-                                "<attributeReference>email</attributeReference>" +
-                                "<type>TEXT</type>" +
-                                "<value>&lt;![CDATA["+$scope.dr.email+"]]&gt;</value>" +
+                                  "<label>&lt;![CDATA[Adresse]]&gt;</label>" +
+                                  "<attributeReference>fk_user_adresse</attributeReference>" +
+                                  "<type>fk_user_adresse</type>" +
+                                  "<list/>" +
+                                  "<value>"+ $scope.dr.adresse_id+"</value>" +
                               "</fr.protogen.connector.model.DataEntry>" +
 
                               "<fr.protogen.connector.model.DataEntry>" +
-                                "<label>&lt;![CDATA[lien]]&gt;</label>" +
-                                "<attributeReference>lien</attributeReference>" +
-                                "<type>TEXT</type>" +
-                                "<value>&lt;![CDATA[/first_connexion_1]]&gt;</value>" +
+                                  "<label>&lt;![CDATA[Lien]]&gt;</label>" +
+                                  "<attributeReference>lien</attributeReference>" +
+                                  "<type>TEXT</type>" +
+                                  "<list/>" +
+                                  "<value>"+ $scope.absentpresent+"</value>" +
                               "</fr.protogen.connector.model.DataEntry>" +
 
                               "<fr.protogen.connector.model.DataEntry>" +
-                                "<label>&lt;![CDATA[Mot de passe]]&gt;</label>" +
-                                "<attributeReference>mot_de_passe</attributeReference>" +
-                                "<type>TEXT</type>" +
-                                "<value>&lt;![CDATA[1234]]&gt;</value>" +
+                                  "<label>&lt;![CDATA[Activation]]&gt;</label>" +
+                                  "<attributeReference>activation</attributeReference>" +
+                                  "<type>TEXT</type>" +
+                                  "<list/>" +
+                                  "<value>Non</value>" +
                               "</fr.protogen.connector.model.DataEntry>" +
+
                               "<fr.protogen.connector.model.DataEntry>" +
-                                "<label>&lt;![CDATA[Horaire]]&gt;</label>" +
-                                "<attributeReference>horaire</attributeReference>" +
-                                "<type>TEXT</type>" +
-                                "<value></value>" +
+                                  "<label>&lt;![CDATA[Spécialité]]&gt;</label>" +
+                                  "<attributeReference>fk_user_specialite</attributeReference>" +
+                                  "<type>fk_user_specialite</type>" +
+                                  "<list/>" +
+                                  "<value>"+ $scope.dr.specialite_id+"</value>" +
                               "</fr.protogen.connector.model.DataEntry>" +
+
                               "<fr.protogen.connector.model.DataEntry>" +
-                                "<label>&lt;![CDATA[Expertise]]&gt;</label>" +
-                                "<attributeReference>expertise</attributeReference>" +
-                                "<type>TEXT</type>" +
-                                "<value></value>" +
+                                  "<label>&lt;![CDATA[Tél]]&gt;</label>" +
+                                  "<attributeReference>tel</attributeReference>" +
+                                  "<type>TEXT</type>" +
+                                  "<value>&lt;![CDATA["+$scope.dr.tel+"]]&gt;</value>" +
                               "</fr.protogen.connector.model.DataEntry>" +
+
+                              "<fr.protogen.connector.model.DataEntry>" +
+                                  "<label>&lt;![CDATA[email]]&gt;</label>" +
+                                  "<attributeReference>email</attributeReference>" +
+                                  "<type>TEXT</type>" +
+                                  "<value>&lt;![CDATA["+$scope.dr.email+"]]&gt;</value>" +
+                              "</fr.protogen.connector.model.DataEntry>" +
+
                             "</dataRow>" +
                           "</fr.protogen.connector.model.DataRow>" +
                         "</rows>" +
@@ -1603,7 +1668,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
             }
             else
             {
-              $scope.erreur = "Probleme serveur";
+              console.log("erreur success compte");
               $scope.message_de_confirmation = "Une erreur est survenue, veuillez réesseyer SVP";
               $scope.showRefresh = true;
             }
@@ -1612,16 +1677,44 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
           .error(function(data) //
           {
              console.log(data);
-             console.log("erreur");
+             console.log("erreur http compte");
              $scope.message_de_confirmation = "Une erreur est survenue, veuillez réesseyer SVP";
              $scope.showRefresh = true;
 
           });
 
-
-        }
+    };
 
         $scope.inscriptionenligne();
+        /*
+                                      "<fr.protogen.connector.model.DataEntry>" +
+                                  "<label>&lt;![CDATA[lien]]&gt;</label>" +
+                                  "<attributeReference>lien</attributeReference>" +
+                                  "<type>TEXT</type>" +
+                                  "<value>&lt;![CDATA[/first_connexion_1]]&gt;</value>" +
+                              "</fr.protogen.connector.model.DataEntry>" +
+
+                              "<fr.protogen.connector.model.DataEntry>" +
+                                "<label>&lt;![CDATA[Mot de passe]]&gt;</label>" +
+                                "<attributeReference>mot_de_passe</attributeReference>" +
+                                "<type>TEXT</type>" +
+                                "<value>&lt;![CDATA[1234]]&gt;</value>" +
+                              "</fr.protogen.connector.model.DataEntry>" +
+
+                              "<fr.protogen.connector.model.DataEntry>" +
+                                "<label>&lt;![CDATA[Horaire]]&gt;</label>" +
+                                "<attributeReference>horaire</attributeReference>" +
+                                "<type>TEXT</type>" +
+                                "<value></value>" +
+                              "</fr.protogen.connector.model.DataEntry>" +
+
+                              "<fr.protogen.connector.model.DataEntry>" +
+                                "<label>&lt;![CDATA[Expertise]]&gt;</label>" +
+                                "<attributeReference>expertise</attributeReference>" +
+                                "<type>TEXT</type>" +
+                                "<value></value>" +
+                              "</fr.protogen.connector.model.DataEntry>" +
+                              */
 
 
 });
