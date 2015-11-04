@@ -1156,10 +1156,37 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
       if ($scope.dr.cp == '' || $scope.dr.ville == '' || $scope.dr.adresse == '')// || $scope.dr.adresseCmp == '')
       {
           $scope.showMessageErrorAllFieldRequiered = true;
+          popup.showpopup("Veuillez saisir les champs requis");
+
       }
       else
       {
-          $state.go('inscription_map');
+          //var address ="1334 Emerson St, NE Washington DC"; //ADDRESS, CITY, STATE ZIP
+          var address =$scope.dr.adresse_num +" "+$scope.dr.adresse+", "+$scope.dr.ville+", "+$scope.dr.cp; //ADDRESS, CITY, STATE ZIP
+          console.log(address);
+          $scope.location = {};
+          $scope.queryResults = {};
+          $scope.queryError = {};
+
+          $http.get('https://maps.googleapis.com/maps/api/geocode/json?address=' +
+              address + '&key=AIzaSyBZVOSPh0Z4mv9jljJWzZNSug6upuec7Sg')
+              .then(function(_results){
+                  $scope.queryResults = _results.data.results;
+                  var location = $scope.queryResults[0].geometry.location;
+                  console.log("test : "+$scope.queryResults[0].geometry.location_type);
+                  console.log(location);
+                  $scope.lat=location.lat;
+                  $scope.lng=location.lng;
+                  if($scope.queryResults[0].geometry.location_type!="APPROXIMATE")
+                    $state.go('inscription_map',  {'lat':$scope.lat,'lng':$scope.lng});
+                  else
+                      popup.showpopup("Google Map ne reconnait pas votre adresse. Veuillez confirmer que c'est bien votre adresse.");
+              },
+              function error(_error){
+                  $scope.queryError = _error;
+                  popup.showpopup("Google Map ne reconnait pas votre adresse. Veuillez confirmer que c'est bien votre adresse.");
+
+              });
       }
       $state.go('inscription_map');
   };
@@ -1168,45 +1195,25 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 
     // document.addEventListener("deviceready", onDeviceReady, false);
 
-    $scope.aa= function () {
-        /*
-        $ionicLoading.show({
-            template: '<ion-spinner icon="bubbles"></ion-spinner><br/>Acquiring location!'
-        });
-         */
-        var posOptions = {
-            enableHighAccuracy: true,
-            timeout: 20000,
-            maximumAge: 0
-        };
-        $cordovaGeolocation.getCurrentPosition(posOptions).then(function (position) 
-        {
-            var lat  = position.coords.latitude;
-            var longi = position.coords.longitude;
 
-            var myLatlng = new google.maps.LatLng(lat, longi);
-
-            var mapOptions = {
-                center: myLatlng,
-                zoom: 16,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
-
-            // var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-
-            // $scope.map = map;
-            $scope.map = { center: { latitude: lat, longitude: longi }, zoom: 16 };
-            // $ionicLoading.hide();
-
-        }, function(err) {
-            // $ionicLoading.hide();
-            console.log(err);
-        });
-    };
-    $scope.aa();
 
 })
+//=====================================
+//===================================== Inscription Controller map
+//=====================================
+.controller('inscriptionMapCtrl',function($scope,$http,$state,$stateParams,$ionicHistory)
+    {
+        $scope.mapInit= function () {
+            $scope.map = { center: { latitude: $stateParams.lat, longitude: $stateParams.lng }, zoom: 16 };
+        };
+        $scope.goBack = function()
+        {
+            console.log('back');
+            $ionicHistory.goBack();
+        }
+        $scope.mapInit();
 
+})
 //=====================================
 //===================================== Inscription Controller 3
 //=====================================
