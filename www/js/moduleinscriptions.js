@@ -1188,7 +1188,6 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 
               });
       }
-      $state.go('inscription_map');
   };
 
 
