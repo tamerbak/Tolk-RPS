@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontrollers', 'datacontrollers', 'moduleinscriptions', 'moduleconnexion','modulecorrespondants'])
+angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontrollers', 'datacontrollers', 'moduleinscriptions', 'moduleconnexion','modulecorrespondants','mesContactsController'])
 
   .run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
@@ -103,6 +103,11 @@ angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontroller
     docteurAuthentification.first_connect = '';
     docteurAuthentification.mot_de_passe = '';
     docteurAuthentification.correspondants = [];
+	
+	docteurAuthentification.expertise = '';
+	docteurAuthentification.telephone = '';
+	docteurAuthentification.imageP = '';
+	docteurAuthentification.civilite = '';
     return docteurAuthentification;
   })
 
@@ -113,6 +118,7 @@ angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontroller
       {
         var jsonResp = xmlParser.xml_str2json(data);
         var jsonText = JSON.stringify(jsonResp);
+        jsonText = jsonText.replace(/fr.protogen.connector.model.StreamedFile/g, "streamedFile");
         jsonText = jsonText.replace(/fr.protogen.connector.model.DataModel/g, "dataModel");
         jsonText = jsonText.replace(/fr.protogen.connector.model.DataRow/g, "dataRow");
         jsonText = jsonText.replace(/fr.protogen.connector.model.DataEntry/g, "dataEntry");
@@ -216,6 +222,12 @@ angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontroller
         name: 'mescorrespondants',
         url: '/mescorrespondants',
         templateUrl: 'views/mescorrespondants.html'
+      })
+	  .state('mescontacts',
+      {
+        name: 'mescontacts',
+        url: '/mescontacts',
+        templateUrl: 'views/mescontacts.html'
       })
       .state('ajouterCorrespondant',
       {

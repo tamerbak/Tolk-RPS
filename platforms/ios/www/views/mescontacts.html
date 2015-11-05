@@ -1,0 +1,62 @@
+<ion-view view-title="mes_contacts">
+
+  <ion-content ng-controller="mesContactsCtrl" class="padding" has-bouncing="false" overflow-scroll="true" data-ng-init="initComptes()">
+
+
+    <header class="menu_general_header">
+      <!--  <span><i class="fa ion-navicon-round fa-2x menu_general_img_toggle"></i></span> -->
+		<span><img src="img/logo_tolk_v2.png" class="menu_general_tolk_img"></span>
+		<span class="menu_general_docteur">
+			<span>{{doctauth.civilite + ' ' +doctauth.prenom+ ' '+ doctauth.nom}}</span>
+			<span class="menu_general_profil_bull"><i class="fa fa-user-md fa-2x menu_general_profil_img"></i></span>
+		</span>
+
+      <div class="clearboth"></div>
+    </header>
+	
+	<article class="mescorrespondants_article" style="background-color: white;">
+      <div class="list">
+        <div class="bar row row-center mescorrespondants_bar" style="width:inherit;">
+          <div class="col col-25 col-bar">
+              <button ui-sref="menu_general" class="button button-clear button-dark mescorrespondants_bar_button">
+                  <i class="ion-chevron-left"></i>
+                  <span style="font-weight:800;">Retour</span>
+              </button>
+          </div>
+
+          <div class="col col-65 col-bar mescorrespondants_titre">
+              <span class="">Tous les comptes</span>
+          </div>
+
+          <div class="col col-20 col-bar">
+              <div class="buttons messages_right_icon" >
+                  <button ng-click="ajoutercorrespondant()" class="button button-clear icon ion-person-add button-dark mescorrespondants_bar_button"></button>
+              </div>
+          </div>
+
+          <div class="clearboth"></div>
+        </div>
+        <div class="clearboth"></div>
+        <div class="">
+          <div ng-show="showAucunCorrespondant" class="row row-center message_nomessage">
+            <p class="message_nomessage_p">Pas de compte </p>
+          </div>
+
+          <ion-list>
+              <ion-item data-ng-repeat="compte in comptes" class="item item-avatar item-icon-right mescorrespondants_list_item" ng-click="correspondantDetail('{{correspondant.id}}')">
+                  <img ng-src="img/ionic.png"><!--"{{item.img}}"-->
+                  <h2>{{compte.nom}}</h2>
+                  <p>{{compte.specialite}}</p>
+                  <i class="icon ion-ios-arrow-right"></i>
+                  <ion-option-button class="button-positive" data-ng-click="inviteCompte({{compte}})">Inviter</ion-option-button>
+                  <ion-delete-button class="ion-minus-circled" ng-click="items.splice($index, 1)"></ion-delete-button>
+                  <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(item, $fromIndex, $toIndex)"></ion-reorder-button>
+              </ion-item>
+          </ion-list>
+        </div>
+      </div>
+    </article>
+  </ion-content>
+</ion-view>
+
+

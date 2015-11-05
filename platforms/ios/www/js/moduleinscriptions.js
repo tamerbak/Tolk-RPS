@@ -1,4 +1,4 @@
-angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCordova'])
+angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-maps'])
 
 
 //=================================
@@ -423,7 +423,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 
   $scope.setPraticienId = function(rows)
   {
-    console.log("inscription2 http error");
+    console.log("setPraticienId function");
       console.log(JSON.stringify(rows));
 
       $scope.firstNames.length = 0;
@@ -442,7 +442,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
       else
       {
         rows = [].concat( rows );
-        if (rows.length > 1) return;
+        // if (rows.length > 1) return;
 
         console.log("rows lenght : "+ rows.length);
         for (var j = 0; j < rows[0].dataRow.dataEntry.length ; j++)
@@ -633,15 +633,17 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
             console.log(datajson.dataModel.rows.dataRow);
             if (datajson.dataModel.rows == "")
             {
-                popup.showpopup("L'adresse saisie n'existe pas"); 
-                return; 
+                //popup.showpopup("L'adresse saisie n'existe pas");
+                $state.go('inscription3');
+
+                return;
             }
 
             rows = [].concat( datajson.dataModel.rows.dataRow.dataRow);
             
-            if (rows.length == 1) 
-            {
-              adresse = datajson.dataModel.rows.dataRow.dataRow.dataEntry;
+            // if (rows.length == 1) 
+            // {
+              adresse = rows[0].dataEntry;
 
               for (var i = 0; i < adresse.length; i++) 
               {
@@ -655,11 +657,11 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
               {
                 $state.go('inscription3');
               }
-            }
-            else
-            {
-              popup.showpopup("Adresse saisie n'est pas correcte.");
-            }
+            // }
+            // else
+            // {
+            //   popup.showpopup("Adresse saisie n'est pas correcte.");
+            // }
 
         }
         else
@@ -670,7 +672,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
     })
     .error(function(data) //
     {
-        console.log("erreur");
+        popup.showpopup("Probleme serveur.");
     });
 
     $scope.dr.adresse_id = $scope.adresses_id[$scope.dr.adresse];
@@ -1215,9 +1217,10 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 //=====================================
 //===================================== Inscription Controller map
 //=====================================
-.controller('inscriptionMapCtrl',function($scope,$http,$state,$stateParams,$ionicHistory)
+.controller('inscriptionMapCtrl',function($scope,$http,$state,$stateParams,$ionicHistory,$cordovaGeolocation)
     {
         $scope.mapInit= function () {
+
             $scope.map = { center: { latitude: $stateParams.lat, longitude: $stateParams.lng }, zoom: 16 };
         };
         $scope.goBack = function()
@@ -1502,36 +1505,52 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
   $scope.inscrirelepraticien = function()
   {
     console.log("inscrirelepraticien");
-    datarequest = $scope.dr.civilite+';'+$scope.dr.nom+';'+$scope.dr.prenom+';'+$scope.dr.specialite;
-    console.log(datarequest);
+/*
+     = "DR";
+     = "aaaaa";
+    = "aaaaaaa";
+     = "nvSpec";
+
+*/
+console.log($scope.dr.civilite);
+console.log($scope.dr.nom);
+  console.log($scope.dr.prenom);
+    console.log($scope.dr.specialite);
+
+    var datarequestpraticien="";
+    datarequestpraticien = $scope.dr.civilite+';'+$scope.dr.nom+';'+$scope.dr.prenom+';'+$scope.dr.specialite;
+    console.log(datarequestpraticien);
+
     if ($scope.dr.praticien_id == "")
     {
         $http(
         {
           method  : 'POST',
           url     : 'http://ns389914.ovh.net:8080/tolk/api/gde',
-          data    : datarequest,
-          headers: {"Content-Type": 'text/plain'}
+          data    : datarequestpraticien,
+          headers: {"Content-Type": "text/plain"}
         })
         .success(function(data)
         {
-            console.log(data);
+            console.log("success http gde");
+            
             if (data.status == "SUCCES") 
             {
+              console.log("success status gde");
                 $scope.dr.praticien_id = data.id;
                 $scope.absentpresent = "absent a valider";
                 $scope.sauvegarderlecompte();
             }
             else
             {
-                console.log("erreur status gde");
+                console.log("success status gde");
                 $scope.message_de_confirmation = "Une erreur est survenue, veuillez réesseyer SVP";
                 $scope.showRefresh = true;
             }
+            
         })
-        .error(function(data) //
+        .error(function(data) 
         {
-             console.log(data);
              console.log("erreur http gde");
              $scope.message_de_confirmation = "Une erreur est survenue, veuillez réesseyer SVP";
              $scope.showRefresh = true;
@@ -1548,7 +1567,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 
   $scope.sauvegarderlecompte = function()
   {
-    
+    console.log("sauvegarderlecompte");
     var requestInscription = "";
     var requestPraticien = "";
     
@@ -1718,3 +1737,7 @@ angular.module('moduleinscriptions', ['autocomplete','uiGmapgoogle-maps','ngCord
 
 
 });
+
+
+
+

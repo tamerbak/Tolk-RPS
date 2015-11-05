@@ -36,6 +36,7 @@ app.directive('autocomplete', function() {
 
       $scope.viderchamp = function(element)
       {
+        element.target.value ="";
 
         if (element.target.id == "abc") 
         {

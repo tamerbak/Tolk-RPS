@@ -87,9 +87,12 @@ angular.module('modulecorrespondants', ['autocomplete'])
 
 
     $requestdata = "<fr.protogen.connector.model.DataModel><entity>user_correspondance</entity><dataMap/><rows/><token><username/><password/><nom>Jakjoud Abdeslam</nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId>" + $scope.appauth.sessionId + "</sessionId><status>SUCCES</status><id>206</id><beanId>0</beanId></token><expired></expired><unrecognized></unrecognized><status></status><operation>GET</operation><clauses>"+requestCorrespondants+"</clauses><page>1</page><pages>100</pages><nbpages>100</nbpages><iddriver>0</iddriver><ignoreList></ignoreList></fr.protogen.connector.model.DataModel>";
+    $requestdata = "<fr.protogen.connector.model.SmartProcessModel><pid>1</pid><initVars><string>Session=" + $scope.appauth.sessionId + "</string><string>Compte="+$scope.doctauth.id_compte+"</string></initVars><outvar>Resultats</outvar><token><username/><password/><nom>Jakjoud Abdeslam</nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId>" + $scope.appauth.sessionId + "</sessionId><status>SUCCES</status><id>206</id><beanId>0</beanId></token></fr.protogen.connector.model.SmartProcessModel>";
+    console.log($requestdata);
     $http({
       method  : 'POST',
-      url     : 'http://ns389914.ovh.net:8080/tolk/api/das',
+      // url     : 'http://ns389914.ovh.net:8080/tolk/api/das',
+      url: 'http://ns389914.ovh.net:8080/tolk/api/sps',
       data    : $requestdata,
       headers: {"Content-Type": 'text/xml'}
     })
@@ -128,6 +131,7 @@ angular.module('modulecorrespondants', ['autocomplete'])
     $scope.showAucunCorrespondant = false;
     rows = [].concat( rows );
     console.log("rows lenght : "+ rows.length);
+    console.log(JSON.stringify(rows));
 
     for(var i=0; i<rows.length; i++)
     {
