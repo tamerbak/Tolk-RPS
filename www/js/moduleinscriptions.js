@@ -633,8 +633,10 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova'])
             console.log(datajson.dataModel.rows.dataRow);
             if (datajson.dataModel.rows == "")
             {
-                popup.showpopup("L'adresse saisie n'existe pas"); 
-                return; 
+                //popup.showpopup("L'adresse saisie n'existe pas");
+                $state.go('inscription3');
+
+                return;
             }
 
             rows = [].concat( datajson.dataModel.rows.dataRow.dataRow);
@@ -1502,22 +1504,35 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova'])
   $scope.inscrirelepraticien = function()
   {
     console.log("inscrirelepraticien");
-    datarequest = $scope.dr.civilite+';'+$scope.dr.nom+';'+$scope.dr.prenom+';'+$scope.dr.specialite;
-    console.log(datarequest);
+/*
+     = "DR";
+     = "aaaaa";
+    = "aaaaaaa";
+     = "nvSpec";
+
+*/
+console.log($scope.dr.civilite);
+console.log($scope.dr.nom);
+  console.log($scope.dr.prenom);
+    console.log($scope.dr.specialite);
+
+    var datarequestpraticien="";
+    datarequestpraticien = $scope.dr.civilite+';'+$scope.dr.nom+';'+$scope.dr.prenom+';'+$scope.dr.specialite;
+    console.log(datarequestpraticien);
+
     if ($scope.dr.praticien_id == "")
     {
         $http(
         {
           method  : 'POST',
           url     : 'http://ns389914.ovh.net:8080/tolk/api/gde',
-          data    : datarequest,
-          headers: {"Content-Type": 'text/plain'}
+          data    : datarequestpraticien,
+          headers: {"Content-Type": "text/plain"}
         })
         .success(function(data)
         {
-          console.log("success http gde");
-            console.log("print");
-            /*
+            console.log("success http gde");
+            
             if (data.status == "SUCCES") 
             {
               console.log("success status gde");
@@ -1531,11 +1546,10 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova'])
                 $scope.message_de_confirmation = "Une erreur est survenue, veuillez réesseyer SVP";
                 $scope.showRefresh = true;
             }
-            */
+            
         })
-        .error(function(data) //
+        .error(function(data) 
         {
-             console.log(data);
              console.log("erreur http gde");
              $scope.message_de_confirmation = "Une erreur est survenue, veuillez réesseyer SVP";
              $scope.showRefresh = true;
@@ -1552,7 +1566,7 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova'])
 
   $scope.sauvegarderlecompte = function()
   {
-    
+    console.log("sauvegarderlecompte");
     var requestInscription = "";
     var requestPraticien = "";
     
@@ -1722,3 +1736,7 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova'])
 
 
 });
+
+
+
+
