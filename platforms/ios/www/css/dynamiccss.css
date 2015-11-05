@@ -110,13 +110,6 @@
     margin-top: 1vh;
    }
 
-   /* Article */
-
-    .accueil_bull_position{
-    padding-top: 25vh;
-    margin-left: 40%
-    }
-
    #accueil_connexion
 {
     color: white;
@@ -863,12 +856,6 @@
     padding-left: 1vw;
     margin-top: 1vh;
    }
-
-    .accueil_bull_position{
-    padding-top: 25vh;
-    margin-left: 40%
-    }
-
     .accueil_page-bull.selected
     {
     background-color: white;
@@ -1618,11 +1605,6 @@
     padding-left: 1vw;
     margin-top: 1vh;
    }
-
-    .accueil_bull_position{
-    padding-top: 25vh;
-    margin-left: 40%
-    }
 
     .accueil_page-bull.selected
     {

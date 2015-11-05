@@ -62,7 +62,7 @@
   
   .inscription_2_label_num
   {
-      margin-top: -5vh;
+      margin-top: 0vh;
   }
 
   #connexion_ceercomptered {
@@ -90,7 +90,7 @@
   }
 
   .inscription_3_input_2 {
-    margin-top: 5vh;
+    margin-top:0vh;
   }
 
   #inscription_4_ceercomptered {
@@ -154,7 +154,7 @@
     height: 61vh;
   }
   .accueil_bull_position {
-    padding-top: 27vh;
+    padding-top: 20vh;
     margin-left: 40%
   }
 

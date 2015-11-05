@@ -1,4 +1,4 @@
-angular.module('moduleinscriptions', ['autocomplete','ngCordova'])
+angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-maps'])
 
 
 //=================================
@@ -423,7 +423,7 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova'])
 
   $scope.setPraticienId = function(rows)
   {
-    console.log("inscription2 http error");
+    console.log("setPraticienId function");
       console.log(JSON.stringify(rows));
 
       $scope.firstNames.length = 0;
@@ -442,7 +442,7 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova'])
       else
       {
         rows = [].concat( rows );
-        if (rows.length > 1) return;
+        // if (rows.length > 1) return;
 
         console.log("rows lenght : "+ rows.length);
         for (var j = 0; j < rows[0].dataRow.dataEntry.length ; j++)
@@ -544,7 +544,11 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova'])
 
   $scope.buttonValiderDisabled = true;
 
-
+  $scope.focusOnNum = function()
+  {
+    console.log("num clicked");
+    $scope.dr.adresse_num = "";
+  }
 
   $scope.goBack = function() {
     $ionicHistory.goBack();
@@ -641,9 +645,9 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova'])
 
             rows = [].concat( datajson.dataModel.rows.dataRow.dataRow);
             
-            if (rows.length == 1) 
-            {
-              adresse = datajson.dataModel.rows.dataRow.dataRow.dataEntry;
+            // if (rows.length == 1) 
+            // {
+              adresse = rows[0].dataEntry;
 
               for (var i = 0; i < adresse.length; i++) 
               {
@@ -657,11 +661,11 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova'])
               {
                 $state.go('inscription3');
               }
-            }
-            else
-            {
-              popup.showpopup("Adresse saisie n'est pas correcte.");
-            }
+            // }
+            // else
+            // {
+            //   popup.showpopup("Adresse saisie n'est pas correcte.");
+            // }
 
         }
         else
@@ -672,7 +676,7 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova'])
     })
     .error(function(data) //
     {
-        console.log("erreur");
+        popup.showpopup("Probleme serveur.");
     });
 
     $scope.dr.adresse_id = $scope.adresses_id[$scope.dr.adresse];
@@ -1217,9 +1221,10 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova'])
 //=====================================
 //===================================== Inscription Controller map
 //=====================================
-.controller('inscriptionMapCtrl',function($scope,$http,$state,$stateParams,$ionicHistory)
+.controller('inscriptionMapCtrl',function($scope,$http,$state,$stateParams,$ionicHistory,$cordovaGeolocation)
     {
         $scope.mapInit= function () {
+
             $scope.map = { center: { latitude: $stateParams.lat, longitude: $stateParams.lng }, zoom: 16 };
         };
         $scope.goBack = function()
@@ -1235,6 +1240,11 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova'])
 //=====================================
 .controller('inscription3Ctrl',function($scope,$state,$http,$ionicHistory,formatString,$ionicPopover,popup,docteurInscription,appAuthentification)
 {
+
+  $scope.dr = docteurInscription;
+  $scope.appauth = appAuthentification;
+
+
   $scope.goBack = function()
   {
     $ionicHistory.goBack();
@@ -1244,9 +1254,18 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova'])
   {
     $ionicHistory.goBack(-3);
   }
-  
-  $scope.dr = docteurInscription;
-  $scope.appauth = appAuthentification;
+
+  $scope.focusOntel = function()
+  {
+    console.log("num clicked");
+    $scope.dr.tel = "";
+  }
+
+  $scope.focusOnemail = function()
+  {
+    console.log("num clicked");
+    $scope.dr.email = "";
+  }
 
   $scope.validValue = function()
   {

@@ -91,22 +91,28 @@ angular.module('modulecorrespondants', ['autocomplete'])
     }
 
 
-    $requestdata = "<fr.protogen.connector.model.DataModel><entity>user_correspondance</entity><dataMap/><rows/><token><username/><password/><nom>Jakjoud Abdeslam</nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId>" + $scope.appauth.sessionId + "</sessionId><status>SUCCES</status><id>206</id><beanId>0</beanId></token><expired></expired><unrecognized></unrecognized><status></status><operation>GET</operation><clauses>"+requestCorrespondants+"</clauses><page>1</page><pages>100</pages><nbpages>100</nbpages><iddriver>0</iddriver><ignoreList></ignoreList></fr.protogen.connector.model.DataModel>";
+    //$requestdata = "<fr.protogen.connector.model.DataModel><entity>user_correspondance</entity><dataMap/><rows/><token><username/><password/><nom>Jakjoud Abdeslam</nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId>" + $scope.appauth.sessionId + "</sessionId><status>SUCCES</status><id>206</id><beanId>0</beanId></token><expired></expired><unrecognized></unrecognized><status></status><operation>GET</operation><clauses>"+requestCorrespondants+"</clauses><page>1</page><pages>100</pages><nbpages>100</nbpages><iddriver>0</iddriver><ignoreList></ignoreList></fr.protogen.connector.model.DataModel>";
+    $requestdata = "<fr.protogen.connector.model.SmartProcessModel><pid>1</pid><initVars><string>Session=" + $scope.appauth.sessionId + "</string><string>Compte="+$scope.doctauth.id_compte+"</string></initVars><outvar>Resultats</outvar><token><username/><password/><nom>Jakjoud Abdeslam</nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId>" + $scope.appauth.sessionId + "</sessionId><status>SUCCES</status><id>206</id><beanId>0</beanId></token></fr.protogen.connector.model.SmartProcessModel>";
+    console.log($requestdata);
     $http({
       method  : 'POST',
-      url     : 'http://ns389914.ovh.net:8080/tolk/api/das',
+      // url     : 'http://ns389914.ovh.net:8080/tolk/api/das',
+      url: 'http://ns389914.ovh.net:8080/tolk/api/sps',
       data    : $requestdata,
       headers: {"Content-Type": 'text/xml'}
     })
       .success(function(data){
 
-        datajson=xmlParser.xml_str2json(data);
-        if (datajson['fr.protogen.connector.model.DataModel'].status != "FAILURE"){
-          $scope.setCorrespondants(datajson['fr.protogen.connector.model.DataModel']['rows']['fr.protogen.connector.model.DataRow']);
+        datajson=formatString.formatServerResult(data);
+        if (datajson.dataModel.status != "FAILURE")
+        {
+          $scope.setCorrespondants(datajson.dataModel.rows.dataRow);
         }
         else{
           $scope.erreur = "Probleme serveur";
         }
+
+
       })
       .error(function(data) //
       {
@@ -127,27 +133,28 @@ angular.module('modulecorrespondants', ['autocomplete'])
     $scope.showAucunCorrespondant = false;
     rows = [].concat( rows );
     console.log("rows lenght : "+ rows.length);
+    console.log(JSON.stringify(rows));
 
     for(var i=0; i<rows.length; i++)
     {
-      for (var j = 0; j < rows[i].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++)
+      for (var j = 0; j < rows[i].dataRow.dataEntry.length ; j++)
       {
-        if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "fk_user_praticien")
+        if (rows[i].dataRow.dataEntry[j].attributeReference == "fk_user_praticien")
         {
-          $id_praticien = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
-          $id_praticien = $id_praticien.replace("<![CDATA[", "").replace("]]>", "");
+          $id_praticien = rows[i].dataRow.dataEntry[j].value;
 
-          $tableau_praticien = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].list["fr.protogen.connector.model.DataCouple"];
+          $tableau_praticien = rows[i].dataRow.dataEntry[j].list.dataCouple;
           $tableau_praticien = [].concat( $tableau_praticien );
 
-          for(var k = 0; k < $tableau_praticien.length ; k++){
+          for(var k = 0; k < $tableau_praticien.length ; k++)
+          {
             if($id_praticien == $tableau_praticien[k].id)
             {
               $praticien = {};
               $praticien.id = $id_praticien;
               $praticien.name = $tableau_praticien[k].label;
               $scope.doctauth.correspondants.push($praticien);
-              $scope.getMessagesForCorrespondant($praticien);
+              //$scope.getMessagesForCorrespondant($praticien);
               break;
             }
           }
@@ -363,17 +370,21 @@ angular.module('modulecorrespondants', ['autocomplete'])
   console.log($stateParams.param1);
   $scope.idCorrespondant = $stateParams.param1;
 
-  for(var i = 0; i < $scope.doctauth.correspondants.length; i++){
-    if($scope.idCorrespondant == $scope.doctauth.correspondants[i].id){
-		$scope.$praticienCorrespondant = $scope.doctauth.correspondants[i];
-		break;
+  for(var i = 0; i < $scope.doctauth.correspondants.length; i++)
+  {
+    if($scope.idCorrespondant == $scope.doctauth.correspondants[i].id)
+    {
+      $scope.$praticienCorrespondant = $scope.doctauth.correspondants[i];
+      break;
     }
   }
 
-  if($scope.$praticienCorrespondant.messages.length > 0){
+  if($scope.$praticienCorrespondant.messages.length > 0)
+  {
     $scope.showList = true;
     $scope.showAucunMessage = false;
-    for($i = 0; $i < $scope.$praticienCorrespondant.messages.length ; $i++){
+    for($i = 0; $i < $scope.$praticienCorrespondant.messages.length ; $i++)
+    {
       $currentMessage = $scope.$praticienCorrespondant.messages[$i];
       messageTemp = {};
       messageTemp.id = $currentMessage.pk_user_message;
@@ -405,17 +416,20 @@ angular.module('modulecorrespondants', ['autocomplete'])
     $scope.showAucunMessage = true;
   };
 
-  $scope.correspondantMessage = function(correspondantid,messageid){
+  $scope.correspondantMessage = function(correspondantid,messageid)
+  {
     console.log('before ' + messageid);
     $state.go("messageconsultation",  {'param1':correspondantid,'param2':messageid});
   };
 
-  $scope.ecrireMessage = function(){
+  $scope.ecrireMessage = function()
+  {
     $state.go("messagecreation",  {'param1':$scope.idCorrespondant});
   };
 
 
-  $scope.getMessagesForCorrespondant = function(forPraticien){
+  $scope.getMessagesForCorrespondant = function(forPraticien)
+  {
 
     var requestMessages = "";
     forPraticien.messages=[];

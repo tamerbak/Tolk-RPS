@@ -16,7 +16,7 @@
    <div class="menu_general_bulls">
    <div class="row menu_general_no_padding">
        <center class="col menu_general_bull_left">
-         <div class="menu_general_vous"><i class="fa fa-user-md fa-4x menu_general_profil"></i><p class="menu_general_text_vous">Vous</p></div>
+         <div class="menu_general_vous" ui-sref="profile"><i class="fa fa-user-md fa-4x menu_general_profil"></i><p class="menu_general_text_vous">Vous</p></div>
        </center>
        <center class="col menu_general_bull_right">
          <div ng-click="mescorrespondants()" class="menu_general_correspondants"><i class="fa fa-users fa-4x menu_general_share"></i><p class="menu_general_text_correspondants">Vos<br>correspondants</p></div>
@@ -28,7 +28,7 @@
          <div class="menu_general_actualite"><i class="fa fa-newspaper-o fa-4x menu_general_actlt"></i><p class="menu_general_text_actualite">Votre<br>Actualité</p></div>
        </center>
        <center class="col menu_general_bull_right">
-         <div class="menu_general_web"><i class="fa fa-user-plus fa-4x menu_general_wb"></i><p class="menu_general_text_web">developper<br>votre réseau</p></div>
+         <div class="menu_general_web" data-ng-click="loadAllComptes()"><i class="fa fa-user-plus fa-4x menu_general_wb"></i><p class="menu_general_text_web">developper<br>votre réseau</p></div>
        </center>
     </div>
     </div>
