@@ -2180,10 +2180,10 @@ color: #e14640;
     z-index: -1;
     display: block;
     background-image: url(../img/bg.png);
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
+/*     background-repeat: no-repeat; */
+  /*   background-size: 100% 100%; */
 
-    /*
+    
 
     margin: -60%;
     top: 35%;
@@ -2202,7 +2202,7 @@ color: #e14640;
     -o-filter:brightness(88%) blur(5px);
     -ms-filter:brightness(88%) blur(5px);
     filter:brightness(88%) blur(5px);
-    */
+    
 }
 .menu_general_header
 {
