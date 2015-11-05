@@ -28,12 +28,6 @@
               <span class="">Tous les comptes</span>
           </div>
 
-          <div class="col col-20 col-bar">
-              <div class="buttons messages_right_icon" >
-                  <button ng-click="ajoutercorrespondant()" class="button button-clear icon ion-person-add button-dark mescorrespondants_bar_button"></button>
-              </div>
-          </div>
-
           <div class="clearboth"></div>
         </div>
         <div class="clearboth"></div>
@@ -43,7 +37,7 @@
           </div>
 
           <ion-list>
-              <ion-item data-ng-repeat="compte in comptes" class="item item-avatar item-icon-right mescorrespondants_list_item" ng-click="correspondantDetail('{{correspondant.id}}')">
+              <ion-item data-ng-repeat="compte in comptes" class="item item-avatar item-icon-right mescorrespondants_list_item">
                   <img ng-src="img/ionic.png"><!--"{{item.img}}"-->
                   <h2>{{compte.nom}}</h2>
                   <p>{{compte.specialite}}</p>

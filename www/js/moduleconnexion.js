@@ -38,8 +38,97 @@ angular.module('moduleconnexion',['fileServices'])
     $scope.msg = "";
   };
 
-  $scope.seconnecter = function()
-  {
+  			$scope.getCorrespondantsFromServer = function(id_compte){
+				var requestCorrespondants = "";
+				// console.log("id compte"+$scope.doctauth.id_compte);
+				if (id_compte != "" ){
+				  requestCorrespondants = "<fr.protogen.connector.model.SearchClause>" +
+					"<field>fk_user_compte</field>" +
+					"<clause>"+id_compte+"</clause>" +
+					"<gt>"+id_compte+"</gt>" +
+					"<lt>"+id_compte+"</lt>" +
+					"<type>TEXT</type>" +
+					"</fr.protogen.connector.model.SearchClause>";
+				  console.log(requestCorrespondants);
+
+				}
+				else
+					$state.go('accueil');
+				
+				$requestdata = "<fr.protogen.connector.model.DataModel><entity>user_correspondance</entity><dataMap/><rows/><token><username/><password/><nom>Jakjoud Abdeslam</nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId>" + $scope.appauth.sessionId + "</sessionId><status>SUCCES</status><id>206</id><beanId>0</beanId></token><expired></expired><unrecognized></unrecognized><status></status><operation>GET</operation><clauses>"+requestCorrespondants+"</clauses><page>1</page><pages>100</pages><nbpages>100</nbpages><iddriver>0</iddriver><ignoreList></ignoreList></fr.protogen.connector.model.DataModel>";
+				$http({
+				  method  : 'POST',
+				  url     : 'http://ns389914.ovh.net:8080/tolk/api/das',
+				  data    : $requestdata,
+				  headers: {"Content-Type": 'text/xml'}
+				})
+				  .success(function(data){
+
+					datajson=xmlParser.xml_str2json(data);
+					if(datajson['fr.protogen.connector.model.DataModel'].status !== "FAILURE"){
+						console.log("corresp : "+data);
+						
+														resp = formatString.formatServerResult(data);
+														// DONNEES ONT ETE CHARGES
+														console.log("les corresp ont été bien chargé");
+														if(typeof resp.dataModel === 'undefined' || typeof resp.dataModel.rows === 'undefined')
+															return;
+														
+														villeObjects = resp.dataModel.rows.dataRow;
+											
+														// GET comptes
+														docteurAuthentification.correspondants= [];
+														ville = {}; 
+
+														villesList = [].concat(villeObjects);
+														for (var i = 0; i < villesList.length; i++) {
+															object = villesList[i].dataRow.dataEntry;
+
+															// PARCOURIR LIST PROPERTIES
+															//ville[object[1].attributeReference] = object[1].value;
+															//ville[object[2].attributeReference] = object[2].value;
+															docteurAuthentification.correspondants.push(Number(object[2].value));
+															
+															/**if(typeof object[1]['list'] !== 'undefined'){
+																if(typeof object[1]['list']['dataCouple'] !== 'undefined'){
+																	ville['specialite'] = object[1]['list']['dataCouple']['label'];
+																}else
+																	ville['specialite']="";	
+															}else
+																ville['specialite']="";
+															
+															
+															ville[object[3].attributeReference] = object[3].value;
+															ville[object[13].attributeReference] = object[13].value;
+															if(typeof object[13]['list'] !== 'undefined'){
+																if(typeof object[13]['list']['dataCouple'] !== 'undefined'){
+																	ville['nom'] = object[13]['list']['dataCouple']['label'];
+																}else
+																	ville['nom']="";	
+															}else
+																ville['nom']="";
+															
+
+															if (ville)
+																docteurAuthentification.correspondants.push(ville);
+															ville = {}***/
+														}
+
+														console.log("correspondants.length : "+ docteurAuthentification.correspondants.length);
+														// PUT IN SESSION
+														console.log("correspondants : "+JSON.stringify(docteurAuthentification.correspondants));
+					}
+					else{
+					  $scope.erreur = "Probleme serveur";
+					}
+				  })
+				  .error(function(data){
+					console.log(data);
+					console.log("erreur");
+				  });
+			  };
+			  
+  $scope.seconnecter = function(){
 	  function el(id){
 		var elem = document.getElementById(id);
 		if(typeof elem !== 'undefined' && elem !== null){
@@ -121,6 +210,9 @@ angular.module('moduleconnexion',['fileServices'])
 								console.log("une erreur est survenue lors telechargement d'image");
 							}
 						  )
+						  
+						  // GET ALL CORRESPONADANCE
+						  $scope.getCorrespondantsFromServer(Number($scope.id_compte));
 					  }
 			  
                     }

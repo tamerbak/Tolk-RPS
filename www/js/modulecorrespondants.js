@@ -43,11 +43,9 @@ angular.module('modulecorrespondants', ['autocomplete'])
     $state.go("correspondant",  {'param1':correspondantName});
   };
 
-  $scope.getCorrespondants = function()
-  {
+  $scope.getCorrespondants = function(){
 
-    if ($scope.appauth.sessionId == "")
-    {
+    if($scope.appauth.sessionId == ""){
       //console.log('called'+ $scope.appauth.sessionId);
       //$state.go('home');
       $http({
@@ -56,32 +54,28 @@ angular.module('modulecorrespondants', ['autocomplete'])
         data    : "<fr.protogen.connector.model.AmanToken><username>administration</username><password>1234</password><nom></nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId></sessionId><status></status><id>0</id><beanId>0</beanId></fr.protogen.connector.model.AmanToken>",
         headers: {"Content-Type": 'text/xml'}
       })
-        .success(function(data)
-        {
+        .success(function(data){
           datajson=xmlParser.xml_str2json(data);
           $scope.appauth.sessionId = datajson['fr.protogen.connector.model.AmanToken'].sessionId;
           $scope.getCorrespondantsFromServer();
 
         })
-        .error(function(data) //
-        {
+        .error(function(data){
           console.log(data);
           console.log("erreur");
         });
 
     }
-    else
-    {
+    else{
       $scope.getCorrespondantsFromServer();
     }
   };
 
-  $scope.getCorrespondantsFromServer = function()
-  {
-    var requestCorrespondants = "";
+  $scope.getCorrespondantsFromServer = function(){
+    
+	var requestCorrespondants = "";
     console.log("id compte"+$scope.doctauth.id_compte);
-    if ($scope.doctauth.id_compte != "" )
-    {
+    if ($scope.doctauth.id_compte != "" ){
       requestCorrespondants = "<fr.protogen.connector.model.SearchClause>" +
         "<field>fk_user_compte</field>" +
         "<clause>"+$scope.doctauth.id_compte+"</clause>" +
@@ -92,8 +86,7 @@ angular.module('modulecorrespondants', ['autocomplete'])
       console.log(requestCorrespondants);
 
     }
-    else
-    {
+    else{
       //$state.go('accueil');
     }
 
@@ -105,20 +98,15 @@ angular.module('modulecorrespondants', ['autocomplete'])
       data    : $requestdata,
       headers: {"Content-Type": 'text/xml'}
     })
-      .success(function(data)
-      {
+      .success(function(data){
 
         datajson=xmlParser.xml_str2json(data);
-        if (datajson['fr.protogen.connector.model.DataModel'].status != "FAILURE")
-        {
+        if (datajson['fr.protogen.connector.model.DataModel'].status != "FAILURE"){
           $scope.setCorrespondants(datajson['fr.protogen.connector.model.DataModel']['rows']['fr.protogen.connector.model.DataRow']);
         }
-        else
-        {
+        else{
           $scope.erreur = "Probleme serveur";
         }
-
-
       })
       .error(function(data) //
       {
@@ -127,8 +115,7 @@ angular.module('modulecorrespondants', ['autocomplete'])
       });
   };
 
-  $scope.setCorrespondants = function(rows)
-  {
+  $scope.setCorrespondants = function(rows){
 
     $scope.doctauth.correspondants.length = 0;
 
@@ -153,8 +140,7 @@ angular.module('modulecorrespondants', ['autocomplete'])
           $tableau_praticien = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].list["fr.protogen.connector.model.DataCouple"];
           $tableau_praticien = [].concat( $tableau_praticien );
 
-          for(var k = 0; k < $tableau_praticien.length ; k++)
-          {
+          for(var k = 0; k < $tableau_praticien.length ; k++){
             if($id_praticien == $tableau_praticien[k].id)
             {
               $praticien = {};
@@ -359,8 +345,7 @@ angular.module('modulecorrespondants', ['autocomplete'])
 //=========================================
 .controller('correspondantCtrl',function($scope,$http,$state,$stateParams,$ionicHistory,$filter,xmlParser,appAuthentification,docteurAuthentification)
 {
-  $scope.goBack = function()
-  {
+  $scope.goBack = function(){
     $ionicHistory.goBack();
   };
 
@@ -378,21 +363,17 @@ angular.module('modulecorrespondants', ['autocomplete'])
   console.log($stateParams.param1);
   $scope.idCorrespondant = $stateParams.param1;
 
-  for(var i = 0; i < $scope.doctauth.correspondants.length; i++)
-  {
-    if($scope.idCorrespondant == $scope.doctauth.correspondants[i].id)
-    {
-      $scope.$praticienCorrespondant = $scope.doctauth.correspondants[i];
-      break;
+  for(var i = 0; i < $scope.doctauth.correspondants.length; i++){
+    if($scope.idCorrespondant == $scope.doctauth.correspondants[i].id){
+		$scope.$praticienCorrespondant = $scope.doctauth.correspondants[i];
+		break;
     }
   }
 
-  if($scope.$praticienCorrespondant.messages.length > 0)
-  {
+  if($scope.$praticienCorrespondant.messages.length > 0){
     $scope.showList = true;
     $scope.showAucunMessage = false;
-    for($i = 0; $i < $scope.$praticienCorrespondant.messages.length ; $i++)
-    {
+    for($i = 0; $i < $scope.$praticienCorrespondant.messages.length ; $i++){
       $currentMessage = $scope.$praticienCorrespondant.messages[$i];
       messageTemp = {};
       messageTemp.id = $currentMessage.pk_user_message;
@@ -424,20 +405,17 @@ angular.module('modulecorrespondants', ['autocomplete'])
     $scope.showAucunMessage = true;
   };
 
-  $scope.correspondantMessage = function(correspondantid,messageid)
-  {
+  $scope.correspondantMessage = function(correspondantid,messageid){
     console.log('before ' + messageid);
     $state.go("messageconsultation",  {'param1':correspondantid,'param2':messageid});
   };
 
-  $scope.ecrireMessage = function()
-  {
+  $scope.ecrireMessage = function(){
     $state.go("messagecreation",  {'param1':$scope.idCorrespondant});
   };
 
 
-  $scope.getMessagesForCorrespondant = function(forPraticien)
-  {
+  $scope.getMessagesForCorrespondant = function(forPraticien){
 
     var requestMessages = "";
     forPraticien.messages=[];
