@@ -15,7 +15,7 @@
 			<!-- IMAGE -->
 			<div onclick="document.getElementById('image-input').click();">
 				<input id="image-input" type="file" accept="image/*" style="display: none;" onchange="angular.element(this).scope().loadImage(this)">
-				<img id="imgP" data-ng-src="{{formData.imageProfile}}" style="border-radius: 50%; border: 5px solid #AAA;" height="120px">
+				<img id="imgP" data-ng-src="{{formData.imageProfile}}" style="border-radius: 50%; border: 5px solid #AAA;" height="120px" width="120px" >
 			</div>
 			<!-- DESCRIPTION -->
 			<div>

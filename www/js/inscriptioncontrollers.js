@@ -323,7 +323,10 @@ angular.module('inscriptioncontrollers', ['autocomplete', 'fileServices'])
 									
 									// UPDATE IMAGE
 									el('imgP').src=$scope.formData.imageEncode;
-									el('Mbody').style.backgroundImage='url("'+$scope.formData.imageEncode+'")';
+									var elem=el('Mbody');
+									elem.style.backgroundImage='url("'+$scope.formData.imageEncode+'")';
+									//el('Mbody').className+="effet_bright";
+									
 									// SET EN SERVICE
 									docteurAuthentification.imageP=$scope.formData.imageEncode;
 								},

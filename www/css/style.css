@@ -148,14 +148,13 @@ ion-view
 	
 	.effet_bright{
 		position: fixed;
-		margin: -60%;
 		top: 35%;
 		left: 10%;
 		right: 0;
 		z-index: -1;
 		display: block;
 		
-		background-image: url('img/1.48.jpg');background-size: cover;
+		background-size: cover;
 		width: 170%;
 		height: 100%;
 		-webkit-filter:brightness(88%) blur(5px);

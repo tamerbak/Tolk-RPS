@@ -3,7 +3,7 @@ angular.module('modulecorrespondants', ['autocomplete'])
 //=========================================
 //=========================================   Mes correspondants
 //=========================================
-.controller('mescorrespondantsCtrl',function($scope,$state,$stateParams,$http,$ionicHistory,$filter,xmlParser,appAuthentification,docteurAuthentification)
+.controller('mescorrespondantsCtrl',function($scope,$state,formatString,$stateParams,$http,$ionicHistory,$filter,xmlParser,appAuthentification,docteurAuthentification)
 {
   $scope.appauth = appAuthentification;
   $scope.doctauth = docteurAuthentification;
