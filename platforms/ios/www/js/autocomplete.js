@@ -2,7 +2,7 @@
 
 var app = angular.module('autocomplete', []);
 
-app.directive('autocomplete', function($cordovaKeyboard) {
+app.directive('autocomplete', function() {
   var index = -1;
 
   return {
@@ -36,6 +36,7 @@ app.directive('autocomplete', function($cordovaKeyboard) {
 
       $scope.viderchamp = function(element)
       {
+        element.target.value ="";
 
         if (element.target.id == "abc") 
         {
@@ -103,7 +104,7 @@ app.directive('autocomplete', function($cordovaKeyboard) {
         $scope.completing = false;
         setTimeout(function(){watching = true;},1000);
         $scope.setIndex(-1);
-        $cordovaKeyboard.close();
+        // $cordovaKeyboard.close();
       };
 
 

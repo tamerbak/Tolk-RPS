@@ -112,6 +112,8 @@ angular.module('moduleconnexion',['fileServices'])
 									docteurAuthentification.imageP=stream;
 									// UPDATE BACK-GROUND IMAGE
 									el('Mbody').style.backgroundImage='url("'+stream+'")';
+									//el('Mbody').classList.add("effet_bright_dyn");
+									
 								}
 								
 							},

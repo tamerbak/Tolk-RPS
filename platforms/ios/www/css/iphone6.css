@@ -62,7 +62,7 @@
 
   .inscription_2_label_num
   {
-      margin-top: -4vh;
+      margin-top: 0vh;
   }
 
   #connexion_ceercomptered {
@@ -90,7 +90,7 @@
   }
 
   .inscription_3_input_2 {
-    margin-top: 5vh;
+    margin-top: 1vh;
   }
 
   #inscription_4_ceercomptered {
@@ -647,7 +647,7 @@
   .firstconnexion2_nom_prenom {
     color: white;
     font-family: bentonsansextralight;
-    font-size: 8vw;
+    font-size: 9vw;
     margin-top: 10vh;
     text-align: center;
   }

@@ -177,6 +177,7 @@ ion-view
   font-family: bentonsansextralight;
   color: white;
   font-size: 10vw;
+  font-size: 10vw;
   text-align: center;
   padding-top: 20vh;
 }
@@ -184,6 +185,7 @@ ion-view
 .accueil_desc {
   font-family: bentonsansBook;
   color: white;
+  font-size: 5vw;
   font-size: 5vw;
   text-align: center;
 }
@@ -311,7 +313,7 @@ ion-view
 .inscription_header
 {
 	background-color: transparent;
-    padding-top: 2vh;
+    /*padding-top: 2vh;*/
 }
 .inscription_header_div_img
 {
@@ -2180,29 +2182,12 @@ color: #e14640;
     z-index: -1;
     display: block;
     background-image: url(../img/bg.png);
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
+    background-repeat: no-repeat; 
+    background-size: 100% 100%; 
 
-    /*
-
-    margin: -60%;
-    top: 35%;
-    left: 10%;
-    right: 0;
-    z-index: -1;
-    display: block;
-    background-image: url(../img/bg.png);
-    background-repeat: no-repeat;
-    background-size: 120% 100%;
-
-    width: 170%;
+    width: 100%;
     height: 100%;
-    -webkit-filter:brightness(88%) blur(5px);
-    -moz-filter:brightness(88%) blur(5px);
-    -o-filter:brightness(88%) blur(5px);
-    -ms-filter:brightness(88%) blur(5px);
-    filter:brightness(88%) blur(5px);
-    */
+    
 }
 .menu_general_header
 {

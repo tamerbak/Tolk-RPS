@@ -2,7 +2,7 @@
     <ion-content class="screen" height="100%" ng-controller="inscription2Ctrl"  has-bouncing="false" overflow-scroll="true">
       <!--<div class="image_menu_general"></div>-->
 <!--       header avec logo      -->
-        <header class="inscription_header" style=>
+        <header class="inscription_header" >
             <div class="inscription_header_div_img"><img src="img/logo_tolk_v2.png"></div>
             <div class="inscription_titre">R&eacute;seau professionnel de sant&eacute;</div>
         </header>
@@ -32,12 +32,12 @@
                 </div>
                 <div class="row row_element_5">
                     <div class="col-20 col_inscription">
-                        <label class="inscription_2_label_num">
+                        <label class="inscription_2_label_num" >
                             <input type="text" name="adresse_num" ng-model="dr.adresse_num" class="inscription_3_input inscription_3_input_2" placeholder="N&deg;"/>
                         </label>
                     </div>
-                    <div class="col-80 col_inscription">
-                        <autocomplete id="autocomplete-adresse" class="inscription_autocomplete inscription_2_input_bottom_space" ng-model="dr.adresse" data="adresses" on-type="updateAdresses" attr-placeholder="Rue/Voie">
+                    <div class="col-80 col_inscription" >
+                        <autocomplete id="autocomplete-adresse" class="inscription_autocomplete inscription_2_input_bottom_space" ng-model="dr.adresse" data="adresses" on-type="updateAdresses" attr-placeholder="Rue/ Voie">
                         </autocomplete>
                     </div>
                 </div>
