@@ -633,8 +633,10 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova'])
             console.log(datajson.dataModel.rows.dataRow);
             if (datajson.dataModel.rows == "")
             {
-                popup.showpopup("L'adresse saisie n'existe pas"); 
-                return; 
+                //popup.showpopup("L'adresse saisie n'existe pas");
+                $state.go('inscription3');
+
+                return;
             }
 
             rows = [].concat( datajson.dataModel.rows.dataRow.dataRow);
