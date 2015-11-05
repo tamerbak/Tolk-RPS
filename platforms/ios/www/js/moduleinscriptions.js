@@ -544,7 +544,11 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
 
   $scope.buttonValiderDisabled = true;
 
-
+  $scope.focusOnNum = function()
+  {
+    console.log("num clicked");
+    $scope.dr.adresse_num = "";
+  }
 
   $scope.goBack = function() {
     $ionicHistory.goBack();
@@ -1236,6 +1240,11 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
 //=====================================
 .controller('inscription3Ctrl',function($scope,$state,$http,$ionicHistory,formatString,$ionicPopover,popup,docteurInscription,appAuthentification)
 {
+
+  $scope.dr = docteurInscription;
+  $scope.appauth = appAuthentification;
+
+
   $scope.goBack = function()
   {
     $ionicHistory.goBack();
@@ -1245,9 +1254,18 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
   {
     $ionicHistory.goBack(-3);
   }
-  
-  $scope.dr = docteurInscription;
-  $scope.appauth = appAuthentification;
+
+  $scope.focusOntel = function()
+  {
+    console.log("num clicked");
+    $scope.dr.tel = "";
+  }
+
+  $scope.focusOnemail = function()
+  {
+    console.log("num clicked");
+    $scope.dr.email = "";
+  }
 
   $scope.validValue = function()
   {
