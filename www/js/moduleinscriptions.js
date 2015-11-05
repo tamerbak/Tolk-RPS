@@ -553,7 +553,142 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova'])
   {
     $state.go('accueil');
   };
+    $scope.addAdress=function(){
 
+        requestAddAdress = "<fr.protogen.connector.model.DataModel>" +
+            "<entity>user_adresse</entity>" +
+            "<dataMap/>" +
+            "<rows>" +
+            "<fr.protogen.connector.model.DataRow>" +
+            "<dataRow>" +
+
+            "<fr.protogen.connector.model.DataEntry>" +
+            "<label>&lt;![CDATA[Adresse]]&gt;</label>" +
+            "<attributeReference>adresse</attributeReference>" +
+            "<type>TEXT</type>" +
+            "<value>"+$scope.dr.adresse+"</value>" +
+            "</fr.protogen.connector.model.DataEntry>" +
+
+            "<fr.protogen.connector.model.DataEntry>" +
+            "<label>&lt;![CDATA[Num]]&gt;</label>" +
+            "<attributeReference>num</attributeReference>" +
+            "<type>TEXT</type>" +
+            "<list/>" +
+            "<value>"+ $scope.dr.adresse_num+"</value>"+
+            "</fr.protogen.connector.model.DataEntry>" +
+
+            "<fr.protogen.connector.model.DataEntry>" +
+            "<label>&lt;![CDATA[Code postal]]&gt;</label>" +
+            "<attributeReference>cp</attributeReference>" +
+            "<type>TEXT</type>" +
+            "<list/>" +
+            "<value>"+ $scope.dr.cp+"</value>" +
+            "</fr.protogen.connector.model.DataEntry>" +
+
+            "<fr.protogen.connector.model.DataEntry>" +
+            "<label>&lt;![CDATA[Ville]]&gt;</label>" +
+            "<attributeReference>district</attributeReference>" +
+            "<type>TEXT</type>" +
+            "<list/>" +
+            "<value>"+$scope.dr.ville+"</value>" +
+            "</fr.protogen.connector.model.DataEntry>" +
+
+            "<fr.protogen.connector.model.DataEntry>" +
+            "<label>&lt;![CDATA[Présent dans la base de données]]&gt;</label>" +
+            "<attributeReference>present_dans_la_base_de_donnees</attributeReference>" +
+            "<type>TEXT</type>" +
+            "<list/>" +
+            "<value>Non</value>" +
+            "</fr.protogen.connector.model.DataEntry>"+
+
+            "<fr.protogen.connector.model.DataEntry>" +
+            "<label>&lt;![CDATA[Validée]]&gt;</label>" +
+            "<attributeReference>validee</attributeReference>" +
+            "<type>TEXT</type>" +
+            "<value>"+$scope.adresse_valide+"</value>" +
+            "</fr.protogen.connector.model.DataEntry>" +
+            "</dataRow>" +
+            "</fr.protogen.connector.model.DataRow>" +
+            "</rows>" +
+            "<token>" +
+            "<username></username>" +
+            "<password></password>" +
+            "<nom>Jakjoud Abdeslam</nom>" +
+            "<appId>FRZ48GAR4561FGD456T4E</appId>" +
+            "<sessionId>" + $scope.appauth.sessionId + "</sessionId>" +
+            "<status>SUCCES</status>" +
+            "<id>206</id>" +
+            "<beanId>0</beanId>" +
+            "</token>" +
+            "<expired></expired>" +
+            "<unrecognized></unrecognized>" +
+            "<status></status>" +
+            "<operation>PUT</operation>" +
+            "<clauses/>" +
+            "<page>1</page>" +
+            "<pages>5</pages>" +
+            "<nbpages>0</nbpages>" +
+            "<iddriver>0</iddriver>" +
+            "<ignoreList></ignoreList>" +
+            "</fr.protogen.connector.model.DataModel>";
+        console.log(requestAddAdress);
+        $http({
+            method  : 'POST',
+            url     : 'http://ns389914.ovh.net:8080/tolk/api/das',
+            data    : requestAddAdress,
+            headers: {"Content-Type": 'text/xml'}
+        })
+            .success(function(data)
+            {
+                datajson=formatString.formatServerResult(data);
+                console.log(datajson);
+                adresse = datajson.dataModel.status;
+
+                console.log("adresse : "+ adresse);
+                $scope.dr.adresse_id = datajson.dataModel.status;
+                $state.go('inscription3');
+            })
+            .error(function(data) //
+            {
+                console.log(data);
+                console.log("erreur http compte");
+                popup.showpopup("Une erreur est survenue, veuillez réesseyer SVP");
+
+            });
+    };
+    $scope.validerAdresse= function(){
+        var address =$scope.dr.adresse_num +" "+$scope.dr.adresse+", "+$scope.dr.ville+", "+$scope.dr.cp; //ADDRESS, CITY, STATE ZIP
+        $scope.queryResults = {};
+        $scope.queryError = {};
+        $scope.adresse_valide="";
+        $http.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + address + '&key=AIzaSyBZVOSPh0Z4mv9jljJWzZNSug6upuec7Sg')
+            .then(function(_results){
+                try {
+                    $scope.queryResults = _results.data.results;
+                    var location = $scope.queryResults[0].geometry.location;
+                    $scope.lat = location.lat;
+                    $scope.lng = location.lng;
+                    if ($scope.queryResults[0].geometry.location_type != "APPROXIMATE")
+                        $scope.adresse_valide = "Oui";
+                    else
+                        $scope.adresse_valide = "Non";
+                    console.log("$scope.adresse_valide 1: "+$scope.adresse_valide);
+                    $scope.addAdress();
+
+                }catch(err) {
+                    $scope.adresse_valide = "Non";
+                    console.log("$scope.adresse_valide : "+$scope.adresse_valide);
+                    $scope.addAdress();
+                }
+            },
+            function error(_error){
+                console.log("address 2 : "+address);
+
+                $scope.queryError = _error;
+                $scope.adresse_valide="Non";
+                $scope.addAdress();
+            });
+    }
   $scope.inscription3 = function()
   {
     $scope.dr.adresse_id ="";
@@ -636,134 +771,7 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova'])
                 //popup.showpopup("L'adresse saisie n'existe pas");
 
                 // tester la validation par google map de l adresse
-                var address =$scope.dr.adresse_num +" "+$scope.dr.adresse+", "+$scope.dr.ville+", "+$scope.dr.cp; //ADDRESS, CITY, STATE ZIP
-                $scope.queryResults = {};
-                $scope.queryError = {};
-                $scope.adresse_valide="";
-                $http.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + address + '&key=AIzaSyBZVOSPh0Z4mv9jljJWzZNSug6upuec7Sg')
-                    .then(function(_results){
-                        $scope.queryResults = _results.data.results;
-                        var location = $scope.queryResults[0].geometry.location;
-                        $scope.lat=location.lat;
-                        $scope.lng=location.lng;
-                        if($scope.queryResults[0].geometry.location_type!="APPROXIMATE")
-                            $scope.adresse_valide="Oui";
-                        else
-                            $scope.adresse_valide="Non";
-                    },
-                    function error(_error){
-                        $scope.queryError = _error;
-                        $scope.adresse_valide="Non";
-                    });
-                // ajout de l adresse dans la BD
-                requestAddAdress = "<fr.protogen.connector.model.DataModel>" +
-                    "<entity>user_adresse</entity>" +
-                    "<dataMap/>" +
-                    "<rows>" +
-                    "<fr.protogen.connector.model.DataRow>" +
-                    "<dataRow>" +
-
-                    "<fr.protogen.connector.model.DataEntry>" +
-                    "<label>&lt;![CDATA[Adresse]]&gt;</label>" +
-                    "<attributeReference>adresse</attributeReference>" +
-                    "<type>TEXT</type>" +
-                    "<value>"+$scope.dr.adresse+"</value>" +
-                    "</fr.protogen.connector.model.DataEntry>" +
-
-                    "<fr.protogen.connector.model.DataEntry>" +
-                    "<label>&lt;![CDATA[Num]]&gt;</label>" +
-                    "<attributeReference>num</attributeReference>" +
-                    "<type>TEXT</type>" +
-                    "<list/>" +
-                    "<value>"+ $scope.dr.adresse_num+"</value>"+
-                    "</fr.protogen.connector.model.DataEntry>" +
-
-                    "<fr.protogen.connector.model.DataEntry>" +
-                    "<label>&lt;![CDATA[Code postal]]&gt;</label>" +
-                    "<attributeReference>cp</attributeReference>" +
-                    "<type>TEXT</type>" +
-                    "<list/>" +
-                    "<value>"+ $scope.dr.cp+"</value>" +
-                    "</fr.protogen.connector.model.DataEntry>" +
-
-                    "<fr.protogen.connector.model.DataEntry>" +
-                    "<label>&lt;![CDATA[Ville]]&gt;</label>" +
-                    "<attributeReference>district</attributeReference>" +
-                    "<type>TEXT</type>" +
-                    "<list/>" +
-                    "<value>"+$scope.dr.ville+"</value>" +
-                    "</fr.protogen.connector.model.DataEntry>" +
-
-                    "<fr.protogen.connector.model.DataEntry>" +
-                    "<label>&lt;![CDATA[Présent dans la base de données]]&gt;</label>" +
-                    "<attributeReference>present_dans_la_base_de_donnees</attributeReference>" +
-                    "<type>TEXT</type>" +
-                    "<list/>" +
-                    "<value>Non</value>" +
-                    "</fr.protogen.connector.model.DataEntry>" +
-
-                    "<fr.protogen.connector.model.DataEntry>" +
-                    "<label>&lt;![CDATA[Validée]]&gt;</label>" +
-                    "<attributeReference>validee</attributeReference>" +
-                    "<type>TEXT</type>" +
-                    "<value>"+$scope.adresse_valide+"</value>" +
-                    "</fr.protogen.connector.model.DataEntry>" +
-
-                    "</dataRow>" +
-                    "</fr.protogen.connector.model.DataRow>" +
-                    "</rows>" +
-                    "<token>" +
-                    "<username></username>" +
-                    "<password></password>" +
-                    "<nom>Jakjoud Abdeslam</nom>" +
-                    "<appId>FRZ48GAR4561FGD456T4E</appId>" +
-                    "<sessionId>" + $scope.appauth.sessionId + "</sessionId>" +
-                    "<status>SUCCES</status>" +
-                    "<id>206</id>" +
-                    "<beanId>0</beanId>" +
-                    "</token>" +
-                    "<expired></expired>" +
-                    "<unrecognized></unrecognized>" +
-                    "<status></status>" +
-                    "<operation>PUT</operation>" +
-                    "<clauses/>" +
-                    "<page>1</page>" +
-                    "<pages>5</pages>" +
-                    "<nbpages>0</nbpages>" +
-                    "<iddriver>0</iddriver>" +
-                    "<ignoreList></ignoreList>" +
-                    "</fr.protogen.connector.model.DataModel>";
-                console.log("requtte inscription");
-                console.log(requestAddAdress);
-                $http({
-                    method  : 'POST',
-                    url     : 'http://ns389914.ovh.net:8080/tolk/api/das',
-                    data    : requestAddAdress,
-                    headers: {"Content-Type": 'text/xml'}
-                })
-                    .success(function(data)
-                    {
-
-                        datajson=formatString.formatServerResult(data);
-                        if (datajson.dataModel.status != "FAILURE") {
-                            console.log("datajson:"+datajson);
-                            //for (var  j = 0; j < datajson.dataModel.rows.dataRow.dataRow.dataEntry.length ; j++)
-                        }
-                        else
-                        {
-                            console.log("erreur success compte");
-                            popup.showpopup("Une erreur est survenue, veuillez réesseyer SVP");
-                        }
-
-                    })
-                    .error(function(data) //
-                    {
-                        console.log(data);
-                        console.log("erreur http compte");
-                        popup.showpopup("Une erreur est survenue, veuillez réesseyer SVP");
-
-                    });
-                $state.go('inscription3');
+                $scope.validerAdresse();
                 return;
             }
 
