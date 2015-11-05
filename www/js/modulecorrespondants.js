@@ -3,18 +3,11 @@ angular.module('modulecorrespondants', ['autocomplete'])
 //=========================================
 //=========================================   Mes correspondants
 //=========================================
-.controller('mescorrespondantsCtrl',function($scope,$state,$stateParams,$http,$ionicHistory,$filter,xmlParser,appAuthentification,docteurAuthentification)
+.controller('mescorrespondantsCtrl',function($scope,$state,$stateParams,$http,$ionicHistory,$filter,formatString,xmlParser,appAuthentification,docteurAuthentification)
 {
   $scope.appauth = appAuthentification;
   $scope.doctauth = docteurAuthentification;
 
-  $scope.correspondants = [
-      {name: "Venkman", last_message:"Back off, man. I'm a scientist."},
-      {name: "Egon", last_message:"We're gonna go full stream."},
-      {name: "Ray", last_message: "Ugly little spud, isn't he?"},
-      {name: "Winston", last_message: "That's a big Twinkie."},
-      {name: "Tully", last_message: "Okay, who brought the dog?"}
-   ];
   $scope.goBack = function()
   {
     console.log('going back');
@@ -30,11 +23,6 @@ angular.module('modulecorrespondants', ['autocomplete'])
   $scope.doSomething = function()
   {
       $ionicHistory.goBack();
-  };
-
-  $scope.addSomething = function()
-  {
-      console.log('YOU WANNA ADD SOMEONE');
   };
 
   $scope.correspondantDetail = function(correspondantName)
@@ -108,10 +96,10 @@ angular.module('modulecorrespondants', ['autocomplete'])
       .success(function(data)
       {
 
-        datajson=xmlParser.xml_str2json(data);
-        if (datajson['fr.protogen.connector.model.DataModel'].status != "FAILURE")
+        datajson=formatString.formatServerResult(data);
+        if (datajson.dataModel.status != "FAILURE")
         {
-          $scope.setCorrespondants(datajson['fr.protogen.connector.model.DataModel']['rows']['fr.protogen.connector.model.DataRow']);
+          $scope.setCorrespondants(datajson.dataModel.rows.dataRow);
         }
         else
         {
@@ -143,14 +131,13 @@ angular.module('modulecorrespondants', ['autocomplete'])
 
     for(var i=0; i<rows.length; i++)
     {
-      for (var j = 0; j < rows[i].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++)
+      for (var j = 0; j < rows[i].dataRow.dataEntry.length ; j++)
       {
-        if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "fk_user_praticien")
+        if (rows[i].dataRow.dataEntry[j].attributeReference == "fk_user_praticien")
         {
-          $id_praticien = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
-          $id_praticien = $id_praticien.replace("<![CDATA[", "").replace("]]>", "");
+          $id_praticien = rows[i].dataRow.dataEntry[j].value;
 
-          $tableau_praticien = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].list["fr.protogen.connector.model.DataCouple"];
+          $tableau_praticien = rows[i].dataRow.dataEntry[j].list.dataCouple;
           $tableau_praticien = [].concat( $tableau_praticien );
 
           for(var k = 0; k < $tableau_praticien.length ; k++)
@@ -161,7 +148,7 @@ angular.module('modulecorrespondants', ['autocomplete'])
               $praticien.id = $id_praticien;
               $praticien.name = $tableau_praticien[k].label;
               $scope.doctauth.correspondants.push($praticien);
-              $scope.getMessagesForCorrespondant($praticien);
+              //$scope.getMessagesForCorrespondant($praticien);
               break;
             }
           }

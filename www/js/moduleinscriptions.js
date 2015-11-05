@@ -1,4 +1,4 @@
-angular.module('moduleinscriptions', ['autocomplete','ngCordova'])
+angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-maps'])
 
 
 //=================================
@@ -1217,9 +1217,10 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova'])
 //=====================================
 //===================================== Inscription Controller map
 //=====================================
-.controller('inscriptionMapCtrl',function($scope,$http,$state,$stateParams,$ionicHistory)
+.controller('inscriptionMapCtrl',function($scope,$http,$state,$stateParams,$ionicHistory,$cordovaGeolocation)
     {
         $scope.mapInit= function () {
+
             $scope.map = { center: { latitude: $stateParams.lat, longitude: $stateParams.lng }, zoom: 16 };
         };
         $scope.goBack = function()
