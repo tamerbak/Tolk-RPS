@@ -24,8 +24,12 @@
               </button>
           </div>
 
-          <div class="col col-65 col-bar mescorrespondants_titre">
-              <span class="">Tous les comptes</span>
+          <div class="col col-65 col-bar" align="right">
+              <span style="width: 100%">
+				<!--Tous les comptes-->
+				<input type="text" data-ng-model="rechercher"  style="border: 1px solid #AAA; border-radius: 5px;width: 100%" placeholder="Rechercher compte"/>
+				<!--<input type="text" data-ng-model="rechercher"  style="border: 1px solid #AAA; border-radius: 5px;width: 100%" onfocus="if (this.value == 'Rechercher compte') {this.value = '';}" onblur="this.value='Rechercher compte';if (this.value == '') {this.value = 'Rechercher compte';}"/>-->
+			</span>
           </div>
 
           <div class="clearboth"></div>
@@ -36,8 +40,9 @@
             <p class="message_nomessage_p">Pas de compte </p>
           </div>
 
+		  <input type="text"  style="border: 1px solid #AAA; border-radius: 5px;width: 100%" placeholder="Rechercher compte"/>
           <ion-list>
-              <ion-item data-ng-repeat="compte in comptes" class="item item-avatar item-icon-right mescorrespondants_list_item">
+              <ion-item data-ng-repeat="compte in comptes | filter:rechercher" class="item item-avatar item-icon-right mescorrespondants_list_item">
                   <img ng-src="img/ionic.png"><!--"{{item.img}}"-->
                   <h2>{{compte.nom}}</h2>
                   <p>{{compte.specialite}}</p>

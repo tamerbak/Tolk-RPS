@@ -553,11 +553,13 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
   $scope.goBack = function() {
     $ionicHistory.goBack();
   };
+  
   $scope.accueil = function()
   {
     $state.go('accueil');
   };
-    $scope.addAdress=function(){
+   
+   $scope.addAdress=function(){
 
         requestAddAdress = "<fr.protogen.connector.model.DataModel>" +
             "<entity>user_adresse</entity>" +
@@ -712,11 +714,11 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
         return; 
     }
 
-    if ($scope.dr.adresse_num == "")
+    /***if ($scope.dr.adresse_num == "")
     {
         popup.showpopup("Veuillez saisir le numéro de votre adresse.");
         return; 
-    }
+    }**/
 
     if ($scope.dr.adresse == "")
     {

@@ -13,7 +13,7 @@
       <div class="clearboth"></div>
     </header>
 
-    <article class="mescorrespondants_article" style="background-color: white;">
+    <article class="mescorrespondants_article" style="background-color: white;" data-ng-show="formData.hasCorrespondants">
 
       <div class="list">
 
@@ -47,8 +47,8 @@
           <ion-list>
               <ion-item ng-repeat="correspondant in doctauth.correspondants" class="item item-avatar item-icon-right mescorrespondants_list_item" ng-click="correspondantDetail('{{correspondant.id}}')">
                   <img ng-src="img/ionic.png"><!--"{{item.img}}"-->
-                  <h2>{{correspondant.name}}</h2>
-                  <p>{{correspondant.lastMessage.object}}</p>
+                  <h2>{{correspondant.nom}} {{correspondant.prenom}}</h2>
+                  <p>{{correspondant.specialite}}</p>
                   <i class="icon ion-ios-arrow-right"></i>
                   <ion-option-button class="button-positive" ng-click="share(item)">Share</ion-option-button>
                   <ion-option-button class="button-info" ng-click="edit(item)">Edit</ion-option-button>
@@ -57,7 +57,7 @@
               </ion-item>
           </ion-list>
 
-          <!-- ng-click="correspondant({{correspondant.name}}) -->
+          <!-- ng-click="correspondant({{correspondant.name}}) 
           <a class="item item-avatar mescorrespondants_list_item item-icon-right" ng-repeat="correspondant in doctauth.correspondants"
              ng-click="correspondantDetail('{{correspondant.id}}')">
             <img src="img/ionic.png">
@@ -65,11 +65,18 @@
             <h2>{{correspondant.name}}</h2>
             <p>{{correspondant.lastMessage.object}}</p>
             <i class="icon ion-ios-arrow-right"></i>
-          </a>
+          </a>-->
         </div>
       </div>
     </article>
 
+	<article class="mescorrespondants_article" style="background-color: white;" data-ng-hide="formData.hasCorrespondants">
+		<center style="width: 99%; height: 80%">
+			<div style="height: 30%"></div>
+			<p>Aucune correspondant trouvé.</p>
+			<div class="menu_general_web" ui-sref="mescontacts" style="border-raduis: 50%; border: 1px solid #000"><i class="fa fa-user-plus fa-4x menu_general_wb"></i><p class="menu_general_text_web">developper<br>votre réseau</p></div>
+       </center>
+	</article>
   </ion-content>
 </ion-view>
 

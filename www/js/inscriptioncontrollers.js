@@ -252,8 +252,8 @@ angular.module('inscriptioncontrollers', ['autocomplete', 'fileServices'])
     $state.go('menu_general');
   };
 })
-.controller('first_connexion_3Ctrl',function($scope,$state,appAuthentification,docteurAuthentification)
-{
+
+	.controller('first_connexion_3Ctrl',function($scope,$state,appAuthentification,docteurAuthentification){
   $scope.appauth = appAuthentification;
   $scope.doctauth = docteurAuthentification;
   $scope.first_connexion_3 = function()
@@ -341,13 +341,15 @@ angular.module('inscriptioncontrollers', ['autocomplete', 'fileServices'])
 			}
 		})
 		
-.controller('promo1Ctrl',function($scope,$state){
+
+		.controller('promo1Ctrl',function($scope,$state){
 	 $scope.promo1 = function()
 		{
 			$state.go('promo1');
 		  }
 		})
-.controller('previsualisationCtrl',function($scope,$state){
+
+		.controller('previsualisationCtrl',function($scope,$state){
 		  $scope.previsualtions = function()
 		  {
 			$state.go('previsualtion');

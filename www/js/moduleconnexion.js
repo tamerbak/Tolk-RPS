@@ -77,7 +77,7 @@ angular.module('moduleconnexion',['fileServices'])
 														villeObjects = resp.dataModel.rows.dataRow;
 											
 														// GET comptes
-														docteurAuthentification.correspondants= [];
+														docteurAuthentification.corresps= [];
 														ville = {}; 
 
 														villesList = [].concat(villeObjects);
@@ -87,7 +87,7 @@ angular.module('moduleconnexion',['fileServices'])
 															// PARCOURIR LIST PROPERTIES
 															//ville[object[1].attributeReference] = object[1].value;
 															//ville[object[2].attributeReference] = object[2].value;
-															docteurAuthentification.correspondants.push(Number(object[2].value));
+															docteurAuthentification.corresps.push(Number(object[2].value));
 															
 															/**if(typeof object[1]['list'] !== 'undefined'){
 																if(typeof object[1]['list']['dataCouple'] !== 'undefined'){
@@ -114,9 +114,9 @@ angular.module('moduleconnexion',['fileServices'])
 															ville = {}***/
 														}
 
-														console.log("correspondants.length : "+ docteurAuthentification.correspondants.length);
+														console.log("correspondants.length : "+ docteurAuthentification.corresps.length);
 														// PUT IN SESSION
-														console.log("correspondants : "+JSON.stringify(docteurAuthentification.correspondants));
+														console.log("correspondants : "+JSON.stringify(docteurAuthentification.corresps));
 					}
 					else{
 					  $scope.erreur = "Probleme serveur";

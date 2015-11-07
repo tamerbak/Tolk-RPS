@@ -135,7 +135,7 @@
 															object = villesList[i].dataRow.dataEntry;
 															
 															// PARCOURIR LIST PROPERTIES
-															if(docteurAuthentification.correspondants.indexOf(Number(object[13].value)) >= 0 || object[13].value === docteurAuthentification.id_prat){
+															if(docteurAuthentification.corresps.indexOf(Number(object[13].value)) >= 0 || object[13].value === docteurAuthentification.id_prat){
 																console.log("ID omar: "+object[13].value);
 																continue;
 															}
@@ -172,7 +172,7 @@
 														// PUT IN SESSION
 														console.log("comptes : "+JSON.stringify($scope.comptes));							
 						console.log("doctauth : "+JSON.stringify($scope.doctauth));
-						console.log("correspondants : "+docteurAuthentification.correspondants.length);
+						console.log("correspondants : "+docteurAuthentification.corresps.length);
 				  })
 				  .error(function(data){
 					console.log(data);
@@ -200,7 +200,7 @@
 					console.log("data : "+data);
 					
 					// UPDATE LIST CORRESPONDANCE
-					docteurAuthentification.correspondants.push(Number(compte.fk_user_praticien));
+					docteurAuthentification.corresps.push(Number(compte.fk_user_praticien));
 					
 					// REDIRECTION
 					$state.go("mescorrespondants");

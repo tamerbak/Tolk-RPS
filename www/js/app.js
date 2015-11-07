@@ -108,6 +108,7 @@ angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontroller
 	docteurAuthentification.telephone = '';
 	docteurAuthentification.imageP = '';
 	docteurAuthentification.civilite = '';
+	docteurAuthentification.corresps = [];
     return docteurAuthentification;
   })
 

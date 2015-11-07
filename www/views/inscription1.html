@@ -13,8 +13,9 @@
 
 <!--       inscription header       -->
           <!--responsive-sm responsive-md responsive-lg-->
-     <div class="inscription_cadre ">
-<!--        list specialités
+     <div class="">
+<!--      <div class="inscription_cadre ">
+       list specialités
         <div class="inscription_1_list inscription_element_">
           <div class="item item-select inscription_1_list_label" >
             <select  ng-change="selectedSpecialitee()" ng-model="dr.specialite" class="inscription_1_list_label_select input-text" required>
@@ -28,7 +29,7 @@
       <div class="row inscription_first_row">
           <div class="col col_inscription">
               <autocomplete id="autocomplete-specialite" class="inscription_autocomplete inscription_element_" ng-model="dr.specialite" attr-focus="viderSpecialite()" attr-inputid="abc" data="specialites" on-type="updatespecialite" 
-                       attr-placeholder="Votre Specialite">
+                       attr-placeholder="Votre Spécialite">
               </autocomplete>
           </div>
       </div>

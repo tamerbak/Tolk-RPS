@@ -7,7 +7,8 @@ angular.module('modulecorrespondants', ['autocomplete'])
 {
   $scope.appauth = appAuthentification;
   $scope.doctauth = docteurAuthentification;
-
+  $scope.formData = {};
+  
   $scope.correspondants = [
       {name: "Venkman", last_message:"Back off, man. I'm a scientist."},
       {name: "Egon", last_message:"We're gonna go full stream."},
@@ -15,30 +16,25 @@ angular.module('modulecorrespondants', ['autocomplete'])
       {name: "Winston", last_message: "That's a big Twinkie."},
       {name: "Tully", last_message: "Okay, who brought the dog?"}
    ];
-  $scope.goBack = function()
-  {
+  $scope.goBack = function(){
     console.log('going back');
     $ionicHistory.goBack();
 
   };
 
-  $scope.ajoutercorrespondant = function()
-  {
+  $scope.ajoutercorrespondant = function(){
     $state.go('ajouterCorrespondant');
   };
 
-  $scope.doSomething = function()
-  {
+  $scope.doSomething = function(){
       $ionicHistory.goBack();
   };
 
-  $scope.addSomething = function()
-  {
+  $scope.addSomething = function(){
       console.log('YOU WANNA ADD SOMEONE');
   };
 
-  $scope.correspondantDetail = function(correspondantName)
-  {
+  $scope.correspondantDetail = function(correspondantName){
     console.log('before ' + correspondantName);
     $state.go("correspondant",  {'param1':correspondantName});
   };
@@ -107,6 +103,7 @@ angular.module('modulecorrespondants', ['autocomplete'])
         if (datajson.dataModel.status != "FAILURE")
         {
           $scope.setCorrespondants(datajson.dataModel.rows.dataRow);
+		  
         }
         else{
           $scope.erreur = "Probleme serveur";
@@ -123,24 +120,78 @@ angular.module('modulecorrespondants', ['autocomplete'])
 
   $scope.setCorrespondants = function(rows){
 
-    $scope.doctauth.correspondants.length = 0;
+  
+	$scope.formData.hasCorrespondants = false;
+    $scope.doctauth.correspondants = [];
 
-    if (rows == null)
-    {
+    if (rows == null){
       $scope.showAucunCorrespondant = true;
       return;
     }
-    $scope.showAucunCorrespondant = false;
+    
+	$scope.showAucunCorrespondant = false;
     rows = [].concat( rows );
     console.log("rows lenght : "+ rows.length);
     console.log(JSON.stringify(rows));
+	
 
-    for(var i=0; i<rows.length; i++)
-    {
-      for (var j = 0; j < rows[i].dataRow.dataEntry.length ; j++)
-      {
-        if (rows[i].dataRow.dataEntry[j].attributeReference == "fk_user_praticien")
-        {
+														villeObjects = rows;
+											
+														// GET comptes
+														$scope.comptes= [];
+														ville = {}; 
+
+														villesList = [].concat(villeObjects);
+														for(var i = 0; i < villesList.length; i++){
+															object = villesList[i].dataRow.dataEntry;
+															
+															// PARCOURIR LIST PROPERTIES
+															ville[object[0].attributeReference] = object[0].value;
+															ville[object[1].attributeReference] = object[1].value;
+															ville[object[2].attributeReference] = object[2].value;
+															
+															if(typeof object[3]['list'] !== 'undefined'){
+																if(typeof object[3]['list']['dataCouple'] !== 'undefined'){
+																	ville['savoir'] = object[3]['list']['dataCouple']['label'];
+																}else
+																	ville['savoir']="";	
+															}else
+																ville['savoir']="";
+															
+															if(typeof object[4]['list'] !== 'undefined'){
+																if(typeof object[4]['list']['dataCouple'] !== 'undefined'){
+																	ville['category'] = object[4]['list']['dataCouple']['label'];
+																}else
+																	ville['category']="";	
+															}else
+																ville['category']="";
+															
+															if(typeof object[5]['list'] !== 'undefined'){
+																if(typeof object[5]['list']['dataCouple'] !== 'undefined'){
+																	ville['civilite'] = object[5]['list']['dataCouple']['label'];
+																}else
+																	ville['civilite']="";	
+															}else
+																ville['civilite']="";
+															
+															if(typeof object[6]['list'] !== 'undefined'){
+																if(typeof object[6]['list']['dataCouple'] !== 'undefined'){
+																	ville['specialite'] = object[6]['list']['dataCouple']['label'];
+																}else
+																	ville['specialite']="";	
+															}else
+																ville['specialite']="";
+															
+															ville[object[7].attributeReference] = object[7].value;
+															
+															if (ville)
+																$scope.doctauth.correspondants.push(ville);
+															ville = {}
+														}
+															
+    /**for(var i=0; i<rows.length; i++){
+      for (var j = 0; j < rows[i].dataRow.dataEntry.length ; j++){
+        if (rows[i].dataRow.dataEntry[j].attributeReference == "fk_user_praticien"){
           $id_praticien = rows[i].dataRow.dataEntry[j].value;
 
           $tableau_praticien = rows[i].dataRow.dataEntry[j].list.dataCouple;
@@ -164,16 +215,26 @@ angular.module('modulecorrespondants', ['autocomplete'])
 
         }
       }
-
-    };
+    };**/
+	
+	console.log('YOU WANNA ADD SOMEONE : '+JSON.stringify($scope.doctauth.correspondants));
+	if($scope.doctauth.correspondants.length>0){
+		$scope.formData.hasCorrespondants=true;
+	}
+		
+	
+	console.log('hasCorrespondants : '+$scope.formData.hasCorrespondants);
 
   };
+  
   $scope.getCorrespondants();
 
-  //messages
+  $scope.$on( "$ionicView.beforeEnter", function(scopes, states){
+	  console.log('correspondants ' + docteurAuthentification.correspondants.length);
+	  
+  });
 
-  $scope.getMessagesForCorrespondant = function(forPraticien)
-  {
+  $scope.getMessagesForCorrespondant = function(forPraticien){
 
     var requestMessages = "";
     forPraticien.messages=[];
