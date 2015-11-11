@@ -2,7 +2,9 @@ angular.module('moduleconnexion',['fileServices'])
 //=========================================
 //=========================================   connexion
 //=========================================
-.controller('connexionCtrl',function($scope,$state,$http,$ionicHistory,popup, formatString,xmlParser,appAuthentification,docteurAuthentification, UploadFile)
+.controller('connexionCtrl',function($scope,$state,$http,$ionicHistory,popup,
+                                     formatString,xmlParser,appAuthentification,
+                                     docteurAuthentification, UploadFile, localStorageService)
 {
   $scope.appauth = appAuthentification;
   $scope.doctauth = docteurAuthentification;
@@ -10,6 +12,20 @@ angular.module('moduleconnexion',['fileServices'])
 //$scope.tel="003311111111";
  $scope.tel = "0110";
  $scope.mdp = "1234";
+
+/**
+ * Init des infos de l'utilisaeur depuis le localStorage
+ */
+ var initInfoUser = function() {
+     var user_infos = localStorageService.get("user_infos");
+
+     console.log("user_infos", user_infos);
+     if(user_infos) {
+         $scope.tel = user_infos.user_tel;
+         $scope.mdp = user_infos.user_pwd;
+     }
+ };
+ initInfoUser();
 
  $scope.accueil = function()
   {
@@ -167,7 +183,20 @@ angular.module('moduleconnexion',['fileServices'])
 
              datajson=xmlParser.xml_str2json(data);
              console.log(datajson);
-             if(datajson['fr.protogen.connector.model.DataModel']['rows'] != ""){
+             if(datajson['fr.protogen.connector.model.DataModel']['rows'] != "") {
+
+                 //Si l'utilisateur a choisit de retenir son mot de passe
+                 if($scope.rememberPwd) {
+                     var user_infos = {
+                         user_tel : $scope.tel,
+                         user_pwd : $scope.mdp
+                     }
+                     localStorageService.set('user_infos', user_infos);
+                 }
+                 else {
+                     localStorageService.remove('user_infos');
+                 }
+
               var rows = datajson['fr.protogen.connector.model.DataModel']['rows']['fr.protogen.connector.model.DataRow'];
               rows = [].concat( rows );
               console.log("rows lenght : "+ rows.length);
