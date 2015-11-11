@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontrollers', 'datacontrollers', 'moduleinscriptions', 'moduleconnexion'])
+angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontrollers', 'datacontrollers', 'moduleinscriptions', 'moduleconnexion','modulecorrespondants','mesContactsController'])
 
   .run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
@@ -15,6 +15,8 @@ angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontroller
       if (window.StatusBar) {
         StatusBar.styleDefault();
       }
+
+      ionic.Platform.isFullScreen = true;
     });
   })
 
@@ -62,7 +64,7 @@ angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontroller
     docteurInscription.cp = '';
     docteurInscription.ville = '';
     docteurInscription.adresse = '';
-    docteurInscription.adresseCmp = '';
+    docteurInscription.adresse_num = '';
     docteurInscription.tel = '';
     docteurInscription.email = '';
 
@@ -101,13 +103,13 @@ angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontroller
     docteurAuthentification.first_connect = '';
     docteurAuthentification.mot_de_passe = '';
     docteurAuthentification.correspondants = [];
+	
+	docteurAuthentification.expertise = '';
+	docteurAuthentification.telephone = '';
+	docteurAuthentification.imageP = '';
+	docteurAuthentification.civilite = '';
+	docteurAuthentification.corresps = [];
     return docteurAuthentification;
-  })
-  .factory('docteurRemdp', function () {
-
-    docteurRemdp = {};
-    docteurRemdp.email_rm = '';
-    return docteurRemdp;
   })
 
   .factory('formatString', function(xmlParser)
@@ -117,16 +119,29 @@ angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontroller
       {
         var jsonResp = xmlParser.xml_str2json(data);
         var jsonText = JSON.stringify(jsonResp);
-        jsonText = jsonText.replace("fr.protogen.connector.model.DataModel", "dataModel");
-        jsonText = jsonText.replace("fr.protogen.connector.model.DataRow", "dataRow");
-        jsonText = jsonText.replace("fr.protogen.connector.model.DataEntry", "dataEntry");
-        jsonText = jsonText.replace("fr.protogen.connector.model.DataCouple", "dataCouple");
+        jsonText = jsonText.replace(/fr.protogen.connector.model.StreamedFile/g, "streamedFile");
+        jsonText = jsonText.replace(/fr.protogen.connector.model.DataModel/g, "dataModel");
+        jsonText = jsonText.replace(/fr.protogen.connector.model.DataRow/g, "dataRow");
+        jsonText = jsonText.replace(/fr.protogen.connector.model.DataEntry/g, "dataEntry");
+        jsonText = jsonText.replace(/fr.protogen.connector.model.DataCouple/g, "dataCouple");
         jsonText = jsonText.replace( /<!\[CDATA\[/g, '').replace( /\]\]>/g, "");
 
 
         jsonText = JSON.parse(jsonText);
         return jsonText;
       }
+    }
+  })
+
+  .service('popup', function($ionicPopup)
+  {
+    this.showpopup = function(message)
+    {
+        var alertPopup = $ionicPopup.alert(
+        {
+          title: '<img src="img/logo_TOLK_me_rouge_sur_transparent.svg" class="logo_popup">',
+          template: message
+        });
     }
   })
 
@@ -163,8 +178,8 @@ angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontroller
       })
       .state('inscription_map',
       {
-        name: 'inscription_map',
-        url: '/inscription_map',
+        name: 'inscription_map/:lat/:lng',
+        url: '/inscription_map/:lat/:lng',
         templateUrl: 'views/inscription_map.html'
       })
       .state('inscription3',
@@ -209,6 +224,19 @@ angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontroller
         url: '/mescorrespondants',
         templateUrl: 'views/mescorrespondants.html'
       })
+	  .state('mescontacts',
+      {
+        name: 'mescontacts',
+        url: '/mescontacts',
+        templateUrl: 'views/mescontacts.html'
+      })
+      .state('ajouterCorrespondant',
+      {
+        cache: false,
+        name: 'ajouterCorrespondant',
+        url: '/mescorrespondants/ajoutercorrespondant',
+        templateUrl: 'views/ajoutercorrespondant.html'
+      })
       .state('correspondant',
       {
         name: 'correspondant/:param1',
@@ -217,6 +245,7 @@ angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontroller
       })
       .state('messageconsultation',
       {
+        cache: false,
         name: 'messageconsultation/:param1/:param2',
         url: '/messageconsultation/:param1/:param2',
         templateUrl: 'views/messageconsultation.html'

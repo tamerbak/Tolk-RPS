@@ -1,53 +1,60 @@
 <ion-view view-title="Inscription Etape5">
-  <ion-content ng-controller="profileCtrl" delegate-handle="content">
-  <div>
-    <div id="page_red" style="height:30vh;">
-       
-      <center><img src="img/logo TOLK me - blanc - fond transparent.svg" style="width:30vw;margin-top:1vh;"></center>
-      <a href="#/menu_general"><img src="img/Troistirets.png" class="toggle-img-profil"></a>
-      <a href="#"><img src="img/droite.png" class="droite-img"></a>
-     <center class="col envoyer-mail-profil">
-      <label style="float:left;color:white"><b>Envoyer</b></label> <label style="float:right;color:white"><b>mon profil</b></label>
-      <img src="img/fleche01.png" class="fleche01-img">
-    </center>
-
-    </div>
-    <div style="height:35px;"></div>
-    <div class="img-profile-4"></div>
-  </div>
-  <p class="div_doctor_name">{{doctauth.nom}} &nbsp;&nbsp;{{doctauth.prenom}}</p>
-  <div class="div_orthodontiste">{{doctauth.specialite_Libelle}}</div>
-  <div class="div_doctor">{{doctauth.ville_Libelle}}</div>
-  
-
-  <br>
-  <br>
-  <br>
-
-  <div class="row haut-profil" style="vertical-align:middle;">
-      <center class="col col-25" style="vertical-align:bottom;"> <img src="img/profile.png" style="height:7vh;margin-left:-6vw;margin-top:-4vh" /></center>
-      <div class="col col-75"> <br/><span class="menu-list-subtitle-menu-gen">Comp&eacute;tences</span></div>
-  </div>
-  <div class="separator-red-bold"></div>
-  <a href="#"> <img src="img/fleche-bas.png" class="fleche-bas"></a>
-  
-        
-  <div>
-  <div class="row haut-coordonnees" style="vertical-align:middle;">
-      <center class="col col-25" style="vertical-align:bottom;"> <img src="img/livre.png" style="height:5vh;margin-left:-6vw;margin-top:-3vh" /></center>
-      <div class="col col-75"> <br/><span class="menu-list-subtitle-menu-gen">Coordonn&eacute;es</span></div>
-  </div>
-  <div class="separator-red-bold1"></div>
-  <a href="#"> <img src="img/fleche-bas.png" class="fleche-bas"></a>
-
-  
-  <div class="row haut-horaire" style="vertical-align:middle;">
-      <center class="col col-25" style="vertical-align:bottom;"> <img src="img/horaire.png" style="height:5vh;margin-left:-6vw;margin-top:-3vh" /></center>
-      <div class="col col-75"> <br/><span class="menu-list-subtitle-menu-gen">Horaires de consultation</span></div>
-  </div>
-  <div class="separator-red-bold1"></div>
-  <a href="#"> <img src="img/fleche-bas.png" class="fleche-bas"></a>
-
-
-  </ion-content>
+	<ion-content ng-controller="profileCtrl" delegate-handle="content" data-ng-init="init()">
+		<!--       header avec logo      -->
+		<header class="menu_general_header" style="background-color: #000;padding-bottom:2%;">
+			<div style="vertical-align:middle; text-align: center;">
+				<div style="vertical-align:top;width:10%;display:inline-block" ui-sref="menu_general"><i class="fa ion-navicon-round fa-2x" style="color:white;"></i></div>
+				<!-- <span style="margin-left:20%; margin-right:20%"><img src="img/logo_tolk_v2.png" width="40%"></span> -->
+				<div style="display:inline-block;width:75%"><img src="img/logo_tolk_v2.png" width="40%" alt="img/logo_tolk_v2.png"></div>
+				<div style="vertical-align:top;width:10%;display:inline-block"><i class="fa ion-gear-b fa-2x" style="color:white;"></i></div>
+			</div>
+		</header>
+		
+		<div align="center">
+		<!--<div align="center" class="effet_bright" style="height : 100%;background-image: url('img/1.48.jpg');background-size: cover;">-->
+			<!-- IMAGE -->
+			<div onclick="document.getElementById('image-input').click();">
+				<input id="image-input" type="file" accept="image/*" style="display: none;" onchange="angular.element(this).scope().loadImage(this)">
+				<img id="imgP" data-ng-src="{{formData.imageProfile}}" style="border-radius: 50%; border: 5px solid #AAA;" height="120px" width="120px" >
+			</div>
+			<!-- DESCRIPTION -->
+			<div>
+				<h3 style="color: #DDD; font-weight: lighter">Docteur {{doctauth.nom}} {{doctauth.prenom}}</h3>
+				<h4 style="color: #DDD"><b>{{doctauth.specialite_libelle}}</b></h4>
+				<h5 style="color: #DDD"><b>{{doctauth.adresse}}</b></h5>
+				<h5 style="color: #DDD"><b>Tél : {{doctauth.telephone}}</b></h5>
+			</div>
+			<!-- EXPERTISE -->
+			<div style="background-color: #fff; margin: 2%; padding: 2%;" align="left">
+				<div style="height:100%;display: inline-block; vertical-align: top">
+					<i class="fa fa-user-md fa-2x" ></i>
+				</div>
+				<div style="display: inline-block; width: 90%">
+					<b>Expertise</b><br>
+					<span>
+						Ici, nous vous invitons à parler de vos diplômes, expertises et toutes informations liées à votre identité professionnelle.
+					</span>
+				</div>
+			</div>
+			<!-- PUBLICATION -->
+			<div style="background-color: #fff; margin: 2%; padding: 2%;" align="left">
+				<div style="height:100%;display: inline-block; vertical-align: top">
+					<i class="fa ion-clipboard fa-2x" ></i>
+				</div>
+				<div style="display: inline-block; width: 90%">
+					<b>Publications</b><br>
+					<span>
+						Retrouvez toutes vos publications et ajoutez-en de nouvelles.
+					</span>
+				</div>
+			</div>
+			<!-- ACTION -->
+			<div>
+				<button class="button button-dark icon-right ion-share">
+					Addresser mon profil
+				</button>
+			</div>
+		</div>
+		
+	</ion-content>
 </ion-view>

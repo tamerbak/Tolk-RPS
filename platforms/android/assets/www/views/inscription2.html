@@ -1,8 +1,8 @@
 <ion-view view-title="Inscription Etape2">
     <ion-content class="screen" height="100%" ng-controller="inscription2Ctrl"  has-bouncing="false" overflow-scroll="true">
-      <div class="image_menu_general"></div>
+      <!--<div class="image_menu_general"></div>-->
 <!--       header avec logo      -->
-        <header class="inscription_header" style=>
+        <header class="inscription_header" >
             <div class="inscription_header_div_img"><img src="img/logo_tolk_v2.png"></div>
             <div class="inscription_titre">R&eacute;seau professionnel de sant&eacute;</div>
         </header>
@@ -10,26 +10,49 @@
         <article class="inscription_article">
             <button ng-click="goBack()" class="button button-clear button-light inscription_button_back"><i class="inscription_flesh_left fa-angle-left"></i> &nbsp;Précédent</button>
             <div class="inscription_cadre">
-              <center>
-                  <p id="inscription_2_lieu_exercice">
-                      Votre adresse d'exercice 
-                  </p>
-              </center>
+                <div class="row row_element_5">
+                    <div class="col col_inscription">
+                        <center>
+                            <p id="inscription_2_lieu_exercice"> Votre adresse d'exercice </p>
+                        </center>
+                    </div>
+                </div>
 
-              <autocomplete id="autocomplete-cp" class="inscription_autocomplete inscription_2_input_bottom_space" ng-model="dr.cp" data="cps" on-type="updateCPs" attr-placeholder="Code postal">
-              </autocomplete>
+				
+                <div class="row row_element_5">
+                    <div class="col col_inscription">
+                        <autocomplete id="autocomplete-ville" class="inscription_autocomplete inscription_2_input_bottom_space" ng-model="dr.ville" data="villes" on-type="updateVilles" attr-placeholder="Ville">
+                        </autocomplete>
+                    </div>
+                </div>
+                <div class="row row_element_5">
+                    <div class="col col_inscription">
+                        <autocomplete id="autocomplete-cp" class="inscription_autocomplete inscription_2_input_bottom_space" ng-model="dr.cp" data="cps" on-type="updateCPs" attr-placeholder="Code postal">
+                        </autocomplete>
+                    </div>
+                </div>
+                <div class="row row_element_5">
+                    <div class="col-20 col_inscription">
+                        <label class="inscription_2_label_num" >
+                            <input ng-focus="focusOnNum()" type="text" name="adresse_num" ng-model="dr.adresse_num" class="inscription_3_input inscription_3_input_2" placeholder="N&deg;"/>
+                        </label>
+                    </div>
+                    <div class="col-80 col_inscription" >
+                        <autocomplete id="autocomplete-adresse" class="inscription_autocomplete inscription_2_input_bottom_space" ng-model="dr.adresse" data="adresses" on-type="updateAdresses" attr-placeholder="Rue/ Voie">
+                        </autocomplete>
+                    </div>
+                </div>
 
-              <autocomplete id="autocomplete-ville" class="inscription_autocomplete inscription_2_input_bottom_space" ng-model="dr.ville" data="villes" on-type="updateVilles" attr-placeholder="Ville">
-              </autocomplete>
+                <div class="row row_element_5">
+                    <div class="col col_inscription">
+                        <center>
 
-              <autocomplete id="autocomplete-adresse" class="inscription_autocomplete inscription_2_input_bottom_space" ng-model="dr.adresse" data="adresses" on-type="updateAdresses" attr-placeholder="Adresse">
-              </autocomplete>
+                            <a class="inscription_2_info_bottom" ng-click="showMap()"> &gt; Vérifier votre adresse sur le plan</a>
+                            
+                        </center>
+                    </div>
+                </div>
 
-              <center>
-                  <p id="inscription_1_info_bottom" ng-click="showMap()">
-                      &gt; Vérifier vote adresse sur le plan
-                  </p>
-              </center>
             </div>
 
       </article>
@@ -42,13 +65,13 @@
                 </button>
             </div>
             <div class="col inscription_footer_button_right">
-                <button ng-disabled="buttonValiderDisabled" class="inscription_footer_button button-light" ng-click="inscription3()">
+                <button class="inscription_footer_button button-light" ng-click="inscription3()">
                   Valider
                 </button>
           <!-- id="connexion_ceercomptered" -->
             </div>
         </div>
     </footer>
-        
+
       </ion-content>
     </ion-view>

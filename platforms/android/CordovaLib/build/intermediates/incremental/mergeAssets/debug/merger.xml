@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="/Users/firas/Desktop/work/tolk/Projet Tolk/Tolk/platforms/android/CordovaLib/assets"/></dataSet><dataSet config="debug"><source path="/Users/firas/Desktop/work/tolk/Projet Tolk/Tolk/platforms/android/CordovaLib/src/debug/assets"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="E:\Etudes\Etudes SupInfo\Courses - M.Sc. 2\Stage Partiel\Vit1Job-master\GitHub\tolk\Tolk\platforms\android\CordovaLib\assets"/></dataSet><dataSet config="debug"><source path="E:\Etudes\Etudes SupInfo\Courses - M.Sc. 2\Stage Partiel\Vit1Job-master\GitHub\tolk\Tolk\platforms\android\CordovaLib\src\debug\assets"/></dataSet></merger>

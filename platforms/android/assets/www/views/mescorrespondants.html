@@ -2,10 +2,9 @@
 
   <ion-content class="padding" has-bouncing="false" overflow-scroll="true">
 
-    <div class="image_menu_general"></div>
 
     <header class="menu_general_header">
-      <span><i class="fa ion-navicon-round fa-2x menu_general_img_toggle"></i></span>
+      <!--  <span><i class="fa ion-navicon-round fa-2x menu_general_img_toggle"></i></span> -->
       <span><img src="img/logo_tolk_v2.png" class="menu_general_tolk_img"></span>
       <span
         class="menu_general_docteur"><span>{{doctauth.civilite + ' ' +doctauth.prenom+ ' '+ doctauth.nom}}</span><span
@@ -14,49 +13,70 @@
       <div class="clearboth"></div>
     </header>
 
-    <article class="mescorrespondants_article" style="background-color: white;">
-
+    <article class="mescorrespondants_article" style="background-color: white;" data-ng-show="formData.hasCorrespondants">
 
       <div class="list">
-        <div class="bar item" style="width:inherit;">
 
-          <ion-header-bar class="headerbar">
+        <div class="bar row row-center mescorrespondants_bar" style="width:inherit;">
 
-            <button ng-click="goBack()" class="button button-clear button-dark">
-              <i class="ion-chevron-left"></i>
-              <span style="font-weight:800;">Retour</span>
-            </button>
+          <div class="col col-25 col-bar">
+              <button ng-click="goBack()" class="button button-clear button-dark mescorrespondants_bar_button">
+                  <i class="ion-chevron-left"></i>
+                  <span style="font-weight:800;">Retour</span>
+              </button>
+          </div>
 
-            <p class="title">Mes correspondants</p>
+          <div class="col col-65 col-bar mescorrespondants_titre">
+              <span class="">Mes correspondants</span>
+          </div>
 
-            <div class="buttons">
-              <button class="button button-clear icon ion-person-add button-dark" ng-click="addSomething()"></button>
-              <div class="clearboth"></div>
-            </div>
-            <div class="clearboth"></div>
-          </ion-header-bar>
-
+          <div class="col col-20 col-bar">
+              <div class="buttons messages_right_icon" >
+                  <button ng-click="ajoutercorrespondant()" class="button button-clear icon ion-person-add button-dark mescorrespondants_bar_button"></button>
+              </div>
+          </div>
           <div class="clearboth"></div>
-        </div>
 
+        </div>
         <div class="clearboth"></div>
-        <ion-nav-view class="">
+        <div class="">
           <div ng-show="showAucunCorrespondant" class="row row-center message_nomessage">
             <p class="message_nomessage_p">Pas de correspondant, commencer par en ajouter</p>
           </div>
-          <!-- ng-click="correspondant({{correspondant.name}}) -->
-          <a class="item item-avatar" ng-repeat="correspondant in doctauth.correspondants"
+
+          <ion-list>
+              <ion-item ng-repeat="correspondant in doctauth.correspondants" class="item item-avatar item-icon-right mescorrespondants_list_item" ng-click="correspondantDetail('{{correspondant.id}}')">
+                  <img ng-src="img/ionic.png"><!--"{{item.img}}"-->
+                  <h2>{{correspondant.nom}} {{correspondant.prenom}}</h2>
+                  <p>{{correspondant.specialite}}</p>
+                  <i class="icon ion-ios-arrow-right"></i>
+                  <ion-option-button class="button-positive" ng-click="share(item)">Share</ion-option-button>
+                  <ion-option-button class="button-info" ng-click="edit(item)">Edit</ion-option-button>
+                  <ion-delete-button class="ion-minus-circled" ng-click="items.splice($index, 1)"></ion-delete-button>
+                  <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(item, $fromIndex, $toIndex)"></ion-reorder-button>
+              </ion-item>
+          </ion-list>
+
+          <!-- ng-click="correspondant({{correspondant.name}}) 
+          <a class="item item-avatar mescorrespondants_list_item item-icon-right" ng-repeat="correspondant in doctauth.correspondants"
              ng-click="correspondantDetail('{{correspondant.id}}')">
             <img src="img/ionic.png">
 
             <h2>{{correspondant.name}}</h2>
-
             <p>{{correspondant.lastMessage.object}}</p>
-          </a>
-        </ion-nav-view>
+            <i class="icon ion-ios-arrow-right"></i>
+          </a>-->
+        </div>
       </div>
     </article>
 
+	<article class="mescorrespondants_article" style="background-color: white;" data-ng-hide="formData.hasCorrespondants">
+		<center style="width: 99%; height: 80%">
+			<div style="height: 30%"></div>
+			<p>Aucune correspondant trouvé.</p>
+			<div class="menu_general_web" ui-sref="mescontacts" style="border-raduis: 50%; border: 1px solid #000"><i class="fa fa-user-plus fa-4x menu_general_wb"></i><p class="menu_general_text_web">developper<br>votre réseau</p></div>
+       </center>
+	</article>
   </ion-content>
 </ion-view>
 

@@ -50,6 +50,10 @@ img
 	max-width: 100%;
 	max-height: 100%;
 }
+.logo_popup
+{
+	width: 75%;
+}
 
 .screen
 {
@@ -71,6 +75,38 @@ img
 	height: 0px;
 	clear: both;
 }
+ion-view
+{
+  background-color: #424242 !important;
+}
+
+.row_element_4
+{
+	height: 25%;
+	min-height: 25%;
+	max-height: 25%;
+}
+.row_element_5
+{
+	height: 20%;
+	min-height: 20%;
+	max-height: 20%;
+}
+.row_element_6
+{
+	margin-top:0 !important;
+	height: 16%;
+	min-height: 16%;
+	max-height: 16%;
+}
+
+.row_element_6_demi
+{
+	margin-top:0 !important;
+	height: 8%;
+	min-height: 8%;
+	max-height: 8%;
+}
 
 /* ======================                 ======================
  * ======================     Accueil     ======================
@@ -81,7 +117,7 @@ img
   height: 25vh;
 }
 /* Background */
-   .image_home_v2{
+  /* .image_home_v2{
      position: absolute;
 
      left:-10px;
@@ -104,11 +140,29 @@ img
       -ms-filter:brightness(60%) blur(19px);
       filter:brightness(60%) blur(19px);
     }
-
+*/
     .scroll-bar-indicator
 	{
 		display: none;
 	}
+	
+	.effet_bright{
+		position: fixed;
+		top: 35%;
+		left: 10%;
+		right: 0;
+		z-index: -1;
+		display: block;
+		
+		background-size: cover;
+		width: 170%;
+		height: 100%;
+		-webkit-filter:brightness(88%) blur(5px);
+		-moz-filter:brightness(88%) blur(5px);
+		-o-filter:brightness(88%) blur(5px);
+		-ms-filter:brightness(88%) blur(5px);
+		filter:brightness(88%) blur(5px);
+    }
   /****************/
 .accueil_titre
 {
@@ -122,6 +176,7 @@ img
   font-family: bentonsansextralight;
   color: white;
   font-size: 10vw;
+  font-size: 10vw;
   text-align: center;
   padding-top: 20vh;
 }
@@ -130,9 +185,22 @@ img
   font-family: bentonsansBook;
   color: white;
   font-size: 5vw;
+  font-size: 5vw;
   text-align: center;
 }
+.accueil_page-bull {
 
+  width: 14px;
+  height: 14px;
+  border: 1px solid white;
+  margin: 4px;
+  border-radius: 7px;
+  display: inline-block;
+}
+.accueil_page-bull.selected
+{
+  background-color: white;
+}
 /* ======================                      ======================
  * ======================     Presentation     ======================
    ======================                      ======================*/
@@ -244,7 +312,7 @@ img
 .inscription_header
 {
 	background-color: transparent;
-    padding-top: 2vh;
+    /*padding-top: 2vh;*/
 }
 .inscription_header_div_img
 {
@@ -330,6 +398,7 @@ img
 {
 	height: 11vh;
 }
+
 #inscription_merci
 {
     font-family: bentonsansExtralight;
@@ -341,7 +410,7 @@ img
 	display: block;
 	font-family: bentonsanslight;
 	font-weight: lighter;
-  	color: #AAAAAA;
+  	color: white;
   	text-align: center;
   	margin: auto;
     font-size: 8vw;
@@ -493,7 +562,7 @@ img
     width: 100%;
 
 }
-#inscription_1_info_bottom
+.inscription_1_info_bottom
 {
 	font-family: bentonsansLight !important;
 	text-align: center;
@@ -502,6 +571,41 @@ img
 	margin-bottom: 0;
 
 }
+.inscription_1_info_bottom_2
+{
+	font-family: bentonsans !important;
+	text-align: center;
+	font-weight: 700;
+	color: white;
+	margin-top: 5px;
+
+}
+.inscription_2_info_bottom 
+{
+	font-family: bentonsansLight !important;
+	text-align: center;
+	font-weight: 700;
+	color: white;
+	margin-bottom: 0;
+    font-size: 5vw;
+ }
+ .inscription_2_label_num
+ {
+ 	background-color: transparent;
+    width: 100%;
+    color: white;
+    position: relative;
+    z-index: 2;
+    display: block;
+    font-size: 14px;
+    border-top: 0;
+    border-right: 0;
+    border-left: 0;
+    border-bottom: 1px solid white;
+    margin: auto;
+    text-align: center;
+    padding-bottom: 0px;
+ }
 #connexion_ceercomptered
 {
 	  color: #E94041;
@@ -514,6 +618,13 @@ img
     min-width: 100px;
     padding-left: 20px;
     padding-right: 20px;
+}
+.connexion_message {
+  color: white;
+  font-family: bentonsansextralight;
+  font-size: 4vw;
+  font-weight: bolder;
+  margin-top: -2.5vh;
 }
 .connexion_tolk-font
 {
@@ -633,7 +744,7 @@ select > .placeholder
 .inscription_4_label
 {
     background-color: transparent;
-    width: 90vw;
+    width: 100%;
     color: white;
     position: relative;
     z-index: 2;
@@ -651,7 +762,7 @@ select > .placeholder
 .inscription_3_input
 {
 	background-color: transparent;
-	width: 90vw;
+	width: 100%;
 	text-align: center;
 	color: white !important;
 	font-family: bentonsans;
@@ -660,7 +771,7 @@ select > .placeholder
 	margin-left: auto;
 	margin-right: auto;
 	display: block;
-	padding-top: 1em !important;
+	padding-top: 0.5em !important;
 }
 .inscription_4_pourquoi
 {
@@ -690,6 +801,16 @@ select > .placeholder
     min-width: 100px;
     padding-left: 20px;
     padding-right: 20px;
+}
+
+.button-home
+{
+	float: right;
+	color: white;
+}
+.fa-1-5x
+{
+	font-size: 1.5em;
 }
 
 /*========================                       ========================
@@ -788,6 +909,7 @@ select > .placeholder
 	border-radius: 3px;
 	float: left;
 }
+
 .page-bull-me
 {
 	width: 80px;
@@ -801,6 +923,7 @@ select > .placeholder
 {
 	color: #E94041;
 }
+
 .page-bull.selected
 {
 	background-color: white;
@@ -1415,9 +1538,8 @@ color: #e14640;
 }
 .tooltip-num-usage
 {
-	color: white;
+	color: #E94041;
 	padding: 10px;
-	background-color: #E94041;
 	text-align: justify;
 	width: 284px !important;
 	margin-top: -10px;
@@ -1531,80 +1653,6 @@ color: #e14640;
 /* ======================                      ======================
  * ======================     Connexion        ======================
    ======================                      ======================*/
-#connexion_page_red
-{
-	background-color: #E94041;
-	height: 100%;
-	padding-top: 5vh;
-	margin-top: -4vh;
-	margin-left: -4vw;
-	margin-right: -4vw;
-}
-.connexion_cadre
-{
-	background-color: white;
-	margin-left: -4vw;
-	margin-right: -4vw;
-}
-.connexion_container
-{
-	margin-left: auto;
-	margin-right: auto;
-	width: 100vw;
-	position: relative;
-	border: none;
-
-}
-#connexion_inscription-top-info-white
-{
-	color: #E94041;
-	font-size: 28px;
-	text-align: center;
-	line-height: 40px;
-	vertical-align: middle;
-	margin: auto;
-}
-.connexion_list
-{
-	padding-left: 15vw;
-	padding-right: 15vw;
-}
-.connexion_list > label
-{
-	border-top: 0;
-	border-right: 0;
-	border-left: 0;
-	border-bottom: 1px solid #E94041;
-	margin: auto;
-	text-align: center;
-	padding: 5px;
-	padding-bottom: 0px;
-
-
-}
-.connexion_list > label > select
-{
-	font-family: bentonsansextralight;
-	margin: auto;
-	position: relative;
-	font-size: 25px;
-	font-weight: normal;
-	padding: 0;
-
-}
-.connexion_list > label > select > option
-{
-	font-family: bentonsansextralight;
-	margin: auto;
-	max-width: 75%;
-	font-weight: normal;
-}
-.connexion_input-text
-{
-	width: 100%;
-	text-align: center;
-	display: inline;
-}
 .connexion_label
 {
     background-color: transparent;
@@ -1623,10 +1671,15 @@ color: #e14640;
 	padding-bottom: 0px;
 
 }
-.connexion_label > input
+
+.connexion_mpo
 {
-    width: 80vw;
+    font-size: 4vw;
+    color:white;
+    font-weight: bolder;
+    text-align: center;
 }
+
 .connexion_verif_adresse{
 	margin-top: -10vh;
 	color: black;
@@ -1655,7 +1708,16 @@ color: #e14640;
 /* ======================                      ======================
  * ====================== mot de passe oublié  ======================
    ======================                      ======================*/
-
+.cadre_title
+{
+    font-family: bentonsansextraLight;
+    color: white;
+    font-size: 7vw;
+    line-height: 7vw;
+    text-align: center;
+    font-weight: 900;
+    margin-top: 1vh;
+}
  .motdepasseoublie
  {
     color: white;
@@ -2111,23 +2173,20 @@ color: #e14640;
 .image_menu_general
 {
     position: fixed;
-    margin: -60%;
-    top: 35%;
-    left: 10%;
+
+    top: 0;
+    left: 0;
     right: 0;
+    bottom: 0;
     z-index: -1;
     display: block;
     background-image: url(../img/bg.png);
-    background-repeat: no-repeat;
-    background-size: 120%;
+    background-repeat: no-repeat; 
+    background-size: 100% 100%; 
 
-    width: 170%;
-    height: 240%;
-    -webkit-filter:brightness(88%) blur(24px);
-    -moz-filter:brightness(88%) blur(24px);
-    -o-filter:brightness(88%) blur(24px);
-    -ms-filter:brightness(88%) blur(24px);
-    filter:brightness(88%) blur(24px);
+    width: 100%;
+    height: 100%;
+    
 }
 .menu_general_header
 {
@@ -2294,14 +2353,52 @@ color: #e14640;
    ======================                            ======================*/
 .mescorrespondants_article
 {
-  background-color: transparent;
-  margin-top: 10px;
+	overflow: auto;
+  	margin-top: 10px;
 }
 .correspondant_article
 {
   background-color: transparent;
   margin-top: 10px;
   margin-bottom: 10px;
+  overflow: auto;
+}
+.mescorrespondants_bar
+{
+	border-bottom: 1px solid #ddd;
+	height: 44px;
+	position: relative;
+}
+.mescorrespondants_titre
+{
+	font-size: 15px;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 500;
+    line-height: 44px;
+}
+.mescorrespondants_bar_button
+{
+	padding: 0px !important;
+	font-size: 15px !important;
+	min-height: 31px;
+    line-height: 32px;
+    font-weight: 300;
+}
+
+.mescorrespondants_list_item
+{
+	border-width: 0px !important;
+	border-top: 0px !important;
+	border-left: 0px !important;
+	border-right: 0px !important;
+	border-bottom: 1px solid #ddd !important;
+
+}
+.col-bar
+{
+	padding: 0px;
 }
 .messages_right_icon
 {
@@ -2514,4 +2611,27 @@ input:-moz-placeholder
 input:-ms-input-placeholder
 { /* IE10+ */
   color: white;
+}
+
+ion-view , ion-nav-view {
+	background-color: transparent !important;
+}
+#autocomplete-adresse > div > input{
+
+	padding-right: 27%;
+}
+
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:    #909;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #909;
+   opacity:  1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #909;
+   opacity:  1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color:    #909;
 }

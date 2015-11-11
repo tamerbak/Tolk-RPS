@@ -1,1 +1,67 @@
-testpage
+<ion-view view-title="pagetest" >
+
+  <ion-content class="padding" has-bouncing="false" overflow-scroll="true">
+
+
+    <header class="menu_general_header">
+      <span><i class="fa ion-navicon-round fa-2x menu_general_img_toggle"></i></span>
+      <span><img src="img/logo_tolk_v2.png" class="menu_general_tolk_img"></span>
+      <span
+        class="menu_general_docteur"><span>Firas kadhum</span><span
+        class="menu_general_profil_bull"><i class="fa fa-user-md fa-2x menu_general_profil_img"></i></span></span>
+
+      <div class="clearboth"></div>
+    </header>
+
+    <article class="mescorrespondants_article" style="background-color: white;">
+
+
+      <div class="list" style="background-color: red;">
+
+
+          <ion-header-bar class="headerbar" >
+
+            <button ng-click="goBack()" class="button button-clear button-dark">
+              <i class="ion-chevron-left"></i>
+              <span style="font-weight:800;">Retour</span>
+            </button>
+
+            <span class="title">Mes correspondants</span>
+
+            <div class="buttons">
+              <button class="button button-clear icon ion-person-add button-dark" ng-click="addSomething()"></button>
+            </div>
+          </ion-header-bar>
+        <ion-nav-view class="">
+
+          <a class="item item-avatar" >
+            <img src="img/ionic.png">
+
+            <h2>Firas KADHUM</h2>
+
+            <p>This is a test message</p>
+          </a>
+          <a class="item item-avatar" >
+            <img src="img/ionic.png">
+
+            <h2>Firas KADHUM</h2>
+
+            <p>This is a test message</p>
+          </a>
+          <a class="item item-avatar" >
+            <img src="img/ionic.png">
+
+            <h2>Firas KADHUM</h2>
+
+            <p>This is a test message</p>
+          </a>
+
+        </ion-nav-view>
+
+      </div>
+    </article>
+
+  </ion-content>
+</ion-view>
+
+

@@ -1,20 +1,21 @@
-<ion-view view-title="Inscription Etape1">
+<ion-view view-title="Inscription Etape1" style="background-color: #424242">
     <ion-content class="screen" height="100%" ng-controller="inscription1Ctrl"  has-bouncing="false" overflow-scroll="true">
-    <div class="image_menu_general"></div>
 
 <!--       header avec logo      -->
         <header class="inscription_header">
-            <div class="inscription_header_div_img"><img src="img/logo_tolk_v2.png"></div>
-            <div class="inscription_titre">R&eacute;seau professionnel de sant&eacute;</div>
+            <div><img src="img/logo_tolk_v2.png" class="tolk_img"></div>
+          <div class="accueil_titre">R&eacute;seau professionnel de sant&eacute;</div>
         </header>
+
 
         <article class="inscription_article">
             <button ng-click="goBack()" class="button button-clear button-light inscription_button_back"><i class="inscription_flesh_left fa-angle-left"></i> &nbsp;Précédent</button>
 
 <!--       inscription header       -->
           <!--responsive-sm responsive-md responsive-lg-->
-     <div class="inscription_cadre ">
-<!--        list specialités
+     <div class="">
+<!--      <div class="inscription_cadre ">
+       list specialités
         <div class="inscription_1_list inscription_element_">
           <div class="item item-select inscription_1_list_label" >
             <select  ng-change="selectedSpecialitee()" ng-model="dr.specialite" class="inscription_1_list_label_select input-text" required>
@@ -25,15 +26,16 @@
           <center>{{erreur}}</center>
         </div>
 -->
-       <div class="row inscription_first_row"><div class="col col_inscription">
-         <autocomplete id="autocomplete-specialite" class="inscription_autocomplete inscription_element_"
-                       ng-model="dr.specialite" data="specialites" on-type="updatespecialite"
-                       attr-placeholder="Votre Specialite">
-         </autocomplete>
-       </div></div>
+      <div class="row inscription_first_row">
+          <div class="col col_inscription">
+              <autocomplete id="autocomplete-specialite" class="inscription_autocomplete inscription_element_" ng-model="dr.specialite" attr-focus="viderSpecialite()" attr-inputid="abc" data="specialites" on-type="updatespecialite" 
+                       attr-placeholder="Votre Spécialite">
+              </autocomplete>
+          </div>
+      </div>
        <div class="row"><div class="col col_inscription">
          <autocomplete id="autocomplete-nom" class="inscription_autocomplete inscription_element_" ng-model="dr.nom"
-                       data="lastNames" on-type="updateNomPrenom" attr-placeholder="Votre Nom">
+                       data="lastNames" on-type="updateNomPrenom" attr-placeholder="Votre Nom" >
          </autocomplete>
        </div></div>
        <div class="row"><div class="col col_inscription">
@@ -49,17 +51,11 @@
          </autocomplete>
        </div></div>
        <div class="row"><div class="col col_inscription" style="padding: 0;">
-         <p id="inscription_1_info_bottom">
-           Si votre spécialité n'apparait pas dans la liste,<br />contactez nous
+         <p class="inscription_1_info_bottom">
+           Si votre spécialité n'apparait pas dans la liste,<br />contactez-nous
            <br /><u>support@me.com</u> - <b id="phonenumber">01 85 08 92 69</b>
          </p>
        </div></div>
-
-
-
-
-
-
 
 
       </div>

@@ -1,19 +1,19 @@
-angular.module('moduleconnexion',[])
+angular.module('moduleconnexion',['fileServices'])
 //=========================================
 //=========================================   connexion
 //=========================================
-.controller('connexionCtrl',function($scope,$state,$http,$ionicHistory,xmlParser,appAuthentification,docteurAuthentification)
+.controller('connexionCtrl',function($scope,$state,$http,$ionicHistory,popup, formatString,xmlParser,appAuthentification,docteurAuthentification, UploadFile)
 {
   $scope.appauth = appAuthentification;
   $scope.doctauth = docteurAuthentification;
 
 //$scope.tel="003311111111";
- $scope.tel = "0033610630035";
+ $scope.tel = "0110";
  $scope.mdp = "1234";
 
  $scope.accueil = function()
   {
-    $state.go('accueil');
+    $ionicHistory.goBack();
   };
 
   $scope.reinitialisermdp = function()
@@ -27,21 +27,132 @@ angular.module('moduleconnexion',[])
     $ionicHistory.goBack();
   };
 
+
   $scope.first_connexion_1 = function()
   {
     $state.go('first_connexion_1/:praticien_id');
   };
 
-
-  $scope.seconnecter = function()
+  $scope.textchanged = function()
   {
-      if($scope.tel == null || $scope.mdp == null)
+    $scope.msg = "";
+  };
+
+  			$scope.getCorrespondantsFromServer = function(id_compte){
+				var requestCorrespondants = "";
+				// console.log("id compte"+$scope.doctauth.id_compte);
+				if (id_compte != "" ){
+				  requestCorrespondants = "<fr.protogen.connector.model.SearchClause>" +
+					"<field>fk_user_compte</field>" +
+					"<clause>"+id_compte+"</clause>" +
+					"<gt>"+id_compte+"</gt>" +
+					"<lt>"+id_compte+"</lt>" +
+					"<type>TEXT</type>" +
+					"</fr.protogen.connector.model.SearchClause>";
+				  console.log(requestCorrespondants);
+
+				}
+				else
+					$state.go('accueil');
+				
+				$requestdata = "<fr.protogen.connector.model.DataModel><entity>user_correspondance</entity><dataMap/><rows/><token><username/><password/><nom>Jakjoud Abdeslam</nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId>" + $scope.appauth.sessionId + "</sessionId><status>SUCCES</status><id>206</id><beanId>0</beanId></token><expired></expired><unrecognized></unrecognized><status></status><operation>GET</operation><clauses>"+requestCorrespondants+"</clauses><page>1</page><pages>100</pages><nbpages>100</nbpages><iddriver>0</iddriver><ignoreList></ignoreList></fr.protogen.connector.model.DataModel>";
+				$http({
+				  method  : 'POST',
+				  url     : 'http://ns389914.ovh.net:8080/tolk/api/das',
+				  data    : $requestdata,
+				  headers: {"Content-Type": 'text/xml'}
+				})
+				  .success(function(data){
+
+					datajson=xmlParser.xml_str2json(data);
+					if(datajson['fr.protogen.connector.model.DataModel'].status !== "FAILURE"){
+						console.log("corresp : "+data);
+						
+														resp = formatString.formatServerResult(data);
+														// DONNEES ONT ETE CHARGES
+														console.log("les corresp ont été bien chargé");
+														if(typeof resp.dataModel === 'undefined' || typeof resp.dataModel.rows === 'undefined')
+															return;
+														
+														villeObjects = resp.dataModel.rows.dataRow;
+											
+														// GET comptes
+														docteurAuthentification.corresps= [];
+														ville = {}; 
+
+														villesList = [].concat(villeObjects);
+														for (var i = 0; i < villesList.length; i++) {
+															object = villesList[i].dataRow.dataEntry;
+
+															// PARCOURIR LIST PROPERTIES
+															//ville[object[1].attributeReference] = object[1].value;
+															//ville[object[2].attributeReference] = object[2].value;
+															docteurAuthentification.corresps.push(Number(object[2].value));
+															
+															/**if(typeof object[1]['list'] !== 'undefined'){
+																if(typeof object[1]['list']['dataCouple'] !== 'undefined'){
+																	ville['specialite'] = object[1]['list']['dataCouple']['label'];
+																}else
+																	ville['specialite']="";	
+															}else
+																ville['specialite']="";
+															
+															
+															ville[object[3].attributeReference] = object[3].value;
+															ville[object[13].attributeReference] = object[13].value;
+															if(typeof object[13]['list'] !== 'undefined'){
+																if(typeof object[13]['list']['dataCouple'] !== 'undefined'){
+																	ville['nom'] = object[13]['list']['dataCouple']['label'];
+																}else
+																	ville['nom']="";	
+															}else
+																ville['nom']="";
+															
+
+															if (ville)
+																docteurAuthentification.correspondants.push(ville);
+															ville = {}***/
+														}
+
+														console.log("correspondants.length : "+ docteurAuthentification.corresps.length);
+														// PUT IN SESSION
+														console.log("correspondants : "+JSON.stringify(docteurAuthentification.corresps));
+					}
+					else{
+					  $scope.erreur = "Probleme serveur";
+					}
+				  })
+				  .error(function(data){
+					console.log(data);
+					console.log("erreur");
+				  });
+			  };
+			  
+  $scope.seconnecter = function(){
+	  function el(id){
+		var elem = document.getElementById(id);
+		if(typeof elem !== 'undefined' && elem !== null){
+			return elem;
+		}
+	 } // Get elem by ID
+				
+      if($scope.tel == "")
       {
-          $scope.msg = "Vous devez remplir tous les champs!";
+          popup.showpopup("Veuillez saisir votre identifiant (votre numéro de tel");
           return;
       }
 
-      if ($scope.appauth.sessionId != null)
+      if($scope.mdp == "")
+      {
+          popup.showpopup("Veuillez saisir votre mot de passe");
+          return;
+      }
+
+      if ($scope.appauth.sessionId == null || $scope.appauth.sessionId == "")
+      {
+        $ionicHistory.goBack(-1);
+      }
+      else
       {
           console.log("<fr.protogen.connector.model.DataModel><entity>user_compte</entity><dataMap/><rows /><token><username/><password/><nom>Jakjoud Abdeslam</nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId>"+ $scope.appauth.sessionId +"</sessionId><status>SUCCES</status><id>206</id><beanId>0</beanId></token><expired></expired><unrecognized></unrecognized><status></status><operation>GET</operation><clauses><fr.protogen.connector.model.SearchClause><field>tel</field><clause></clause><gt>"+$scope.tel+"</gt><lt>"+$scope.tel+"</lt><type>TEXT</type></fr.protogen.connector.model.SearchClause><fr.protogen.connector.model.SearchClause><field>mot_de_passe</field><clause></clause><gt>"+$scope.mdp+"</gt><lt>"+$scope.mdp+"</lt><type>TEXT</type></fr.protogen.connector.model.SearchClause></clauses><page>1</page><pages>5</pages><nbpages>5</nbpages><iddriver>0</iddriver><ignoreList></ignoreList></fr.protogen.connector.model.DataModel>");
           $http
@@ -49,7 +160,7 @@ angular.module('moduleconnexion',[])
               method  : 'POST',
               url     : 'http://ns389914.ovh.net:8080/tolk/api/das',
               data    : "<fr.protogen.connector.model.DataModel><entity>user_compte</entity><dataMap/><rows /><token><username/><password/><nom>Jakjoud Abdeslam</nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId>"+ $scope.appauth.sessionId +"</sessionId><status>SUCCES</status><id>206</id><beanId>0</beanId></token><expired></expired><unrecognized></unrecognized><status></status><operation>GET</operation><clauses><fr.protogen.connector.model.SearchClause><field>tel</field><clause></clause><gt>"+$scope.tel+"</gt><lt>"+$scope.tel+"</lt><type>TEXT</type></fr.protogen.connector.model.SearchClause><fr.protogen.connector.model.SearchClause><field>mot_de_passe</field><clause></clause><gt>"+$scope.mdp+"</gt><lt>"+$scope.mdp+"</lt><type>TEXT</type></fr.protogen.connector.model.SearchClause></clauses><page>1</page><pages>5</pages><nbpages>5</nbpages><iddriver>0</iddriver><ignoreList></ignoreList></fr.protogen.connector.model.DataModel>",
-              headers: {"Content-Type": 'text/xml'}
+              headers : {"Content-Type": 'text/xml'}
           })
           .success(function(data)
           {
@@ -73,6 +184,39 @@ angular.module('moduleconnexion',[])
                       $scope.id_compte = $scope.id_compte.replace("<![CDATA[", "").replace("]]>", "");
                       console.log("Compte: "+$scope.id_compte);
                       $scope.doctauth.id_compte = $scope.id_compte;
+			  
+					  // RECUPERATION IMAGE PROFILE
+					  $scope.doctauth.imageP='';
+					  if($scope.id_compte){
+						  UploadFile.downloadFile('user_compte', Number($scope.id_compte))
+						  .then(
+							function(resp){
+								console.log('data : '+resp.data);
+								datajson=formatString.formatServerResult(resp.data);
+								// RECUPERATION IMAGE
+								//console.log("datajson : "+JSON.stringify(datajson.streamedFile.stream));
+								var stream=datajson.streamedFile.stream;
+								if(stream){
+									console.log("stream : "+stream);
+									docteurAuthentification.imageP=stream;
+									// UPDATE BACK-GROUND IMAGE
+									el('Mbody').style.backgroundImage='url("'+stream+'")';
+									//el('Mbody').classList.add("effet_bright_dyn");
+									//el.classList.add("effet_bright");
+									el('Mbody').className+=" effet_bright";
+									
+								}
+								
+							},
+							function(err){
+								console.log("une erreur est survenue lors telechargement d'image");
+							}
+						  )
+						  
+						  // GET ALL CORRESPONADANCE
+						  $scope.getCorrespondantsFromServer(Number($scope.id_compte));
+					  }
+			  
                     }
 
                     //Telephone
@@ -81,6 +225,7 @@ angular.module('moduleconnexion',[])
                        $scope.telephone = rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
                        $scope.tele = $scope.telephone.replace("<![CDATA[", "").replace("]]>", "");
                         console.log("Telephone: "+$scope.tele);
+						$scope.doctauth.telephone = $scope.tele;
                       }
                       //Horaire
                     if (rows[i].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "horaire")
@@ -140,7 +285,7 @@ angular.module('moduleconnexion',[])
                       }
                   };
               };
-
+			  
              console.log(datajson);
              if($scope.doctauth.id_prat != null) $scope.praticienbyId();
 
@@ -151,7 +296,7 @@ angular.module('moduleconnexion',[])
                     else {$state.go('menu_general')};
            }else
            {
-            $scope.msg="Identifiant et/ou mot de passe incorrecte!";
+            $scope.msg="tel et/ou mot de passe incorrecte!";
 
            };
           })
@@ -556,14 +701,14 @@ angular.module('moduleconnexion',[])
 //=========================================
 //=========================================   Réinitialisation du mot de passe
 //=========================================
-.controller('reinitialisermdpCtrl',function($scope,$state,$ionicHistory,$http,xmlParser,appAuthentification,docteurRemdp)
+.controller('reinitialisermdpCtrl',function($scope,$state,$ionicHistory,$http,xmlParser,appAuthentification,formatString)
 {
   $scope.appauth = appAuthentification;
-  $scope.docteurremdp = docteurRemdp;
+  $scope.email = "";
 
     $scope.accueil = function()
   {
-    $state.go('accueil');
+    $ionicHistory.goBack(-2);
   };
 
   $scope.goBack = function()
@@ -574,29 +719,36 @@ angular.module('moduleconnexion',[])
 
   $scope.validValue = function()
   {
-    console.log("firas");
-    var re = /[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}/igm;
-    if (!re.test($scope.docteurremdp.email))
+    var re = /^([a-zA-Z0-9])+([a-zA-Z0-9._%+-])+\@([a-zA-Z0-9_.-])+\.(([a-zA-Z]){2,6})$/;
+
+    if (!re.test($scope.email) && $scope.email != "")
     {
-        $scope.buttonValiderDisabled = true;
         $scope.emailError = true;
-        $scope.buttonValiderDisabled = true;
-        return;
     }
     else
     {
-      $scope.buttonValiderDisabled = false;
 
         $scope.emailError = false;
     }
 
   };
-  $scope.validValue();
 
 
   $scope.validationreinitialisermdp = function()
   {
-  console.log("clicked");
+    var re = /^([a-zA-Z0-9])+([a-zA-Z0-9._%+-])+\@([a-zA-Z0-9_.-])+\.(([a-zA-Z]){2,6})$/;
+
+    if ($scope.email == "")
+    {
+        popup.showpopup("Veuillez saisir votre email");
+        return;
+    }
+    if (!re.test($scope.email))
+    {
+      popup.showpopup("Veuillez saisir un email valid.");
+        return;
+    }
+
     if ($scope.appauth.sessionId != "")
     {
       console.log("<fr.protogen.connector.model.DataModel><entity>user_compte</entity><dataMap/><rows /><token><username/><password/><nom>Jakjoud Abdeslam</nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId>"+ $scope.appauth.sessionId +"</sessionId><status>SUCCES</status><id>206</id><beanId>0</beanId></token><expired></expired><unrecognized></unrecognized><status></status><operation>GET</operation><clauses><fr.protogen.connector.model.SearchClause><field>email</field><clause></clause><gt>"+$scope.email+"</gt><lt>"+$scope.email+"</lt><type>TEXT</type></fr.protogen.connector.model.SearchClause></clauses><page>1</page><pages>5</pages><nbpages>5</nbpages><iddriver>0</iddriver><ignoreList></ignoreList></fr.protogen.connector.model.DataModel>");
@@ -610,32 +762,23 @@ angular.module('moduleconnexion',[])
           {
             console.log("email form : "+$scope.email);
 
-             datajson=xmlParser.xml_str2json(data);
-             if(datajson['fr.protogen.connector.model.DataModel']['rows'] != "")
-             {
-                var rows = datajson['fr.protogen.connector.model.DataModel']['rows']['fr.protogen.connector.model.DataRow'];
+            datajson=formatString.formatServerResult(data);
+            if(datajson.dataModel.rows != "")
+            {
+                var rows = datajson.dataModel.rows.dataRow;
                 rows = [].concat( rows );
                 console.log("rows lenght : "+ rows.length);
-                // for(var i=0; i<rows.length; i++)
-                // {
 
-                  for (var j = 0; j < rows[0].dataRow['fr.protogen.connector.model.DataEntry'].length ; j++)
-                  {
+                for (var j = 0; j < rows[0].dataRow.dataEntry.length ; j++)
+                {
 
-                    //Email
-                    if (rows[0].dataRow['fr.protogen.connector.model.DataEntry'][j].attributeReference == "email")
-                     {
-                        $scope.email1 = rows[0].dataRow['fr.protogen.connector.model.DataEntry'][j].value;
-                        $scope.email1 = $scope.email1.replace("<![CDATA[", "").replace("]]>", "");
-                        console.log("Email après verif : "+$scope.email1);
-                        $scope.docteurremdp.email_rm = $scope.email1;
-                        $scope.envoiereinitialisermdp();
+                    if (rows[0].dataRow.dataEntry[j].attributeReference == "email")
+                    {
+                      emailTemp = rows[0].dataRow.dataEntry[j].value;
+                      $scope.envoiereinitialisermdp(emailTemp);
 
-                      }
-                  };
-                // };
-              console.log(datajson);
-
+                    }
+                };
             }
             else
             {
@@ -659,16 +802,16 @@ Requête :
 
   */
   //Envoi Email
-  $scope.envoiereinitialisermdp = function()
+  $scope.envoiereinitialisermdp = function(email)
   {
-    console.log("email fonction envoie: "+$scope.docteurremdp.email_rm);
-    if ($scope.appauth.sessionId != null)
+    console.log("email fonction envoie: "+email);
+    if ($scope.appauth.sessionId != "")
     {
 
       $http({
           method  : 'POST',
           url     : 'http://ns389914.ovh.net:8080/tolk/api/envoimail',
-          data    : "<fr.protogen.connector.model.MailModel><sendTo>"+$scope.docteurremdp.email_rm+"</sendTo><title>Reinitialisation mot de passe</title><content>Vous pouvez réinitialiser votre mot de passe en activant le lien : test</content><status></status></fr.protogen.connector.model.MailModel>",
+          data    : "<fr.protogen.connector.model.MailModel><sendTo>"+ email +"</sendTo><title>Reinitialisation mot de passe</title><content>Vous pouvez réinitialiser votre mot de passe en activant le lien : test</content><status></status></fr.protogen.connector.model.MailModel>",
           headers: {"Content-Type": 'text/xml'}
          })
           .success(function(data)
@@ -680,8 +823,6 @@ Requête :
           .error(function(data) //
           {
             console.log(data);
-
-             console.log("erreur envoie");
              $scope.msg= "Echec d'envoie !";
           });
 

@@ -34,6 +34,17 @@ app.directive('autocomplete', function() {
         return $scope.selectedIndex;
       };
 
+      $scope.viderchamp = function(element)
+      {
+        element.target.value ="";
+
+        if (element.target.id == "abc") 
+        {
+          element.target.value = "";
+
+        };
+      };
+
       // watches if the parameter filter should be changed
       var watching = true;
 
@@ -82,7 +93,8 @@ app.directive('autocomplete', function() {
 
       // selecting a suggestion with RIGHT ARROW or ENTER
       $scope.select = function(suggestion){
-        if(suggestion){
+        if(suggestion)
+        {
           $scope.searchParam = suggestion;
           $scope.searchFilter = suggestion;
           if($scope.onSelect)
@@ -92,6 +104,7 @@ app.directive('autocomplete', function() {
         $scope.completing = false;
         setTimeout(function(){watching = true;},1000);
         $scope.setIndex(-1);
+        // $cordovaKeyboard.close();
       };
 
 
@@ -248,6 +261,7 @@ app.directive('autocomplete', function() {
             placeholder="{{ attrs.placeholder }}"\
             class="{{ attrs.inputclass }}"\
             id="{{ attrs.inputid }}"\
+            ng-focus = "viderchamp($event)"\
             ng-required="{{ autocompleteRequired }}" />\
           <ul ng-show="completing && (suggestions | filter:searchFilter).length > 0">\
             <li\

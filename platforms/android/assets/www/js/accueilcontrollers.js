@@ -1,8 +1,40 @@
 angular.module('accueilcontrollers', [])
-.controller('accueilCtrl',function($scope,$ionicHistory,$state,$http,xmlParser,appAuthentification)
+.controller('accueilCtrl',function($scope,$ionicHistory,$state,$http,xmlParser,appAuthentification,$ionicSlideBoxDelegate)
 {
-  $ionicHistory.clearHistory();
-  console.log("called");
+  $scope.page_bull_1 = "selected";
+  $scope.$on('$ionicView.enter', function()
+  {
+      $ionicSlideBoxDelegate.start();
+    
+  });
+
+  $scope.slideHasChanged = function($index)
+  {
+      switch($index) 
+      {
+        case 0:
+        {
+          $scope.page_bull_1 = "selected";
+          $scope.page_bull_2 = "";
+          $scope.page_bull_3 = "";
+        }
+        break;
+        case 1:
+        {
+          $scope.page_bull_1 = "";
+          $scope.page_bull_2 = "selected";
+          $scope.page_bull_3 = "";
+        }
+          break;
+        case 2: 
+        {
+          $scope.page_bull_1 = "";
+          $scope.page_bull_2 = "";
+          $scope.page_bull_3 = "selected";
+        }
+        break;
+      };
+  };
 
 	$scope.appauth = appAuthentification;
   	if ($scope.appauth.sessionId == null || $scope.appauth.sessionId == "")
@@ -20,6 +52,7 @@ angular.module('accueilcontrollers', [])
              $scope.appauth.sessionId = datajson['fr.protogen.connector.model.AmanToken'].sessionId;
              console.log($scope.appauth.sessionId);
 
+
           })
           .error(function(data) //
           {
@@ -28,6 +61,8 @@ angular.module('accueilcontrollers', [])
           });
 
     };
+
+
   $scope.accueil = function()
   {
     $state.go('accueil');

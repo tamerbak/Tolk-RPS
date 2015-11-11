@@ -714,18 +714,11 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
         return; 
     }
 
-    /***if ($scope.dr.adresse_num == "")
-    {
-        popup.showpopup("Veuillez saisir le numéro de votre adresse.");
-        return; 
-    }**/
-
     if ($scope.dr.adresse == "")
     {
-        popup.showpopup("Veuillez saisir votre adresse."); 
-        return; 
+        popup.showpopup("Veuillez saisir votre adresse.");
+        return;
     }
-
 
     requestCP = "<fr.protogen.connector.model.SearchClause>" +
                   "<field>cp</field>" +
@@ -1462,7 +1455,7 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
 
     if (!re.test($scope.dr.email))
     {
-        popup.showpopup("L'email entré n'est pas correcte"); 
+        popup.showpopup("Cette adresse est invalide.");
         return; 
     }
 

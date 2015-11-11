@@ -21,9 +21,6 @@
     padding-bottom: 3vh;
   }
 
-  .inscription_1_list {
-  }
-
   .inscription_article {
     display: block;
     height: 73vh;
@@ -36,13 +33,16 @@
     max-height: 62vh;
     min-height: 62vh;
   }
+
   .inscription_first_row
   {
     margin-top: 0px;
   }
+
   .inscription_autocomplete {
     padding-top: 1vh;
   }
+
   .inscription_element_
   {
     height: 10vh;
@@ -52,8 +52,17 @@
     margin-top: 1vh;
   }
 
-  #inscription_1_info_bottom {
+  .inscription_1_info_bottom {
     font-size: 3.3vw;
+  }
+
+  .inscription_1_info_bottom_2 {
+    font-size: 3vw;
+  }
+
+  .inscription_2_label_num
+  {
+      margin-top: 0vh;
   }
 
   #connexion_ceercomptered {
@@ -77,20 +86,11 @@
   }
 
   .inscription_3_input_1 {
-    margin-top: 9vh;
+    margin-top: 8vh;
   }
 
   .inscription_3_input_2 {
-    margin-top: 5vh;
-  }
-
-  .inscription_4_pourquoi {
-    margin-top: 8vh;
-    margin-bottom: 6vh;
-  }
-
-  .inscription_4_contidion_general {
-    margin-top: 6vh;
+    margin-top: 1vh;
   }
 
   #inscription_4_ceercomptered {
@@ -157,27 +157,9 @@
     height: 62vh;
   }
 
-  .accueil_page-bull {
-    width: 10px;
-    height: 10px;
-    border: 1px solid white;
-    margin: 4px;
-    border-radius: 5px;
-    float: left;
-  }
-
   .accueil_bull_position {
     padding-top: 27vh;
     margin-left: 40%
-  }
-
-  .accueil_page-bull.selected {
-    background-color: white;
-  }
-
-  /* Footer */
-  .accueil_footer {
-    background-color: transparent;
   }
 
   #accueil_connexion {
@@ -243,15 +225,6 @@
     line-height: 16vh;
     vertical-align: middle;
     margin: auto;
-  }
-
-  .connexion_message {
-    color: red;
-    font-family: bentonsansextralight;
-    color: #D94C45;
-    font-size: 4vw;
-    font-weight: bolder;
-    margin-top: -2.5vh;
   }
 
   .connexion_list_form {
@@ -322,14 +295,6 @@
     font-family: bentonsansextralight !important;
     font-weight: normal;
     font-size: 6vw;
-  }
-
-  .connexion_mpo {
-    font-size: 4vw;
-    color: #D94C45;
-    margin-top: 1vh;
-    font-weight: bolder;
-    text-align: center;
   }
 
   /* Footer */
@@ -690,17 +655,16 @@
     color: white;
     font-family: bentonsansextralight;
     font-size: 13vw;
-    padding-left: 1vw;
-    margin-top: 3vh;
+    line-height: 13vw;
+    padding-top: 10vw;
     text-align: center;
   }
 
-  .firstconnexion2_Dr_alexandre {
+  .firstconnexion2_nom_prenom {
     color: white;
     font-family: bentonsansextralight;
-    font-size: 6vw;
-    padding-left: 1vw;
-    margin-top: 3vh;
+    font-size: 7.5vw;
+    margin-top: 10vh;
     text-align: center;
   }
 
@@ -708,8 +672,6 @@
     color: white;
     font-family: bentonsansextralight;
     font-size: 5vw;
-    padding-left: 1vw;
-    margin-top: 10vh;
     text-align: center;
   }
 
@@ -720,10 +682,6 @@
     padding-left: 1vw;
     margin-top: -1vh;
     text-align: center;
-  }
-
-  .firstconnexion2_mdp {
-    margin-top: 5vh;
   }
 
   .firstconnexion2_separator_white {
@@ -761,8 +719,6 @@
     color: white;
     font-family: bentonsansMedium;
     font-size: 6vw;
-    padding-left: 1vw;
-    margin-top: 1.5vh;
     text-align: center;
   }
 

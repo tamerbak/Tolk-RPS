@@ -3,32 +3,40 @@
     <div class="image_menu_general"></div>
 
     <header class="menu_general_header">
-      <span><i class="fa ion-navicon-round fa-2x menu_general_img_toggle"></i></span>
-      <span><img src="img/logo_tolk_v2.png" class="menu_general_tolk_img"></span>
-    <span class="menu_general_docteur"><span>{{doctauth.civilite + ' ' +doctauth.prenom+ ' '+ doctauth.nom}}</span><span
-      class="menu_general_profil_bull"><i class="fa fa-user-md fa-2x menu_general_profil_img"></i></span></span>
+      <!-- <span><i class="fa ion-navicon-round fa-2x menu_general_img_toggle"></i></span> -->
+     <span><img src="img/logo_tolk_v2.png" class="menu_general_tolk_img"></span>
+   <span class="menu_general_docteur"><span>{{doctauth.civilite + ' ' +doctauth.prenom+ ' '+ doctauth.nom}}</span><span
+     class="menu_general_profil_bull"><i class="fa fa-user-md fa-2x menu_general_profil_img"></i></span></span>
 
-      <div class="clearboth"></div>
-    </header>
+     <div class="clearboth"></div>
+   </header>
 
-    <article class="correspondant_article" style="background-color: white;">
+   <article class="correspondant_article" style="background-color: white;">
 
-      <div class="list">
-        <div class="bar item" style="width:inherit;">
-          <ion-header-bar class="bar-stable row">
-            <button ng-click="goBack()" class="button button-clear button-dark">
-              <i class="ion-chevron-left"></i>
-              <span style="font-weight:800;">Retour</span>
-            </button>
+     <div class="list">      
 
-            <h1 class="title">{{$praticienCorrespondant.name}}</h1>
+          <div class="bar row row-center mescorrespondants_bar" style="width:inherit;">
 
-            <button class="button button-clear button-dark" ng-click="addSomething()">Profile</button>
+              <div class="col col-25 col-bar">
+                  <button ng-click="goBack()" class="button button-clear button-dark mescorrespondants_bar_button">
+                      <i class="ion-chevron-left"></i>
+                      <span style="font-weight:800;">Retour</span>
+                  </button>
+              </div>
+    
+              <div class="col col-65 col-bar mescorrespondants_titre">
+                  <span class="">{{$praticienCorrespondant.name}}</span>
+              </div>
+    
+              <div class="col col-20 col-bar">
+                  <div class="buttons messages_right_icon" >
+                      <button ng-click="ajoutercorrespondant()" class="button button-clear icon button-dark mescorrespondants_bar_button"></button>
+                  </div>
+              </div>
+              <div class="clearboth"></div>
+          </div>
 
-          </ion-header-bar>
-        </div>
-
-        <!-- ng-click="correspondant({{correspondant.name}}) -->
+       <!-- ng-click="correspondant({{correspondant.name}}) -->
         <ion-nav-view name="navigation" class="padding">
           <p class="message_object"><br/><br/><b>Object : </b> {{messageView.objet}}</p>
 
