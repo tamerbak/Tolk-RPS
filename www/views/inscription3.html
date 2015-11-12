@@ -13,13 +13,25 @@
       <div class="inscription_cadre">
 
         <div class="row row_element_4 row-center">
-          <div class="col col_inscription">
+          <div class="col-20 col_inscription">
+            <label class="inscription_2_label_num" >
+              <input ng-focus="focusOnNum()" type="text" name="adresse_indicatif" ng-model="adresse_indicatif" class="inscription_3_input" data-ng-init="adresse_indicatif='0033'"/>
+            </label>
+          </div>
+          <div class="col-80 col_inscription" >
+            <label class="inscription_4_label">
+              <input type="text" name="tel" ng-change="validValue()" ng-model="dr.tel" ng-focus="focusOntel()"
+                     class="inscription_3_input" placeholder="Votre numéro de mobile"/>
+            </label>
+            <center class="assertive" ng-show="phoneError"><b>Ce numéro est invalide</b></center>
+          </div>
+          <!--div class="col col_inscription">
             <label class="inscription_4_label">
               <input type="text" name="tel" ng-change="validValue()" ng-model="dr.tel" ng-focus="focusOntel()" data-ng-init="dr.tel='0033'"
                      class="inscription_3_input" placeholder="Votre numéro de mobile"/>
             </label>
 
-          </div>
+          </div-->
         </div>
 
         <div class="row  row_element_4 row-center">

@@ -1,4 +1,4 @@
-<ion-view view-title="mes_contacts">
+<ion-view view-title="Inviter">
 
   <ion-content ng-controller="mesContactsCtrl" class="padding" has-bouncing="false" overflow-scroll="true" data-ng-init="initComptes()">
 
@@ -13,7 +13,7 @@
 
       <div class="clearboth"></div>
     </header>
-	
+
 	<article class="mescorrespondants_article" style="background-color: white;">
       <div class="list">
         <div class="bar row row-center mescorrespondants_bar" style="width:inherit;">
@@ -43,7 +43,7 @@
 		  <input type="text"  style="border: 1px solid #AAA; border-radius: 5px;width: 100%" placeholder="Rechercher compte"/>
           <ion-list>
               <ion-item data-ng-repeat="compte in comptes | filter:rechercher" class="item item-avatar item-icon-right mescorrespondants_list_item">
-                  <img ng-src="img/ionic.png"><!--"{{item.img}}"-->
+                  <img ng-src="img/ionic.png"><!--<<img ng-src="img/{{compte.shortname}}_tn.jpg" alt="{{ compte.name }} Photo">-->
                   <h2>{{compte.nom}}</h2>
                   <p>{{compte.specialite}}</p>
                   <i class="icon ion-ios-arrow-right"></i>

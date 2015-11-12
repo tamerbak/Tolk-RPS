@@ -287,9 +287,10 @@ angular.module('inscriptioncontrollers', ['autocomplete', 'fileServices'])
 			
 			$scope.init=function(){
 				// INITIALISATION 
-				$scope.formData.imageProfile=docteurAuthentification.imageP;
-				if($scope.formData.imageProfile.length <= 0)
-					$scope.formData.imageProfile=docteurAuthentification.imageP;
+				//$scope.formData.imageProfile=docteurAuthentification.imageP;
+				$scope.imgPr =docteurAuthentification.imageP;
+				if($scope.imgPr.length > 0)
+					$scope.formData.imageProfile=$scope.imgPr;
 			}
 			
 			$scope.loadImage=function(img){
