@@ -1634,7 +1634,7 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
     $scope.dr.adresse_num = '';
     $scope.dr.tel = '';
     $scope.dr.email = '';
-    $state.go('accueil')
+    $state.go('accueil');
     // $ionicHistory.goBack(-4);
   };
 
