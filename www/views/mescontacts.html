@@ -27,10 +27,16 @@
           <div class="col col-65 col-bar" align="right">
               <span style="width: 100%">
 				<!--Tous les comptes-->
-				<input type="text" data-ng-model="rechercher"  style="border: 1px solid #AAA; border-radius: 5px;width: 100%" placeholder="Rechercher compte"/>
+				<!--input type="text"   style="border: 1px solid #AAA; border-radius: 5px;width: 100%" placeholder="Rechercher compte"/>
 				<!--<input type="text" data-ng-model="rechercher"  style="border: 1px solid #AAA; border-radius: 5px;width: 100%" onfocus="if (this.value == 'Rechercher compte') {this.value = '';}" onblur="this.value='Rechercher compte';if (this.value == '') {this.value = 'Rechercher compte';}"/>-->
 			</span>
           </div>
+
+            <div class="col col-20 col-bar">
+                <div class="buttons messages_right_icon" >
+                    <button ng-click="ajoutercorrespondant()" class="button button-clear icon ion-person-add button-dark mescorrespondants_bar_button"></button>
+                </div>
+            </div>
 
           <div class="clearboth"></div>
         </div>
@@ -39,17 +45,30 @@
           <div ng-show="showAucunCorrespondant" class="row row-center message_nomessage">
             <p class="message_nomessage_p">Pas de compte </p>
           </div>
+            <span style="width: 100%;">
+                <label>Recherchez un compte : </label>
+                <input type="text"  style="border: 1px solid #AAA; border-radius: 5px;width: 100%" placeholder="Recherchez un compte" data-ng-model="rechercher" />
+            </span>
 
-		  <input type="text"  style="border: 1px solid #AAA; border-radius: 5px;width: 100%" placeholder="Rechercher compte"/>
           <ion-list>
               <ion-item data-ng-repeat="compte in comptes | filter:rechercher" class="item item-avatar item-icon-right mescorrespondants_list_item">
                   <img ng-src="img/ionic.png"><!--<<img ng-src="img/{{compte.shortname}}_tn.jpg" alt="{{ compte.name }} Photo">-->
                   <h2>{{compte.nom}}</h2>
                   <p>{{compte.specialite}}</p>
                   <i class="icon ion-ios-arrow-right"></i>
+                  <div class="buttons messages_right_icon" >
+                      <button ng-click="inviteCompte({{compte}})" class="button button-clear icon ion-person-add button-dark mescorrespondants_bar_button"></button>
+                  </div>
                   <ion-option-button class="button-positive" data-ng-click="inviteCompte({{compte}})">Inviter</ion-option-button>
                   <ion-delete-button class="ion-minus-circled" ng-click="items.splice($index, 1)"></ion-delete-button>
                   <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(item, $fromIndex, $toIndex)"></ion-reorder-button>
+              </ion-item>
+              <ion-item class="item item-icon-right">
+                  <h2>Inviter {{rechercher}} au réseau Tolk </h2>
+                  <div class="buttons messages_right_icon" >
+                      <button ng-click="inviteNewCompte()" class="button button-clear icon ion-person-add button-dark mescorrespondants_bar_button"></button>
+                  </div>
+
               </ion-item>
           </ion-list>
         </div>

@@ -1,11 +1,12 @@
 
 	var app = angular.module('mesContactsController', []);
 
-	app.controller("mesContactsCtrl", function($scope, $state, appAuthentification, $http, xmlParser, formatString, docteurAuthentification){ 
+	app.controller("mesContactsCtrl", function($scope, $state, appAuthentification, $http, xmlParser, formatString, docteurAuthentification, $ionicPopup){
 		
 			$scope.appauth = appAuthentification;
 			$scope.doctauth = docteurAuthentification;
 			$scope.comptes=[];
+
 			
 			/**$scope.getCorrespondantsFromServer = function(){
 				var requestCorrespondants = "";
@@ -184,6 +185,70 @@
 				console.log("Je suis dans $ionicView.beforeEnter()");
 				initComptes();
 			});
+
+		$scope.inviteNewCompte = function(){
+
+			var shwoPopup = $ionicPopup.show(
+					{
+						title: '<img src="img/logo_TOLK_me_rouge_sur_transparent.svg" class="logo_popup">',
+						template: 'Voulez vous le contacter via : ',
+						buttons: [
+							{
+								text: '<b>SMS</b>',
+								type: 'button-dark',
+								onTap: function(e){
+									window.plugins.webintent.hasExtra(window.plugins.webintent.EXTRA_TEXT,
+											function(has) {
+												// has is true iff it has the extra
+												window.plugins.webintent.startActivity({
+															action: window.plugins.webintent.ACTION_VIEW,
+															url: 'smsto:' + ''},
+														function() {},
+														function() {alert('Failed to open URL via Android Intent')});
+											}, function() {
+												// Something really bad happened.
+												alert('Erreur système Android');
+											}
+									);
+
+								}
+							},{
+								text: '<b>E-mail</b>',
+								type: 'button-calm',
+								onTap: function(e){
+
+									window.plugins.webintent.hasExtra(window.plugins.webintent.EXTRA_TEXT,
+											function(has) {
+												// has is true iff it has the extra
+												var extras = {};
+												extras[webintent.EXTRA_SUBJECT] = "Sujet";
+												extras[window.plugins.webintent.EXTRA_TEXT] = "Contenu";
+												window.plugins.webintent.startActivity({
+															action: window.plugins.webintent.ACTION_VIEW,
+															url: 'mailto:' + ''},
+														function() {},
+														function() {alert('Failed to open URL via Android Intent')});
+
+											}, function() {
+												// Something really bad happened.
+												alert('Erreur système Android');
+											}
+									);
+
+								}
+							}
+						]
+					});
+
+
+
+
+
+
+
+
+
+		};
 		  
 			$scope.inviteCompte=function(compte){
 				console.log("compte : "+ JSON.stringify($scope.doctauth));
