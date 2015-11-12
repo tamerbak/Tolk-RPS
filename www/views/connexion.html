@@ -32,7 +32,7 @@
           <div class="row row_element_6">
             <div class="col col_inscription">
               <label class="connexion_label"><!-- connexion_label -->
-                <input type="text" name="tel" ng-change="textchanged()" ng-model="tel" class="inscription_3_input" placeholder="Numéro de téléphone"/>
+                <input type="text" name="tel" ng-change="textchanged()" ng-model="params.tel" class="inscription_3_input" placeholder="Numéro de téléphone"/>
               </label>
             </div>
           </div>
@@ -40,7 +40,7 @@
           <div class="row row_element_6 row-center">
             <div class="col col_inscription">
               <label class="connexion_label"><!-- connexion_label -->
-                <input type="password" name="mdp" ng-change="textchanged()" ng-model="mdp" class="inscription_3_input" placeholder="Mot de passe"/>
+                <input type="password" name="mdp" ng-change="textchanged()" ng-model="params.mdp" class="inscription_3_input" placeholder="Mot de passe"/>
               </label>
             </div>
           </div>
@@ -48,8 +48,8 @@
             <div class="row row_element_6 row-center">
                 <div class="col col_inscription">
                     <label class="connexion_label">
+                        <input type="checkbox" name="rememberPwd" ng-model="params.rememberPwd" class="checkbox_RememberPwd" />
                         Retenir le mot de passe ?
-                        <input type="checkbox" name="rememberPwd" ng-model="rememberPwd" class="checkbox_RememberPwd" />
                     </label>
                 </div>
             </div>
