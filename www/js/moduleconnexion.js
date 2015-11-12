@@ -2,14 +2,38 @@ angular.module('moduleconnexion',['fileServices'])
 //=========================================
 //=========================================   connexion
 //=========================================
-.controller('connexionCtrl',function($scope,$state,$http,$ionicHistory,popup, formatString,xmlParser,appAuthentification,docteurAuthentification, UploadFile)
+.controller('connexionCtrl',function($scope,$state,$http,$ionicHistory,popup,
+                                     formatString,xmlParser,appAuthentification,
+                                     docteurAuthentification, UploadFile, localStorageService)
 {
   $scope.appauth = appAuthentification;
   $scope.doctauth = docteurAuthentification;
 
-//$scope.tel="003311111111";
- $scope.tel = "0110";
- $scope.mdp = "1234";
+//$scope.params.tel="003311111111";
+ $scope.params = {};
+ $scope.params.tel = "";
+ $scope.params.mdp = "";
+ $scope.params.rememberPwd = true;
+
+    /**
+     * Init des infos de l'utilisateur depuis le localStorage
+     */
+    var user_infos = localStorageService.get("user_infos");
+    if(user_infos && user_infos.rememberPwd) {
+            $scope.params.tel = user_infos.user_tel;
+            $scope.params.mdp = user_infos.user_pwd;
+            $scope.params.rememberPwd = user_infos.rememberPwd;
+    }
+
+    $scope.$watch('params.tel', function(newValue, oldValue) {
+        var user_infos = localStorageService.get("user_infos");
+        if(user_infos && (newValue == user_infos.user_tel)) {
+            $scope.params.mdp = user_infos.user_pwd;
+        }
+        else {
+            $scope.params.mdp = "";
+        }
+    });
 
  $scope.accueil = function()
   {
@@ -136,13 +160,13 @@ angular.module('moduleconnexion',['fileServices'])
 		}
 	 } // Get elem by ID
 				
-      if($scope.tel == "")
+      if($scope.params.tel == "")
       {
           popup.showpopup("Veuillez saisir votre identifiant (votre numéro de tel");
           return;
       }
 
-      if($scope.mdp == "")
+      if($scope.params.mdp == "")
       {
           popup.showpopup("Veuillez saisir votre mot de passe");
           return;
@@ -154,12 +178,12 @@ angular.module('moduleconnexion',['fileServices'])
       }
       else
       {
-          console.log("<fr.protogen.connector.model.DataModel><entity>user_compte</entity><dataMap/><rows /><token><username/><password/><nom>Jakjoud Abdeslam</nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId>"+ $scope.appauth.sessionId +"</sessionId><status>SUCCES</status><id>206</id><beanId>0</beanId></token><expired></expired><unrecognized></unrecognized><status></status><operation>GET</operation><clauses><fr.protogen.connector.model.SearchClause><field>tel</field><clause></clause><gt>"+$scope.tel+"</gt><lt>"+$scope.tel+"</lt><type>TEXT</type></fr.protogen.connector.model.SearchClause><fr.protogen.connector.model.SearchClause><field>mot_de_passe</field><clause></clause><gt>"+$scope.mdp+"</gt><lt>"+$scope.mdp+"</lt><type>TEXT</type></fr.protogen.connector.model.SearchClause></clauses><page>1</page><pages>5</pages><nbpages>5</nbpages><iddriver>0</iddriver><ignoreList></ignoreList></fr.protogen.connector.model.DataModel>");
+          console.log("<fr.protogen.connector.model.DataModel><entity>user_compte</entity><dataMap/><rows /><token><username/><password/><nom>Jakjoud Abdeslam</nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId>"+ $scope.appauth.sessionId +"</sessionId><status>SUCCES</status><id>206</id><beanId>0</beanId></token><expired></expired><unrecognized></unrecognized><status></status><operation>GET</operation><clauses><fr.protogen.connector.model.SearchClause><field>tel</field><clause></clause><gt>"+$scope.params.tel+"</gt><lt>"+$scope.params.tel+"</lt><type>TEXT</type></fr.protogen.connector.model.SearchClause><fr.protogen.connector.model.SearchClause><field>mot_de_passe</field><clause></clause><gt>"+$scope.params.mdp+"</gt><lt>"+$scope.params.mdp+"</lt><type>TEXT</type></fr.protogen.connector.model.SearchClause></clauses><page>1</page><pages>5</pages><nbpages>5</nbpages><iddriver>0</iddriver><ignoreList></ignoreList></fr.protogen.connector.model.DataModel>");
           $http
           ({
               method  : 'POST',
               url     : 'http://ns389914.ovh.net:8080/tolk/api/das',
-              data    : "<fr.protogen.connector.model.DataModel><entity>user_compte</entity><dataMap/><rows /><token><username/><password/><nom>Jakjoud Abdeslam</nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId>"+ $scope.appauth.sessionId +"</sessionId><status>SUCCES</status><id>206</id><beanId>0</beanId></token><expired></expired><unrecognized></unrecognized><status></status><operation>GET</operation><clauses><fr.protogen.connector.model.SearchClause><field>tel</field><clause></clause><gt>"+$scope.tel+"</gt><lt>"+$scope.tel+"</lt><type>TEXT</type></fr.protogen.connector.model.SearchClause><fr.protogen.connector.model.SearchClause><field>mot_de_passe</field><clause></clause><gt>"+$scope.mdp+"</gt><lt>"+$scope.mdp+"</lt><type>TEXT</type></fr.protogen.connector.model.SearchClause></clauses><page>1</page><pages>5</pages><nbpages>5</nbpages><iddriver>0</iddriver><ignoreList></ignoreList></fr.protogen.connector.model.DataModel>",
+              data    : "<fr.protogen.connector.model.DataModel><entity>user_compte</entity><dataMap/><rows /><token><username/><password/><nom>Jakjoud Abdeslam</nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId>"+ $scope.appauth.sessionId +"</sessionId><status>SUCCES</status><id>206</id><beanId>0</beanId></token><expired></expired><unrecognized></unrecognized><status></status><operation>GET</operation><clauses><fr.protogen.connector.model.SearchClause><field>tel</field><clause></clause><gt>"+$scope.params.tel+"</gt><lt>"+$scope.params.tel+"</lt><type>TEXT</type></fr.protogen.connector.model.SearchClause><fr.protogen.connector.model.SearchClause><field>mot_de_passe</field><clause></clause><gt>"+$scope.params.mdp+"</gt><lt>"+$scope.params.mdp+"</lt><type>TEXT</type></fr.protogen.connector.model.SearchClause></clauses><page>1</page><pages>5</pages><nbpages>5</nbpages><iddriver>0</iddriver><ignoreList></ignoreList></fr.protogen.connector.model.DataModel>",
               headers : {"Content-Type": 'text/xml'}
           })
           .success(function(data)
@@ -167,7 +191,21 @@ angular.module('moduleconnexion',['fileServices'])
 
              datajson=xmlParser.xml_str2json(data);
              console.log(datajson);
-             if(datajson['fr.protogen.connector.model.DataModel']['rows'] != ""){
+             if(datajson['fr.protogen.connector.model.DataModel']['rows'] != "") {
+
+                 //Si l'utilisateur a choisit de retenir son mot de passe
+                 if($scope.params.rememberPwd) {
+                     var user_infos = {
+                         rememberPwd : $scope.params.rememberPwd,
+                         user_tel: $scope.params.tel,
+                         user_pwd: $scope.params.mdp
+                     }
+                     localStorageService.set('user_infos', user_infos);
+                 }
+                 else {
+                     localStorageService.remove('user_infos');
+                 }
+
               var rows = datajson['fr.protogen.connector.model.DataModel']['rows']['fr.protogen.connector.model.DataRow'];
               rows = [].concat( rows );
               console.log("rows lenght : "+ rows.length);
