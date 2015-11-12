@@ -1610,7 +1610,8 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
     $scope.dr.adresse_num = '';
     $scope.dr.tel = '';
     $scope.dr.email = '';
-    $ionicHistory.goBack(-4);
+    $state.go('accueil')
+    // $ionicHistory.goBack(-4);
   };
 
   $scope.inscriptionenligne =function()
