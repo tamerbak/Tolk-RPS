@@ -1434,9 +1434,33 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
     $state.go('condition_generale');
   };
 
+    //TEL :
+    $scope.$watch('dr.tel', function(){
+        if ($scope.dr.tel){
+            $scope.dr.tel = $scope.dr.tel.replace("-","").replace(".","").replace("+","").replace(" ","").
+            replace("(","").replace(")","").replace("/","").replace(",","").
+            replace("#","").replace("*","").replace(";","").replace("N","");
+            if ($scope.dr.tel.length == 10){
+                if ($scope.dr.tel.substring(0, 1) == '0'){
+                    $scope.dr.tel = $scope.dr.tel.substring(1,10);
+                } else {
+                    $scope.dr.tel = $scope.dr.tel.substring(0,9);
+                }
+            } else if ($scope.dr.tel.length > 10) {
+                $scope.dr.tel = $scope.dr.tel.substring(0,9);
+            } else if ($scope.dr.tel.length == 9){
+                $scope.phoneError = false;
+            } else {
+                $scope.phoneError = true;
+            }
+        }
+
+
+    });
+
   $scope.inscription4 = function()
   {
-    tel = $scope.dr.tel;
+    tel = $scope.adresse_indicatif + $scope.dr.tel;
     email = $scope.dr.email;
 
     var re = /^([a-zA-Z0-9])+([a-zA-Z0-9._%+-])+\@([a-zA-Z0-9_.-])+\.(([a-zA-Z]){2,6})$/;
