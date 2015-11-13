@@ -4,7 +4,7 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
 //=================================
 //=================================    Insriptions
 //=================================
-.controller('inscription1Ctrl',function($ionicHistory,$scope,$state,$http,popup,$ionicPopup,xmlParser,docteurInscription,appAuthentification,formatString)
+.controller('inscription1Ctrl',function($ionicHistory,$scope,$state,$http,$cordovaDialogs,$ionicPopup,xmlParser,docteurInscription,appAuthentification,formatString)
 {
 
   $scope.dr = docteurInscription;
@@ -315,25 +315,25 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
     }
     if ($scope.dr.specialite == "")
     {
-      popup.showpopup("Veuillez saisir votre specialité");
+      $cordovaDialogs.alert("Veuillez saisir votre specialité");
       return;
     }
 
     if ($scope.dr.nom == "")
     {
-      popup.showpopup("Veuillez saisir votre nom");
+      $cordovaDialogs.alert("Veuillez saisir votre nom");
       return;
     }
 
     if ($scope.dr.prenom == "")
     {
-      popup.showpopup("Veuillez saisir votre prénom");
+      $cordovaDialogs.alert("Veuillez saisir votre prénom");
       return;
     }
 
     if ($scope.dr.civilite == "")
     {
-      popup.showpopup("Veuillez saisir votre civilité");
+      $cordovaDialogs.alert("Veuillez saisir votre civilité");
       return;
     }
 
@@ -343,13 +343,13 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
 /*
     if (($scope.specialites_id[$scope.dr.specialite] == null) || ($scope.specialites_id[$scope.dr.specialite] == ""))
     {
-      popup.showpopup("La spécialité selectionnée n'existe pas.");
+      $cordovaDialogs.alert("La spécialité selectionnée n'existe pas.");
       return;
     }
     */
     if (($scope.specialites_id[$scope.dr.specialite] == null) || ($scope.specialites_id[$scope.dr.specialite] == ""))
     {
-      // popup.showpopup("La spécialité selectionnée n'existe pas.");
+      // $cordovaDialogs.alert("La spécialité selectionnée n'existe pas.");
       //return;
       requestSpecialitee = "";
       $scope.dr.specialite_id = "";
@@ -434,7 +434,7 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
       if (rows == null)
       {   
 
-        // popup.showpopup("Ce praticien n'existe pas!");
+        // $cordovaDialogs.alert("Ce praticien n'existe pas!");
          $scope.dr.praticien_id = "";
          $state.go('inscription2'); 
         return; 
@@ -493,7 +493,7 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
           console.log(datajson);
           if (datajson.dataModel.rows != "") 
           {
-             popup.showpopup("Ce praticien a déjà un compte, si vous avez oublié vos identifiants, allez sur la page connexion et choisissez mot de passe oublié.");
+             $cordovaDialogs.alert("Ce praticien a déjà un compte, si vous avez oublié vos identifiants, allez sur la page connexion et choisissez mot de passe oublié.");
              return;
           }
           else
@@ -503,7 +503,7 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
         }
         else
         {
-            popup.showpopup("Probleme de connexion");
+            $cordovaDialogs.alert("Probleme de connexion");
             return;
         }
 
@@ -511,7 +511,7 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
     .error(function(data) //
     {
       $scope.message_de_verification = "";
-        popup.showpopup("Probleme de connexion, vérifier cotre connexion et réessayer");
+        $cordovaDialogs.alert("Probleme de connexion, vérifier cotre connexion et réessayer");
         return;
     });
 
@@ -529,7 +529,7 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
 //=========================================
 //========================================= Inscription Controller 2
 //=========================================
-.controller('inscription2Ctrl',function($ionicHistory,$scope,$state,$http,popup,$ionicPopup,$cordovaGeolocation,xmlParser,docteurInscription,appAuthentification,formatString)
+.controller('inscription2Ctrl',function($ionicHistory,$scope,$state,$http,$cordovaDialogs,$ionicPopup,$cordovaGeolocation,xmlParser,docteurInscription,appAuthentification,formatString)
 {
 
   $scope.dr = docteurInscription;
@@ -658,7 +658,7 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
             {
                 console.log(data);
                 console.log("erreur http compte");
-                popup.showpopup("Une erreur est survenue, veuillez réesseyer SVP");
+                $cordovaDialogs.alert("Une erreur est survenue, veuillez réesseyer SVP");
 
             });
     };
@@ -704,19 +704,19 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
     if ($scope.dr.cp == "")
     {
 
-        popup.showpopup("Veuillez saisir votre code postal.");
+        $cordovaDialogs.alert("Veuillez saisir votre code postal.");
         return; 
     }
 
     if ($scope.dr.ville == "")
     {
-        popup.showpopup("Veuillez saisir votre ville.");
+        $cordovaDialogs.alert("Veuillez saisir votre ville.");
         return; 
     }
 
     if ($scope.dr.adresse == "")
     {
-        popup.showpopup("Veuillez saisir votre adresse.");
+        $cordovaDialogs.alert("Veuillez saisir votre adresse.");
         return;
     }
 
@@ -767,7 +767,7 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
             console.log(datajson.dataModel.rows.dataRow);
             if (datajson.dataModel.rows == "") // si l adresse n'existe pas dans la base de données
             {
-                //popup.showpopup("L'adresse saisie n'existe pas");
+                //$cordovaDialogs.alert("L'adresse saisie n'existe pas");
 
                 // tester la validation par google map de l adresse
                 $scope.validerAdresse();
@@ -795,19 +795,19 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
             // }
             // else
             // {
-            //   popup.showpopup("Adresse saisie n'est pas correcte.");
+            //   $cordovaDialogs.alert("Adresse saisie n'est pas correcte.");
             // }
 
         }
         else
         {
-          popup.showpopup("Probleme serveur.");
+          $cordovaDialogs.alert("Probleme serveur.");
         }
 
     })
     .error(function(data) //
     {
-        popup.showpopup("Probleme serveur.");
+        $cordovaDialogs.alert("Probleme serveur.");
     });
 
     $scope.dr.adresse_id = $scope.adresses_id[$scope.dr.adresse];
@@ -1308,7 +1308,7 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
       if ($scope.dr.cp == '' || $scope.dr.ville == '' || $scope.dr.adresse == '')// || $scope.dr.adresseCmp == '')
       {
           $scope.showMessageErrorAllFieldRequiered = true;
-          popup.showpopup("Veuillez saisir les champs requis");
+          $cordovaDialogs.alert("Veuillez saisir les champs requis");
 
       }
       else
@@ -1332,11 +1332,11 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
                   if($scope.queryResults[0].geometry.location_type!="APPROXIMATE")
                     $state.go('inscription_map',  {'lat':$scope.lat,'lng':$scope.lng});
                   else
-                      popup.showpopup("Google Map ne reconnait pas votre adresse. Veuillez confirmer que c'est bien votre adresse.");
+                      $cordovaDialogs.alert("Google Map ne reconnait pas votre adresse. Veuillez confirmer que c'est bien votre adresse.");
               },
               function error(_error){
                   $scope.queryError = _error;
-                  popup.showpopup("Google Map ne reconnait pas votre adresse. Veuillez confirmer que c'est bien votre adresse.");
+                  $cordovaDialogs.alert("Google Map ne reconnait pas votre adresse. Veuillez confirmer que c'est bien votre adresse.");
 
               });
       }
@@ -1369,7 +1369,7 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
 //=====================================
 //===================================== Inscription Controller 3
 //=====================================
-.controller('inscription3Ctrl',function($scope,$state,$http,$ionicHistory,formatString,$ionicPopover,popup,docteurInscription,appAuthentification)
+.controller('inscription3Ctrl',function($scope,$state,$http,$ionicHistory,formatString,$ionicPopover,$cordovaDialogs,docteurInscription,appAuthentification, $cordovaDialogs)
 {
 
   $scope.dr = docteurInscription;
@@ -1429,6 +1429,11 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
     $scope.popover.remove();
   });
 
+    var message = "Votre numéro de mobile est votre identifiant, il sera utilisé pour l'activation de votre compte. Un SMS vous sera envoyé pour garantir la sécurité maximum de vos données. Votre numéro de mobile restera à usage interne de la société TOLK exclusivement dans le cadre du bon fonctionement de nos services.";
+    $scope.showAlertUsageTel = function() {
+        $cordovaDialogs.alert(message, 'Pourquoi avons nous besoin de votre numéro de téléphone mobile?');
+    };
+
   $scope.condition_generale = function()
   {
     $state.go('condition_generale');
@@ -1467,25 +1472,25 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
 
     if ($scope.dr.tel == "")
     {
-        popup.showpopup("Veuillez saisir votre numéro de téléphone.");
+        $cordovaDialogs.alert("Veuillez saisir votre numéro de téléphone.");
         return; 
     }
 
     if ($scope.dr.email == "")
     {
-        popup.showpopup("Veuillez saisir votre email."); 
+        $cordovaDialogs.alert("Veuillez saisir votre email.");
         return; 
     }
 
     if (!re.test($scope.dr.email))
     {
-        popup.showpopup("Cette adresse est invalide.");
+        $cordovaDialogs.alert("Cette adresse est invalide.");
         return; 
     }
 
     if ($scope.checkbox != true)
     {
-        popup.showpopup("Vous ne pouvez pas continuer sans accepter les conditions générales d'utilisation"); 
+        $cordovaDialogs.alert("Vous ne pouvez pas continuer sans accepter les conditions générales d'utilisation");
         return; 
     }
 
@@ -1521,7 +1526,7 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
           console.log(datajson);
           if (datajson.dataModel.rows != "") 
           {
-             popup.showpopup("Le numéro de telephone existe déjà");
+             $cordovaDialogs.alert("Le numéro de telephone existe déjà");
              return;
           }
           else
@@ -1531,7 +1536,7 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
         }
         else
         {
-            popup.showpopup("Probleme de connexion");
+            $cordovaDialogs.alert("Probleme de connexion");
             return;
         }
 
@@ -1539,7 +1544,7 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
     .error(function(data) //
     {
         $scope.message_de_verification = "Vérification de numéro de tel";
-        popup.showpopup("Probleme de connexion, vérifier cotre connexion et réessayer");
+        $cordovaDialogs.alert("Probleme de connexion, vérifier cotre connexion et réessayer");
         return;
     });
 
@@ -1577,7 +1582,7 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
           console.log(datajson);
           if (datajson.dataModel.rows != "") 
           {
-             popup.showpopup("L'email saisi existe déjà");
+             $cordovaDialogs.alert("L'email saisi existe déjà");
              return;
           }
           else
@@ -1587,7 +1592,7 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
         }
         else
         {
-            popup.showpopup("Probleme de connexion");
+            $cordovaDialogs.alert("Probleme de connexion");
             return;
         }
 
@@ -1595,7 +1600,7 @@ angular.module('moduleinscriptions', ['autocomplete','ngCordova','uiGmapgoogle-m
     .error(function(data) //
     {
       $scope.message_de_verification = "";
-        popup.showpopup("Probleme de connexion, vérifier cotre connexion et réessayer");
+        $cordovaDialogs.alert("Probleme de connexion, vérifier cotre connexion et réessayer");
         return;
     });
 

@@ -2,7 +2,7 @@ angular.module('moduleconnexion',['fileServices'])
 //=========================================
 //=========================================   connexion
 //=========================================
-.controller('connexionCtrl',function($scope,$state,$http,$ionicHistory,popup,
+.controller('connexionCtrl',function($scope,$state,$http,$ionicHistory,$cordovaDialogs,
                                      formatString,xmlParser,appAuthentification,
                                      docteurAuthentification, UploadFile, localStorageService)
 {
@@ -162,13 +162,13 @@ angular.module('moduleconnexion',['fileServices'])
 				
       if($scope.params.tel == "")
       {
-          popup.showpopup("Veuillez saisir votre identifiant (votre numéro de tel");
+          $cordovaDialogs.alert("Veuillez saisir votre identifiant (votre numéro de tel");
           return;
       }
 
       if($scope.params.mdp == "")
       {
-          popup.showpopup("Veuillez saisir votre mot de passe");
+          $cordovaDialogs.alert("Veuillez saisir votre mot de passe");
           return;
       }
 
@@ -778,12 +778,12 @@ angular.module('moduleconnexion',['fileServices'])
 
     if ($scope.email == "")
     {
-        popup.showpopup("Veuillez saisir votre email");
+        $cordovaDialogs.alert("Veuillez saisir votre email");
         return;
     }
     if (!re.test($scope.email))
     {
-      popup.showpopup("Veuillez saisir un email valid.");
+      $cordovaDialogs.alert("Veuillez saisir un email valid.");
         return;
     }
 
