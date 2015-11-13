@@ -188,7 +188,8 @@
 
 		$scope.inviteNewCompte = function(){
 
-			var shwoPopup = $ionicPopup.show(
+			if (navigator.notification) {
+				var shwoPopup = $ionicPopup.show(
 					{
 						title: '<img src="img/logo_TOLK_me_rouge_sur_transparent.svg" class="logo_popup">',
 						template: 'Voulez vous le contacter via : ',
@@ -196,57 +197,119 @@
 							{
 								text: '<b>SMS</b>',
 								type: 'button-dark',
-								onTap: function(e){
+								onTap: function (e) {
 									window.plugins.webintent.hasExtra(window.plugins.webintent.EXTRA_TEXT,
-											function(has) {
-												// has is true iff it has the extra
-												window.plugins.webintent.startActivity({
-															action: window.plugins.webintent.ACTION_VIEW,
-															url: 'smsto:' + ''},
-														function() {},
-														function() {alert('Failed to open URL via Android Intent')});
-											}, function() {
-												// Something really bad happened.
-												alert('Erreur système Android');
-											}
+										function (has) {
+											// has is true iff it has the extra
+											window.plugins.webintent.startActivity({
+													action: window.plugins.webintent.ACTION_VIEW,
+													url: 'smsto:' + ''
+												},
+												function () {
+												},
+												function () {
+													alert('Failed to open URL via Android Intent')
+												});
+										}, function () {
+											// Something really bad happened.
+											alert('Erreur système Android');
+										}
 									);
 
 								}
-							},{
+							}, {
 								text: '<b>E-mail</b>',
 								type: 'button-calm',
-								onTap: function(e){
+								onTap: function (e) {
 
 									window.plugins.webintent.hasExtra(window.plugins.webintent.EXTRA_TEXT,
-											function(has) {
-												// has is true iff it has the extra
-												var extras = {};
-												extras[webintent.EXTRA_SUBJECT] = "Sujet";
-												extras[window.plugins.webintent.EXTRA_TEXT] = "Contenu";
-												window.plugins.webintent.startActivity({
-															action: window.plugins.webintent.ACTION_VIEW,
-															url: 'mailto:' + ''},
-														function() {},
-														function() {alert('Failed to open URL via Android Intent')});
+										function (has) {
+											// has is true iff it has the extra
+											var extras = {};
+											extras[webintent.EXTRA_SUBJECT] = "Sujet";
+											extras[window.plugins.webintent.EXTRA_TEXT] = "Contenu";
+											window.plugins.webintent.startActivity({
+													action: window.plugins.webintent.ACTION_VIEW,
+													url: 'mailto:' + ''
+												},
+												function () {
+												},
+												function () {
+													alert('Failed to open URL via Android Intent')
+												});
 
-											}, function() {
-												// Something really bad happened.
-												alert('Erreur système Android');
-											}
+										}, function () {
+											// Something really bad happened.
+											alert('Erreur système Android');
+										}
 									);
 
 								}
 							}
 						]
 					});
+			}
 
+			else {
+				function onConfirm(buttonIndex) {
+					//SMS
+					if (buttonIndex == 1) {
 
+						window.plugins.webintent.hasExtra(window.plugins.webintent.EXTRA_TEXT,
+							function (has) {
+								// has is true iff it has the extra
+								window.plugins.webintent.startActivity({
+										action: window.plugins.webintent.ACTION_VIEW,
+										url: 'smsto:' + ''
+									},
+									function () {
+									},
+									function () {
+										alert('Failed to open URL via Android Intent')
+									});
+							}, function () {
+								// Something really bad happened.
+								alert('Erreur système Android');
+							}
+						);
 
+					}
+					//E-mail
+					else if (buttonIndex == 2) {
 
+						window.plugins.webintent.hasExtra(window.plugins.webintent.EXTRA_TEXT,
+							function (has) {
+								// has is true iff it has the extra
+								var extras = {};
+								extras[webintent.EXTRA_SUBJECT] = "Sujet";
+								extras[window.plugins.webintent.EXTRA_TEXT] = "Contenu";
+								window.plugins.webintent.startActivity({
+										action: window.plugins.webintent.ACTION_VIEW,
+										url: 'mailto:' + ''
+									},
+									function () {
+									},
+									function () {
+										alert('Failed to open URL via Android Intent')
+									});
 
+							}, function () {
+								// Something really bad happened.
+								alert('Erreur système Android');
+							}
+						);
 
+					}
+				};
 
+				navigator.notification.confirm(
+					'Voulez vous le contacter via : ', // message
+					onConfirm,            // callback to invoke with index of button pressed
+					'Invitation',           // title
+					['SMS', 'E-mail']     // buttonLabels
+				);
 
+			}
 
 		};
 		  
