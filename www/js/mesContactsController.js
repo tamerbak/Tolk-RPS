@@ -1,7 +1,7 @@
 
 	var app = angular.module('mesContactsController', []);
 
-	app.controller("mesContactsCtrl", function($scope, $state, appAuthentification, $http, xmlParser, formatString, docteurAuthentification, $ionicPopup, $cordovaDialogs){
+	app.controller("mesContactsCtrl", function($scope, $state, appAuthentification, $http, xmlParser, formatString, docteurAuthentification, $ionicPopup, invitationService){
 		
 			$scope.appauth = appAuthentification;
 			$scope.doctauth = docteurAuthentification;
@@ -248,62 +248,7 @@
 				});
 				*/
 
-				$cordovaDialogs.confirm(
-					'Voulez vous le contacter via : ', // message
-					'Invitation',		// title
-					['SMS', 'E-mail']	// buttonLabels
-				).then(function(buttonIndex) {
-						// no button = 0, 'SMS' = 1, 'E-mail' = 2
-
-						//SMS
-						if (buttonIndex == 1) {
-
-							window.plugins.webintent.hasExtra(window.plugins.webintent.EXTRA_TEXT,
-								function (has) {
-									// has is true iff it has the extra
-									window.plugins.webintent.startActivity({
-											action: window.plugins.webintent.ACTION_VIEW,
-											url: 'smsto:' + ''
-										},
-										function () {
-										},
-										function () {
-											alert('Failed to open URL via Android Intent')
-										});
-								}, function () {
-									// Something really bad happened.
-									alert('Erreur système Android');
-								}
-							);
-
-						}
-						//E-mail
-						else if (buttonIndex == 2) {
-
-							window.plugins.webintent.hasExtra(window.plugins.webintent.EXTRA_TEXT,
-								function (has) {
-									// has is true iff it has the extra
-									var extras = {};
-									extras[webintent.EXTRA_SUBJECT] = "Sujet";
-									extras[window.plugins.webintent.EXTRA_TEXT] = "Contenu";
-									window.plugins.webintent.startActivity({
-											action: window.plugins.webintent.ACTION_VIEW,
-											url: 'mailto:' + ''
-										},
-										function () {
-										},
-										function () {
-											alert('Failed to open URL via Android Intent')
-										});
-
-								}, function () {
-									// Something really bad happened.
-									alert('Erreur système Android');
-								}
-							);
-
-						}
-					});
+				invitationService.showConfirm();
 
 			};
 		  
