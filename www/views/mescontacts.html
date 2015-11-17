@@ -53,8 +53,9 @@
           <ion-list>
               <ion-item data-ng-repeat="compte in comptes | filter:rechercher" class="item item-avatar item-icon-right mescorrespondants_list_item">
                   <img ng-src="img/ionic.png"><!--<<img ng-src="img/{{compte.shortname}}_tn.jpg" alt="{{ compte.name }} Photo">-->
-                  <h2>{{compte.nom}}</h2>
-                  <p>{{compte.specialite}}</p>
+                  <h2>{{compte.nom| limitTo: 15}}
+                      {{ compte.nom.length > 15 ? '&hellip;' : '' }}</h2>
+                  <p>{{compte.specialite| limitTo: 15}}{{compte.specialite.length > 15 ? '&hellip;' : '' }}</p>
                   <i class="icon ion-ios-arrow-right"></i>
                   <div class="buttons messages_right_icon" >
                       <button ng-click="inviteCompte({{compte}})" class="button button-clear icon ion-person-add button-dark mescorrespondants_bar_button"></button>

@@ -283,6 +283,12 @@ angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontroller
         templateUrl: 'views/profile.html'
 
       })
+        .state('actualites',
+      {
+        name: 'actualites',
+        url:'/actualites',
+        templateUrl:'views/actualites.html'
+     })
       .state('promo1',
       {
         name: 'promo1',

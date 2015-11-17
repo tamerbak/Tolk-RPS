@@ -274,7 +274,8 @@ angular.module('inscriptioncontrollers', ['autocomplete', 'fileServices'])
 			$scope.appauth = appAuthentification;
 			$scope.doctauth = docteurAuthentification;
 			$scope.formData={};
-			$scope.formData.imageProfile="img/1.48.jpg";
+
+			$scope.formData.imageProfile="img/docteur.png";
 			
 			$scope.profile = function(){
 				$state.go('profile');
