@@ -230,9 +230,13 @@ angular.module('modulecorrespondants', ['autocomplete'])
   $scope.getCorrespondants();
 
   $scope.$on( "$ionicView.beforeEnter", function(scopes, states){
-	  console.log('correspondants ' + docteurAuthentification.correspondants.length);
-	  
-  });
+	  console.log('correspondants ' + docteurAuthentification.correspondants.length)
+    if(states.stateName == "mescorrespondants" ){
+      if($scope.doctauth.correspondants.length<=0){
+        $state.go('mescontacts');
+      }
+    }
+     });
 
   $scope.getMessagesForCorrespondant = function(forPraticien){
 

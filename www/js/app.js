@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontrollers', 'datacontrollers',
   'moduleinscriptions', 'moduleconnexion','modulecorrespondants',
-  'mesContactsController', 'LocalStorageModule'])
+  'mesContactsController', 'LocalStorageModule','Services'])
 
   .run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
@@ -283,6 +283,12 @@ angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontroller
         templateUrl: 'views/profile.html'
 
       })
+        .state('actualites',
+      {
+        name: 'actualites',
+        url:'/actualites',
+        templateUrl:'views/actualites.html'
+     })
       .state('promo1',
       {
         name: 'promo1',
