@@ -52,8 +52,78 @@ angular.module('inscriptioncontrollers', ['autocomplete', 'fileServices'])
 //=========================================
 //=========================================   Menu general
 //=========================================
-.controller('menu_generalCtrl',function($scope,$rootScope,$state,$http,xmlParser,appAuthentification,docteurAuthentification)
+.controller('menu_generalCtrl',function($scope,$rootScope,$state,$http,xmlParser,appAuthentification,docteurAuthentification,localStorageService, $cordovaDialogs)
 {
+    /**
+     * checkNewInvitations
+     */
+    var checkNewInvitations = function() {
+
+        var userId = localStorageService.get("user_id");
+
+        var query = "select pk_user_praticien, nom, prenom " +
+            "from user_praticien " +
+            "where pk_user_praticien " +
+            "in (select fk_user_praticien from user_correspondance " +
+                    "where fk_user_compte=" + userId + " " +
+                    "and confirmee='Non' " +
+                    "and dirty='N');";
+
+        $http({
+            method  : 'POST',
+            url     : 'http://ns389914.ovh.net:8080/tolk/api/sql',
+            data    : query,
+            headers: {"Content-Type": 'text/plain'}
+        })
+        .success(function(data){
+            console.log("checkNewInvitations > success : ", data);
+            angular.forEach(data.data, function(value, key) {
+
+                console.log(key + ': ', value);
+
+                var message  = value.nom + " " + value.prenom + " vous a envoyé une demande de correspondance!";
+                $cordovaDialogs.confirm(message, 'Invitation', ['Accepter','Refuser'])
+                    .then(function(buttonIndex) {
+                        // no button = 0, 'Accepter' = 1, 'Refuser' = 2
+
+                        if(buttonIndex != 0) {
+
+                            var query = "";
+
+                            if (buttonIndex == 1) {
+                                query = "update user_correspondance " +
+                                    "set confirmee='Oui' " +
+                                    "where fk_user_compte=" + userId + " " +
+                                    "and fk_user_praticien=" + value.pk_user_praticien;
+                            }
+                            else {
+                                query = "delete from user_correspondance " +
+                                    "where fk_user_compte=" + userId + " " +
+                                    "and fk_user_praticien=" + value.pk_user_praticien;
+                            }
+
+                            $http({
+                                method: 'POST',
+                                url: 'http://ns389914.ovh.net:8080/tolk/api/sql',
+                                data: query,
+                                headers: {"Content-Type": 'text/plain'}
+                            })
+                            .success(function (data) {
+                             console.log("$cordovaDialogs > checkNewInvitations > success : ", data);
+                            })
+                            .error(function (data) {
+                                console.log("$cordovaDialogs > checkNewInvitations > error : ", data);
+                            });
+                        }
+                    });
+            });
+        })
+        .error(function(data){
+            console.log("checkNewInvitations > error : ", data);
+        });
+    };
+    checkNewInvitations();
+
   $scope.appauth = appAuthentification;
   $scope.doctauth = docteurAuthentification;
 
