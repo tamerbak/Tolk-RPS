@@ -222,7 +222,10 @@ angular.module('moduleconnexion',['fileServices'])
                       $scope.id_compte = $scope.id_compte.replace("<![CDATA[", "").replace("]]>", "");
                       console.log("Compte: "+$scope.id_compte);
                       $scope.doctauth.id_compte = $scope.id_compte;
-			  
+
+                        //Stocker l'id de l'utilisateur
+                        localStorageService.set('user_id', $scope.id_compte);
+
 					  // RECUPERATION IMAGE PROFILE
 					  $scope.doctauth.imageP='';
 					  if($scope.id_compte){
