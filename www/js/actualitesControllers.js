@@ -65,7 +65,10 @@ app.controller("actualiteController", function($scope, docteurAuthentification, 
                         });
 
                     $scope.actualites.unshift({message : $scope.params.msg});
+
                     localStorageService.set('user_actualites', $scope.actualites);
+                    $scope.params = {};
+                    $scope.params.msg='';
                     console.log($scope.actualites);
 
                 }
