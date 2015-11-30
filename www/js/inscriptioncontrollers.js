@@ -127,9 +127,39 @@ angular.module('inscriptioncontrollers', ['autocomplete', 'fileServices'])
   $scope.appauth = appAuthentification;
   $scope.doctauth = docteurAuthentification;
 
+    $scope.mesactualites = function(){
+
+        console.log($scope.doctauth.id_compte);
+        console.log($scope.doctauth.id_prat);
+        var ss = "select nom, prenom, message from  user_praticien up, user_actualites ua where " +
+            "ua.fk_user_praticien = "+ $scope.doctauth.id_prat +" " +
+            "and ua.fk_user_praticien=up.pk_user_praticien " +
+            "UNION " +
+            "select nom, prenom, message from user_praticien up, user_actualites ua " +
+            "where ua.fk_user_praticien=up.pk_user_praticien " +
+            "and  ua.fk_user_praticien in (select fk_user_praticien from user_correspondance uc where uc.fk_user_compte = "+ $scope.doctauth.id_compte +") ";
+        $http({
+            method  : 'POST',
+            url     : 'http://ns389914.ovh.net:8080/tolk/api/sql',
+            data    : ss,
+            headers: {"Content-Type": 'text/plain'}
+        }) .success(function(data)
+            {
+                $scope.actualites = data.data;
+                console.log($scope.actualites);
+                localStorageService.set('user_actualites', $scope.actualites);
+            })
+            .error(function(data)
+            {
+                console.log(data);
+                $scope.messageerreur = "Une erreur s'est produite, veuillez resseyer SVP."
+            });
+        $state.go('actualites');
+    };
+
   $scope.mescorrespondants = function()
   {
-    $state.go('mescorrespondants');
+       $state.go('mescorrespondants');
   };
   
 	$scope.loadAllComptes= function(){

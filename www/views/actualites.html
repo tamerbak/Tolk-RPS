@@ -16,7 +16,7 @@
                 <div style="display: inline-block; width: 90%;" align="center" >
                     <b>Actualit�s</b><br><br>
                 </div>
-                <textarea style="border: 1px solid #AAA; border-radius: 5px;width: 100%" placeholder="your message..." ng-model="params.msg"></textarea>
+                <textarea name="textarea" style="border: 1px solid #AAA; border-radius: 5px;width: 100%" placeholder="your message..." ng-model="params.msg"></textarea>
                 <div align="right">
                     <button class="button button-small button-light" ng-click="postuler()">
                         Publier
@@ -25,22 +25,27 @@
 
 
                 <div class="list">
-                    <a ng-repeat ="act in actualites" class="item item-thumbnail-left" ng-href="#">  <!--ng-href="#/item/{{ item.slug }}">-->
-                        <h2>{{act.nom}} {{act.prenom}} </h2><div style="font-size: 8px;">il y'a 1 min</div>
-                        <p>{{ act.message }}</p>
+                     <div ng-repeat ="act in actualites" >
 
-                        <div class="item tabs tabs-secondary tabs-icon-left">
-                            <a class="tab-item" href="#">
-                                <i class="icon ion-chatbox"></i>
-                                Comment
-                            </a>
-                            <a class="tab-item" href="#">
-                                <i class="icon ion-share"></i>
-                                Share
-                            </a>
-                        </div>
-                    </a>
+
+                        <a class="item item-thumbnail-left" ng-href="#">  <!--ng-href="#/item/{{ item.slug }}">-->
+                            <h2>{{act.nom}} {{act.prenom}} </h2><div style="font-size: 8px;">il y'a 1 min</div>
+                            <p>{{ act.message }}</p>
+                        </a>
+                            <div class="item tabs tabs-secondary tabs-icon-left">
+                                <a class="tab-item" href="#">
+                                    <i class="icon ion-chatbox"></i>
+                                    Comment
+                                </a>
+                                <a class="tab-item" href="#">
+                                    <i class="icon ion-share"></i>
+                                    Share
+                                </a>
+                            </div>
+                         <br/>
+                     </div>
                 </div>
+
             </div>
 
 
