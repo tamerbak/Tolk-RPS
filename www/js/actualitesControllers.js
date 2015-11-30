@@ -21,6 +21,7 @@ app.controller("actualiteController", function($scope, docteurAuthentification, 
     $scope.params.msg = "";
     $scope.doctauth = docteurAuthentification;
     $scope.formData={};
+    $scope.actualites = [];
 
     $scope.formData.imageProfile="img/docteur.png";
 
@@ -44,10 +45,14 @@ app.controller("actualiteController", function($scope, docteurAuthentification, 
         console.log($scope.appauth.sessionId);
         console.log($scope.doctauth.id_prat);
         console.log($scope.doctauth.id_compte);
+
         if($scope.params.msg == ""){
             $cordovaDialogs.alert("Veuillez écrire votre message.");
             return;
         }else {
+
+            var newMessage = $scope.params.msg;
+            $scope.params.msg = "";
 
             var query = "INSERT INTO user_actualites (fk_user_praticien, message, date_actualite) VALUES ( " + $scope.doctauth.id_prat + ", '" + $scope.params.msg + "', CURRENT_TIMESTAMP )";
             $http({
@@ -64,8 +69,12 @@ app.controller("actualiteController", function($scope, docteurAuthentification, 
                             // callback success
                         });
 
+<<<<<<< HEAD
                     $scope.actualites.unshift({message : $scope.params.msg});
 
+=======
+                    $scope.actualites.unshift({message : newMessage});
+>>>>>>> 779dcbd3e3c61a3da0a29ef3bde521107ee4a51f
                     localStorageService.set('user_actualites', $scope.actualites);
                     $scope.params = {};
                     $scope.params.msg='';
