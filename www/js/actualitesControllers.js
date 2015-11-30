@@ -3,7 +3,7 @@
 
 var app = angular.module('actualitesController', ['ionic']);
 
-app.controller("actualiteController", function($scope, docteurAuthentification, appAuthentification,localStorageService,$http, xmlParser)
+app.controller("actualiteController", function($scope, docteurAuthentification, appAuthentification,localStorageService,$http, $cordovaDialogs, xmlParser)
 {
     function js_yyyy_mm_dd_hh_mm_ss () {
         var now = new Date();
@@ -58,73 +58,53 @@ app.controller("actualiteController", function($scope, docteurAuthentification, 
             }).success(function (data) {
 
                 console.log(data);
-                console.log("(y)");
-                $cordovaDialogs.alert('Votre message a été publier', 'Publication', 'Ok')
-                    .then(function () {
-                                // callback success
-                    });
+                if (data.status == 'success'){
+                    $cordovaDialogs.alert('Votre message a été publier', 'Publication', 'Ok')
+                        .then(function () {
+                            // callback success
+                        });
+
+                    $scope.actualites.unshift({message : $scope.params.msg});
+                    localStorageService.set('user_actualites', $scope.actualites);
+                    console.log($scope.actualites);
+
+                }
 
                 })
                 .error(function (data) {
                     console.log(data);
                     $scope.messageerreur = "Une erreur s'est produite, veuillez resseyer SVP."
                 });
-
-
-
-
-            }
+            };
 
             console.log($scope.doctauth.id_compte);
             console.log($scope.doctauth.id_prat);
-            var ss = "select nom, prenom, message from  user_praticien up, user_actualites ua where " +
-                "ua.fk_user_praticien = "+ $scope.doctauth.id_prat +" " +
-                "and ua.fk_user_praticien=up.pk_user_praticien " +
-                "UNION " +
-                "select nom, prenom, message from user_praticien up, user_actualites ua " +
-                "where ua.fk_user_praticien=up.pk_user_praticien " +
-                "and  ua.fk_user_praticien in (select fk_user_praticien from user_correspondance uc where uc.fk_user_compte = "+ $scope.doctauth.id_compte +") ";
-            $http({
-                method  : 'POST',
-                url     : 'http://ns389914.ovh.net:8080/tolk/api/sql',
-                data    : ss,
-                headers: {"Content-Type": 'text/plain'}
-            }) .success(function(data)
-                {
-                    $scope.actualites = data.data;
-                    console.log(data);
-                })
-                .error(function(data)
-                {
-                    console.log(data);
-                    $scope.messageerreur = "Une erreur s'est produite, veuillez resseyer SVP."
-                });
 
 
-        var ss = "select nom, prenom, message from  user_praticien up, user_actualites ua where " +
-            "ua.fk_user_praticien = "+ $scope.doctauth.id_prat +" " +
-            "and ua.fk_user_praticien=up.pk_user_praticien " +
-            "UNION " +
-            "select nom, prenom, message from user_praticien up, user_actualites ua " +
-            "where ua.fk_user_praticien=up.pk_user_praticien " +
-            "and  ua.fk_user_praticien in (select fk_user_praticien from user_correspondance uc where uc.fk_user_compte = "+ $scope.doctauth.id_compte +") ";
-        $http({
-            method  : 'POST',
-            url     : 'http://ns389914.ovh.net:8080/tolk/api/sql',
-            data    : ss,
-            headers: {"Content-Type": 'text/plain'}
-        }) .success(function(data)
-            {
-                $scope.actualites = data.data;
-                console.log($scope.actualites);
-                localStorageService.set('user_actualites', $scope.actualites);
-            })
-            .error(function(data)
-            {
-                console.log(data);
-                $scope.messageerreur = "Une erreur s'est produite, veuillez resseyer SVP."
-            });
-        $state.go('actualites');
+        //var ss = "select nom, prenom, message from  user_praticien up, user_actualites ua where " +
+        //    "ua.fk_user_praticien = "+ $scope.doctauth.id_prat +" " +
+        //    "and ua.fk_user_praticien=up.pk_user_praticien " +
+        //    "UNION " +
+        //    "select nom, prenom, message from user_praticien up, user_actualites ua " +
+        //    "where ua.fk_user_praticien=up.pk_user_praticien " +
+        //    "and  ua.fk_user_praticien in (select fk_user_praticien from user_correspondance uc where uc.fk_user_compte = "+ $scope.doctauth.id_compte +") ";
+        //$http({
+        //    method  : 'POST',
+        //    url     : 'http://ns389914.ovh.net:8080/tolk/api/sql',
+        //    data    : ss,
+        //    headers: {"Content-Type": 'text/plain'}
+        //}) .success(function(data)
+        //    {
+        //        $scope.actualites = data.data;
+        //        console.log($scope.actualites);
+        //        localStorageService.set('user_actualites', $scope.actualites);
+        //    })
+        //    .error(function(data)
+        //    {
+        //        console.log(data);
+        //        $scope.messageerreur = "Une erreur s'est produite, veuillez resseyer SVP."
+        //    });
+        //$state.go('actualites');
 
 
     };
