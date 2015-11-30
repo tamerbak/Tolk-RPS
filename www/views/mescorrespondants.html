@@ -45,7 +45,7 @@
           </div>
 
           <ion-list>
-              <ion-item ng-repeat="correspondant in doctauth.correspondants" class="item item-avatar item-icon-right mescorrespondants_list_item" ng-click="correspondantDetail('{{correspondant.id}}')">
+              <ion-item ng-repeat="correspondant in correspondants" class="item item-avatar item-icon-right mescorrespondants_list_item" ng-click="correspondantDetail('{{correspondant.id}}')">
                   <img ng-src="img/ionic.png"><!--"{{item.img}}"-->
                   <h2>{{correspondant.nom}} {{correspondant.prenom}}</h2>
                   <p>{{correspondant.specialite}}</p>
@@ -56,16 +56,6 @@
                   <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(item, $fromIndex, $toIndex)"></ion-reorder-button>
               </ion-item>
           </ion-list>
-
-          <!-- ng-click="correspondant({{correspondant.name}}) 
-          <a class="item item-avatar mescorrespondants_list_item item-icon-right" ng-repeat="correspondant in doctauth.correspondants"
-             ng-click="correspondantDetail('{{correspondant.id}}')">
-            <img src="img/ionic.png">
-
-            <h2>{{correspondant.name}}</h2>
-            <p>{{correspondant.lastMessage.object}}</p>
-            <i class="icon ion-ios-arrow-right"></i>
-          </a>-->
         </div>
       </div>
     </article>
