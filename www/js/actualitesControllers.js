@@ -31,10 +31,10 @@ app.controller("actualiteController", function($scope, docteurAuthentification, 
     });
 
     $scope.init=function(){
-        $scope.imgPr =docteurAuthentification.imageP;
-        if($scope.imgPr.length > 0) {
-            $scope.formData.imageProfile = $scope.imgPr;
-        }
+        //$scope.imgPr =docteurAuthentification.imageP;
+        //if($scope.imgPr.length > 0) {
+        //    $scope.formData.imageProfile = $scope.imgPr;
+        //}
         $scope.actualites = localStorageService.get("user_actualites");
 
     };

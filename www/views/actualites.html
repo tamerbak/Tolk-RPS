@@ -29,11 +29,12 @@
 
 
                         <a class="item item-thumbnail-left" ng-href="#">  <!--ng-href="#/item/{{ item.slug }}">-->
+                            <img id="imgP" data-ng-src="{{formData.imageProfile}}" style="border-radius: 50%; border: 5px solid #AAA;" height="120px" width="120px" >
                             <h2>{{act.nom}} {{act.prenom}} </h2><div style="font-size: 8px;">il y'a 1 min</div>
                             <p>{{ act.message }}</p>
                         </a>
                             <div class="item tabs tabs-secondary tabs-icon-left">
-                                <a class="tab-item" href="#">
+                                <a class="tab-item" href="#/tab/list/{{item.shortname}}">
                                     <i class="icon ion-chatbox"></i>
                                     Comment
                                 </a>

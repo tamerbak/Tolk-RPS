@@ -2670,3 +2670,9 @@ ion-content.has-subheader.scroll-content.ionic-scroll {
 ion-content.has-subheader.scroll-content.ionic-scroll {
 	margin-top: 30px;
 }
+textarea.ng-pristine.ng-untouched.ng-valid {
+	padding: inherit;
+}
+textarea.ng-pristine.ng-valid.ng-touched {
+	padding: inherit;
+}
