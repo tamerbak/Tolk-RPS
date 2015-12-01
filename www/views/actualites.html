@@ -18,12 +18,15 @@
             <div style="background-color: #fff; margin: 2%; padding: 2%;" align="left" scroll="false">
                 <textarea name="tex" style="border: 1px solid #AAA; border-radius: 5px;width: 100%" placeholder="your message..." ng-model="params.msg"></textarea>
                 <div align="right">
-                    <button class="button button-small button-light" ng-click="postuler()" >
+                    <br/>
+                    <button class="button button-small button-positive " ng-click="postuler()" >
                          Publier
                     </button>
                 </div>
             </div>
 
+            <ion-refresher on-refresh="doRefresh()">
+            </ion-refresher>
                 <div class="list"  style="background-color: #fff; margin: 2%; padding: 2%;" align="left" scroll="true">
                      <div ng-repeat ="act in actualites" >
 
@@ -34,7 +37,7 @@
                             <p>{{ act.message }}</p>
                         </a>
                             <div class="item tabs tabs-secondary tabs-icon-left">
-                                <a class="tab-item" href="#/tab/list/{{item.shortname}}">
+                                <a class="tab-item" href="#">
                                     <i class="icon ion-chatbox"></i>
                                     Comment
                                 </a>
@@ -50,4 +53,7 @@
             </div>
 
     </ion-content>
+    <div class="bar bar-footer bar-dark">
+        <div class="title">TOLK.me </div>
+    </div>
 </ion-view>

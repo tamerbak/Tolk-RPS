@@ -2676,3 +2676,11 @@ textarea.ng-pristine.ng-untouched.ng-valid {
 textarea.ng-pristine.ng-valid.ng-touched {
 	padding: inherit;
 }
+
+.bar.bar-footer.bar-dark {
+	background-color: #000;
+}
+
+button.button.icon.ion-refresh {
+	background-color: #100;
+}
