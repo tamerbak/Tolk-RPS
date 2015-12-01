@@ -52,9 +52,12 @@ app.controller("actualiteController", function($scope, docteurAuthentification, 
         }else {
 
             var newMessage = $scope.params.msg;
+            var nom = $scope.doctauth.nom;
+            var prenom = $scope.doctauth.prenom;
             $scope.params.msg = "";
 
-            var query = "INSERT INTO user_actualites (fk_user_praticien, message, date_actualite) VALUES ( " + $scope.doctauth.id_prat + ", '" + $scope.params.msg + "', CURRENT_TIMESTAMP )";
+            var query = "INSERT INTO user_actualites (fk_user_praticien, message, date_actualite) VALUES ( " + $scope.doctauth.id_prat + ", '" + newMessage + "', CURRENT_TIMESTAMP )";
+          //var query = "delete from user_actualites";
             $http({
                 method: 'POST',
                 url: 'http://ns389914.ovh.net:8080/tolk/api/sql',
@@ -68,16 +71,14 @@ app.controller("actualiteController", function($scope, docteurAuthentification, 
                         .then(function () {
                             // callback success
                         });
-
-<<<<<<< HEAD
-                    $scope.actualites.unshift({message : $scope.params.msg});
-
-=======
-                    $scope.actualites.unshift({message : newMessage});
->>>>>>> 779dcbd3e3c61a3da0a29ef3bde521107ee4a51f
+                    console.log(nom);
+                    console.log(prenom);
+                    $scope.actualites.unshift({message : newMessage, nom: nom, prenom : prenom});
                     localStorageService.set('user_actualites', $scope.actualites);
                     $scope.params = {};
                     $scope.params.msg='';
+                    nom = '';
+                    prenom = '';
                     console.log($scope.actualites);
 
                 }
@@ -89,34 +90,6 @@ app.controller("actualiteController", function($scope, docteurAuthentification, 
                 });
             };
 
-            console.log($scope.doctauth.id_compte);
-            console.log($scope.doctauth.id_prat);
-
-
-        //var ss = "select nom, prenom, message from  user_praticien up, user_actualites ua where " +
-        //    "ua.fk_user_praticien = "+ $scope.doctauth.id_prat +" " +
-        //    "and ua.fk_user_praticien=up.pk_user_praticien " +
-        //    "UNION " +
-        //    "select nom, prenom, message from user_praticien up, user_actualites ua " +
-        //    "where ua.fk_user_praticien=up.pk_user_praticien " +
-        //    "and  ua.fk_user_praticien in (select fk_user_praticien from user_correspondance uc where uc.fk_user_compte = "+ $scope.doctauth.id_compte +") ";
-        //$http({
-        //    method  : 'POST',
-        //    url     : 'http://ns389914.ovh.net:8080/tolk/api/sql',
-        //    data    : ss,
-        //    headers: {"Content-Type": 'text/plain'}
-        //}) .success(function(data)
-        //    {
-        //        $scope.actualites = data.data;
-        //        console.log($scope.actualites);
-        //        localStorageService.set('user_actualites', $scope.actualites);
-        //    })
-        //    .error(function(data)
-        //    {
-        //        console.log(data);
-        //        $scope.messageerreur = "Une erreur s'est produite, veuillez resseyer SVP."
-        //    });
-        //$state.go('actualites');
 
 
     };

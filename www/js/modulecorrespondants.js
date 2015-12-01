@@ -51,6 +51,9 @@ angular.module('modulecorrespondants', ['autocomplete'])
             $scope.formData.hasCorrespondants = true;
             $scope.correspondants = data.data;
           }
+          else {
+            $state.go('mescontacts');
+          }
         })
         .error(function(data){
           console.log("getCorrespondants > error : ", data);

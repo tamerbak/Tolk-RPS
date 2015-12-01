@@ -153,6 +153,7 @@ angular.module('moduleconnexion',['fileServices'])
 			  };
 			  
   $scope.seconnecter = function(){
+      localStorageService.set('user_actualites', []);
 	  function el(id){
 		var elem = document.getElementById(id);
 		if(typeof elem !== 'undefined' && elem !== null){

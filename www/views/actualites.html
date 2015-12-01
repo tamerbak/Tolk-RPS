@@ -8,23 +8,23 @@
             <div style="vertical-align:top;width:10%;display:inline-block"><i class="fa ion-gear-b fa-2x" style="color:white;"></i></div>
         </div>
     </div>
-    <ion-content padding="true" class="has-header" ng-controller="actualiteController" delegate-handle="content" data-ng-init="init()">
+    <div  class=" bar-header menu_general_header" style="background-color: white ;padding-bottom:2%;" align="center" >
+        <b>Actualit&eacute;s</b><br><br>
+    </div>
+    <ion-content padding="true" class="has-subheader" ng-controller="actualiteController" delegate-handle="content" data-ng-init="init()">
         <div align="center">
             <br/>
             <!-- EXPERTISE -->
-            <div style="background-color: #fff; margin: 2%; padding: 2%;" align="left">
-                <div style="display: inline-block; width: 90%;" align="center" >
-                    <b>Actualit&eacute;s</b><br><br>
-                </div>
+            <div style="background-color: #fff; margin: 2%; padding: 2%;" align="left" scroll="false">
                 <textarea name="tex" style="border: 1px solid #AAA; border-radius: 5px;width: 100%" placeholder="your message..." ng-model="params.msg"></textarea>
                 <div align="right">
                     <button class="button button-small button-light" ng-click="postuler()" >
                          Publier
                     </button>
                 </div>
+            </div>
 
-
-                <div class="list">
+                <div class="list"  style="background-color: #fff; margin: 2%; padding: 2%;" align="left" scroll="true">
                      <div ng-repeat ="act in actualites" >
 
 
@@ -47,9 +47,6 @@
                 </div>
 
             </div>
-
-
-        </div>
 
     </ion-content>
 </ion-view>

@@ -2657,3 +2657,16 @@ input.inscription_3_input.inscription_3_input_2.ng-valid.ng-dirty.ng-touched{
 input[type="text"].inscription_3_input.ng-pristine.ng-untouched.ng-valid {
 	font-size: 1.4em !important;
 }
+
+button.button.button-clear.icon.ion-person-add.button-dark.mescorrespondants_bar_button {
+	margin-top: 15px;
+}
+i.icon.ion-ios-arrow-right {
+	margin-right: -5px;
+}
+ion-content.has-subheader.scroll-content.ionic-scroll {
+	margin-top: 6px;
+}
+ion-content.has-subheader.scroll-content.ionic-scroll {
+	margin-top: 30px;
+}
