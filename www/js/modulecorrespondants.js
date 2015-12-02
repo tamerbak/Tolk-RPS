@@ -3,19 +3,12 @@ angular.module('modulecorrespondants', ['autocomplete'])
 //=========================================
 //=========================================   Mes correspondants
 //=========================================
-.controller('mescorrespondantsCtrl',function($scope,$state,formatString,$stateParams,$http,$ionicHistory,$filter,xmlParser,appAuthentification,docteurAuthentification)
+.controller('mescorrespondantsCtrl',function($scope,$state,formatString,$stateParams,$http,$ionicHistory,$filter,xmlParser,appAuthentification,docteurAuthentification,localStorageService)
 {
   $scope.appauth = appAuthentification;
   $scope.doctauth = docteurAuthentification;
   $scope.formData = {};
-  
-  $scope.correspondants = [
-      {name: "Venkman", last_message:"Back off, man. I'm a scientist."},
-      {name: "Egon", last_message:"We're gonna go full stream."},
-      {name: "Ray", last_message: "Ugly little spud, isn't he?"},
-      {name: "Winston", last_message: "That's a big Twinkie."},
-      {name: "Tully", last_message: "Okay, who brought the dog?"}
-   ];
+
   $scope.goBack = function(){
     console.log('going back');
     $ionicHistory.goBack();
@@ -26,217 +19,48 @@ angular.module('modulecorrespondants', ['autocomplete'])
     $state.go('ajouterCorrespondant');
   };
 
-  $scope.doSomething = function(){
-      $ionicHistory.goBack();
-  };
-
-  $scope.addSomething = function(){
-      console.log('YOU WANNA ADD SOMEONE');
-  };
-
   $scope.correspondantDetail = function(correspondantName){
     console.log('before ' + correspondantName);
     $state.go("correspondant",  {'param1':correspondantName});
   };
 
-  $scope.getCorrespondants = function(){
+  $scope.correspondants = [];
 
-    if($scope.appauth.sessionId == ""){
-      //console.log('called'+ $scope.appauth.sessionId);
-      //$state.go('home');
-      $http({
-        method  : 'POST',
-        url     : 'http://ns389914.ovh.net:8080/tolk/api/aman',
-        data    : "<fr.protogen.connector.model.AmanToken><username>administration</username><password>1234</password><nom></nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId></sessionId><status></status><id>0</id><beanId>0</beanId></fr.protogen.connector.model.AmanToken>",
-        headers: {"Content-Type": 'text/xml'}
-      })
+  var getCorrespondants = function() {
+        var userId = localStorageService.get("user_id");
+
+        var query = "select pk_user_praticien, libelle as specialite, nom, prenom " +
+            "from user_praticien, user_specialite " +
+            "where fk_user_specialite=pk_user_specialite " +
+            "and pk_user_praticien " +
+            "in (select fk_user_praticien from user_correspondance " +
+            "where fk_user_compte=" + userId + " " +
+            "and confirmee='Oui' " +
+            "and dirty='N');";
+
+        $http({
+          method  : 'POST',
+          url     : 'http://ns389914.ovh.net:8080/tolk/api/sql',
+          data    : query,
+          headers: {"Content-Type": 'text/plain'}
+        })
         .success(function(data){
-          datajson=xmlParser.xml_str2json(data);
-          $scope.appauth.sessionId = datajson['fr.protogen.connector.model.AmanToken'].sessionId;
-          $scope.getCorrespondantsFromServer();
+          console.log("getCorrespondants > success : ", data);
 
+          if(data && data.data.length > 0) {
+            $scope.formData.hasCorrespondants = true;
+            $scope.correspondants = data.data;
+          }
+          else {
+            $state.go('mescontacts');
+          }
         })
         .error(function(data){
-          console.log(data);
-          console.log("erreur");
+          console.log("getCorrespondants > error : ", data);
         });
-
-    }
-    else{
-      $scope.getCorrespondantsFromServer();
-    }
   };
 
-  $scope.getCorrespondantsFromServer = function(){
-    
-	var requestCorrespondants = "";
-    console.log("id compte"+$scope.doctauth.id_compte);
-    if ($scope.doctauth.id_compte != "" ){
-      requestCorrespondants = "<fr.protogen.connector.model.SearchClause>" +
-        "<field>fk_user_compte</field>" +
-        "<clause>"+$scope.doctauth.id_compte+"</clause>" +
-        "<gt>"+$scope.doctauth.id_compte+"</gt>" +
-        "<lt>"+$scope.doctauth.id_compte+"</lt>" +
-        "<type>TEXT</type>" +
-        "</fr.protogen.connector.model.SearchClause>";
-      console.log(requestCorrespondants);
-
-    }
-    else{
-      //$state.go('accueil');
-    }
-
-
-    //$requestdata = "<fr.protogen.connector.model.DataModel><entity>user_correspondance</entity><dataMap/><rows/><token><username/><password/><nom>Jakjoud Abdeslam</nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId>" + $scope.appauth.sessionId + "</sessionId><status>SUCCES</status><id>206</id><beanId>0</beanId></token><expired></expired><unrecognized></unrecognized><status></status><operation>GET</operation><clauses>"+requestCorrespondants+"</clauses><page>1</page><pages>100</pages><nbpages>100</nbpages><iddriver>0</iddriver><ignoreList></ignoreList></fr.protogen.connector.model.DataModel>";
-    $requestdata = "<fr.protogen.connector.model.SmartProcessModel><pid>1</pid><initVars><string>Session=" + $scope.appauth.sessionId + "</string><string>Compte="+$scope.doctauth.id_compte+"</string></initVars><outvar>Resultats</outvar><token><username/><password/><nom>Jakjoud Abdeslam</nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId>" + $scope.appauth.sessionId + "</sessionId><status>SUCCES</status><id>206</id><beanId>0</beanId></token></fr.protogen.connector.model.SmartProcessModel>";
-    console.log($requestdata);
-    $http({
-      method  : 'POST',
-      // url     : 'http://ns389914.ovh.net:8080/tolk/api/das',
-      url: 'http://ns389914.ovh.net:8080/tolk/api/sps',
-      data    : $requestdata,
-      headers: {"Content-Type": 'text/xml'}
-    })
-      .success(function(data){
-
-        datajson=formatString.formatServerResult(data);
-        if (datajson.dataModel.status != "FAILURE")
-        {
-          $scope.setCorrespondants(datajson.dataModel.rows.dataRow);
-		  
-        }
-        else{
-          $scope.erreur = "Probleme serveur";
-        }
-
-
-      })
-      .error(function(data) //
-      {
-        console.log(data);
-        console.log("erreur");
-      });
-  };
-
-  $scope.setCorrespondants = function(rows){
-
-  
-	$scope.formData.hasCorrespondants = false;
-    $scope.doctauth.correspondants = [];
-
-    if (rows == null){
-      $scope.showAucunCorrespondant = true;
-      return;
-    }
-    
-	$scope.showAucunCorrespondant = false;
-    rows = [].concat( rows );
-    console.log("rows lenght : "+ rows.length);
-    console.log(JSON.stringify(rows));
-	
-
-														villeObjects = rows;
-											
-														// GET comptes
-														$scope.comptes= [];
-														ville = {}; 
-
-														villesList = [].concat(villeObjects);
-														for(var i = 0; i < villesList.length; i++){
-															object = villesList[i].dataRow.dataEntry;
-															
-															// PARCOURIR LIST PROPERTIES
-															ville[object[0].attributeReference] = object[0].value;
-															ville[object[1].attributeReference] = object[1].value;
-															ville[object[2].attributeReference] = object[2].value;
-															
-															if(typeof object[3]['list'] !== 'undefined'){
-																if(typeof object[3]['list']['dataCouple'] !== 'undefined'){
-																	ville['savoir'] = object[3]['list']['dataCouple']['label'];
-																}else
-																	ville['savoir']="";	
-															}else
-																ville['savoir']="";
-															
-															if(typeof object[4]['list'] !== 'undefined'){
-																if(typeof object[4]['list']['dataCouple'] !== 'undefined'){
-																	ville['category'] = object[4]['list']['dataCouple']['label'];
-																}else
-																	ville['category']="";	
-															}else
-																ville['category']="";
-															
-															if(typeof object[5]['list'] !== 'undefined'){
-																if(typeof object[5]['list']['dataCouple'] !== 'undefined'){
-																	ville['civilite'] = object[5]['list']['dataCouple']['label'];
-																}else
-																	ville['civilite']="";	
-															}else
-																ville['civilite']="";
-															
-															if(typeof object[6]['list'] !== 'undefined'){
-																if(typeof object[6]['list']['dataCouple'] !== 'undefined'){
-																	ville['specialite'] = object[6]['list']['dataCouple']['label'];
-																}else
-																	ville['specialite']="";	
-															}else
-																ville['specialite']="";
-															
-															ville[object[7].attributeReference] = object[7].value;
-															
-															if (ville)
-																$scope.doctauth.correspondants.push(ville);
-															ville = {}
-														}
-															
-    /**for(var i=0; i<rows.length; i++){
-      for (var j = 0; j < rows[i].dataRow.dataEntry.length ; j++){
-        if (rows[i].dataRow.dataEntry[j].attributeReference == "fk_user_praticien"){
-          $id_praticien = rows[i].dataRow.dataEntry[j].value;
-
-          $tableau_praticien = rows[i].dataRow.dataEntry[j].list.dataCouple;
-          $tableau_praticien = [].concat( $tableau_praticien );
-
-          for(var k = 0; k < $tableau_praticien.length ; k++)
-          {
-            if($id_praticien == $tableau_praticien[k].id)
-            {
-              $praticien = {};
-              $praticien.id = $id_praticien;
-              $praticien.name = $tableau_praticien[k].label;
-              $scope.doctauth.correspondants.push($praticien);
-              //$scope.getMessagesForCorrespondant($praticien);
-              break;
-            }
-          }
-
-          //confirmee
-
-
-        }
-      }
-    };**/
-	
-	console.log('YOU WANNA ADD SOMEONE : '+JSON.stringify($scope.doctauth.correspondants));
-	if($scope.doctauth.correspondants.length>0){
-		$scope.formData.hasCorrespondants=true;
-	}
-		
-	
-	console.log('hasCorrespondants : '+$scope.formData.hasCorrespondants);
-
-  };
-  
-  $scope.getCorrespondants();
-
-  $scope.$on( "$ionicView.beforeEnter", function(scopes, states){
-	  console.log('correspondants ' + docteurAuthentification.correspondants.length)
-    if(states.stateName == "mescorrespondants" ){
-      if($scope.doctauth.correspondants.length<=0){
-        $state.go('mescontacts');
-      }
-    }
-     });
+  getCorrespondants();
 
   $scope.getMessagesForCorrespondant = function(forPraticien){
 
@@ -384,8 +208,6 @@ angular.module('modulecorrespondants', ['autocomplete'])
       });
   };
 
-
-
 })
 
 //=========================================
@@ -444,7 +266,7 @@ angular.module('modulecorrespondants', ['autocomplete'])
     }
   }
 
-  if($scope.$praticienCorrespondant.messages.length > 0)
+  if($scope.$praticienCorrespondant.messages && $scope.$praticienCorrespondant.messages.length > 0)
   {
     $scope.showList = true;
     $scope.showAucunMessage = false;

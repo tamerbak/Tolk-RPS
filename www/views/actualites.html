@@ -8,49 +8,52 @@
             <div style="vertical-align:top;width:10%;display:inline-block"><i class="fa ion-gear-b fa-2x" style="color:white;"></i></div>
         </div>
     </div>
-    <ion-content padding="true" class="has-header" ng-controller="profileCtrl" delegate-handle="content" data-ng-init="init()">
+    <div  class=" bar-header menu_general_header" style="background-color: white ;padding-bottom:2%;" align="center" >
+        <b>Actualit&eacute;s</b><br><br>
+    </div>
+    <ion-content padding="true" class="has-subheader" ng-controller="actualiteController" delegate-handle="content" data-ng-init="init()">
         <div align="center">
             <br/>
             <!-- EXPERTISE -->
-            <div style="background-color: #fff; margin: 2%; padding: 2%;" align="left">
-                <div style="display: inline-block; width: 90%;" align="center" >
-                    <b>Actualités</b><br><br>
-                </div>
-                <textarea style="border: 1px solid #AAA; border-radius: 5px;width: 100%" placeholder="your message..."></textarea>
+            <div style="background-color: #fff; margin: 2%; padding: 2%;" align="left" scroll="false">
+                <textarea name="tex" style="border: 1px solid #AAA; border-radius: 5px;width: 100%" placeholder="your message..." ng-model="params.msg"></textarea>
                 <div align="right">
-                    <button class="button button-small button-light">
-                        Publier
+                    <br/>
+                    <button class="button button-small button-positive " ng-click="postuler()" >
+                         Publier
                     </button>
-                </div>
-
-
-                <div class="list">
-                    <!--<a ng-repeat="item in items" class="item item-thumbnail-left" ng-href="#/item/{{ item.slug }}">-->
-                        <!--<img  ng-src="{{ item.pictures[0] }}"> -->
-                        <!--  <h2>{{ item.title }}</h2> -->
-                        <!--  <p>{{ item.description }}</p> -->
-                        <!--  <p>{{ item.description }}</p> -->
-                        <!--<p>Vendu par {{ item.user.username }}</p>-->
-                    <a class="item item-thumbnail-left" ng-href="#">
-                        <img id="imgP" data-ng-src="{{formData.imageProfile}}" style="border-radius: 50%; border: 5px solid #AAA;" height="50px" width="50px" >
-                        <h2>{{doctauth.nom}} {{doctauth.prenom}} </h2><div style="font-size: 8px;">il y'a 1 min</div>
-                        <p>Message poster par moi :D</p>
-                    </a>
-                    <div class="item tabs tabs-secondary tabs-icon-left">
-                        <a class="tab-item" href="#">
-                            <i class="icon ion-chatbox"></i>
-                            Comment
-                        </a>
-                        <a class="tab-item" href="#">
-                            <i class="icon ion-share"></i>
-                            Share
-                        </a>
-                    </div>
                 </div>
             </div>
 
+            <ion-refresher on-refresh="doRefresh()">
+            </ion-refresher>
+                <div class="list"  style="background-color: #fff; margin: 2%; padding: 2%;" align="left" scroll="true">
+                     <div ng-repeat ="act in actualites" >
 
-        </div>
+
+                        <a class="item item-thumbnail-left" ng-href="#">  <!--ng-href="#/item/{{ item.slug }}">-->
+                            <img id="imgP" data-ng-src="{{formData.imageProfile}}" style="border-radius: 50%; border: 5px solid #AAA;" height="120px" width="120px" >
+                            <h2>{{act.nom}} {{act.prenom}} </h2><div style="font-size: 8px;">il y'a 1 min</div>
+                            <p>{{ act.message }}</p>
+                        </a>
+                            <div class="item tabs tabs-secondary tabs-icon-left">
+                                <a class="tab-item" href="#">
+                                    <i class="icon ion-chatbox"></i>
+                                    Comment
+                                </a>
+                                <a class="tab-item" href="#">
+                                    <i class="icon ion-share"></i>
+                                    Share
+                                </a>
+                            </div>
+                         <br/>
+                     </div>
+                </div>
+
+            </div>
 
     </ion-content>
+    <div class="bar bar-footer bar-dark">
+        <div class="title">TOLK.me </div>
+    </div>
 </ion-view>
