@@ -22,6 +22,33 @@ angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontroller
     });
   })
 
+  //Add ionic loading
+  .config(function($httpProvider) {
+      $httpProvider.interceptors.push(function($rootScope) {
+        return {
+          request: function(config) {
+            $rootScope.$broadcast('loading:show')
+            return config
+          },
+          response: function(response) {
+            $rootScope.$broadcast('loading:hide')
+            return response
+          }
+        }
+      });
+    })
+
+  .run(function($rootScope, $ionicLoading) {
+    $rootScope.$on('loading:show', function() {
+      $ionicLoading.show({template: 'Chargement'})
+    });
+
+    $rootScope.$on('loading:hide', function() {
+      $ionicLoading.hide()
+    });
+  })
+  //End ionic loadin
+
   .controller("MainController", ['$scope', function ($scope) {
 
     $scope.data = {
