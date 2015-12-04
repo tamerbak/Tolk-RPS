@@ -230,7 +230,8 @@ angular.module('moduleconnexion',['fileServices'])
 					  // RECUPERATION IMAGE PROFILE
 					  $scope.doctauth.imageP='';
 					  if($scope.id_compte){
-						  UploadFile.downloadFile('user_compte', Number($scope.id_compte))
+                          //FIXEME
+						  /*UploadFile.downloadFile('user_compte', Number($scope.id_compte))
 						  .then(
 							function(resp){
 								console.log('data : '+resp.data);
@@ -253,7 +254,7 @@ angular.module('moduleconnexion',['fileServices'])
 							function(err){
 								console.log("une erreur est survenue lors telechargement d'image");
 							}
-						  )
+						  )*/
 						  
 						  // GET ALL CORRESPONADANCE
 						  $scope.getCorrespondantsFromServer(Number($scope.id_compte));
@@ -547,7 +548,8 @@ angular.module('moduleconnexion',['fileServices'])
     console.log("id ville function=====>"+$scope.doctauth.id_ville);
     $requestdata = "<fr.protogen.connector.model.DataModel><entity>user_ville</entity><dataMap/><rows/><token><username/><password/><nom>Jakjoud Abdeslam</nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId>" + $scope.appauth.sessionId + "</sessionId><status>SUCCES</status><id>206</id><beanId>0</beanId></token><expired></expired><unrecognized></unrecognized><status></status><operation>GET</operation><clauses><fr.protogen.connector.model.SearchClause><field>pk_user_ville</field><clause></clause><gt>"+$scope.doctauth.id_ville+"</gt><lt>"+$scope.doctauth.id_ville+"</lt><type>PK</type></fr.protogen.connector.model.SearchClause></clauses><page>1</page><pages>5</pages><nbpages>5</nbpages><iddriver>0</iddriver><ignoreList></ignoreList></fr.protogen.connector.model.DataModel>";
 
-    $http({
+    //FIXEME
+    /*$http({
           method  : 'POST',
           url     : 'http://ns389914.ovh.net:8080/tolk/api/das',
           data    : $requestdata,
@@ -586,14 +588,15 @@ angular.module('moduleconnexion',['fileServices'])
           {
             console.log(data);
              console.log("erreur");
-          });
+          });*/
   };
   // ======> Categorie professionnelle By Id : Appel dans la fonction praticienbyId()
   $scope.categorieprobyId=function(){
     console.log("id categorie professionnelle function=====>"+$scope.doctauth.id_categorie_pro);
     $requestdata = "<fr.protogen.connector.model.DataModel><entity>user_categorie_professionnelle</entity><dataMap/><rows/><token><username/><password/><nom>Jakjoud Abdeslam</nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId>" + $scope.appauth.sessionId + "</sessionId><status>SUCCES</status><id>206</id><beanId>0</beanId></token><expired></expired><unrecognized></unrecognized><status></status><operation>GET</operation><clauses><fr.protogen.connector.model.SearchClause><field>pk_user_categorie_professionnelle</field><clause></clause><gt>"+$scope.doctauth.id_categorie_pro+"</gt><lt>"+$scope.doctauth.id_categorie_pro+"</lt><type>PK</type></fr.protogen.connector.model.SearchClause></clauses><page>1</page><pages>5</pages><nbpages>5</nbpages><iddriver>0</iddriver><ignoreList></ignoreList></fr.protogen.connector.model.DataModel>";
 
-    $http({
+      //FIXEME
+    /*$http({
           method  : 'POST',
           url     : 'http://ns389914.ovh.net:8080/tolk/api/das',
           data    : $requestdata,
@@ -632,7 +635,7 @@ angular.module('moduleconnexion',['fileServices'])
           {
             console.log(data);
              console.log("erreur");
-          });
+          });*/
   };
   // ======> Savoir faire By Id : Appel dans la fonction praticienbyId()
   $scope.savoirfairebyId=function(){
@@ -694,7 +697,8 @@ angular.module('moduleconnexion',['fileServices'])
     console.log("id savoir faire function=====>"+$scope.doctauth.id_type_savoir_faire);
     $requestdata = "<fr.protogen.connector.model.DataModel><entity>user_type_savoir_faire</entity><dataMap/><rows/><token><username/><password/><nom>Jakjoud Abdeslam</nom><appId>FRZ48GAR4561FGD456T4E</appId><sessionId>" + $scope.appauth.sessionId + "</sessionId><status>SUCCES</status><id>206</id><beanId>0</beanId></token><expired></expired><unrecognized></unrecognized><status></status><operation>GET</operation><clauses><fr.protogen.connector.model.SearchClause><field>pk_user_type_savoir_faire</field><clause></clause><gt>"+$scope.doctauth.id_type_savoir_faire+"</gt><lt>"+$scope.doctauth.id_type_savoir_faire+"</lt><type>PK</type></fr.protogen.connector.model.SearchClause></clauses><page>1</page><pages>5</pages><nbpages>5</nbpages><iddriver>0</iddriver><ignoreList></ignoreList></fr.protogen.connector.model.DataModel>";
 
-    $http({
+      //FIXEME
+    /*$http({
           method  : 'POST',
           url     : 'http://ns389914.ovh.net:8080/tolk/api/das',
           data    : $requestdata,
@@ -735,7 +739,7 @@ angular.module('moduleconnexion',['fileServices'])
           {
             console.log(data);
              console.log("erreur");
-          });
+          });*/
   };
 })
 
