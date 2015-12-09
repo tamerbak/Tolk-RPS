@@ -174,9 +174,12 @@ angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontroller
     }
   })
 
+  .config(function($ionicConfigProvider) {
+    $ionicConfigProvider.views.transition('none');
+  })
 
   .config(function ($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise("/index.html");
+    //$urlRouterProvider.otherwise("/index.html");
 
     $stateProvider
       .state('accueil',
