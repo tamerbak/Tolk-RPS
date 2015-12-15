@@ -2636,7 +2636,7 @@ ion-view , ion-nav-view {
 }
 
 .inscription_article.inscription4 {
-	text-shadow: 0.1em 0.1em 0.2em black;
+	text-shadow: 1px 1px 13px black;
 }
 
 .checkbox_RememberPwd {
