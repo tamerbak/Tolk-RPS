@@ -33,9 +33,13 @@
 				</div>
 				<div style="display: inline-block; width: 90%">
 					<b>Expertise</b><br>
-					<span>
-						Ici, nous vous invitons à parler de vos diplômes, expertises et toutes informations liées à votre identité professionnelle.
+					<span editable-textarea="user.expertise" e-rows="7" e-cols="20"
+						  e-form="textBtnForm" onaftersave="saveExpertise()">
+						{{ user.expertise || 'empty' }}
 					</span>
+					<button class="btn btn-default" ng-click="textBtnForm.$show()" ng-hide="textBtnForm.$visible">
+						Modifier
+					</button>
 				</div>
 			</div>
 			<!-- PUBLICATION -->

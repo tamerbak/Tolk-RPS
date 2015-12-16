@@ -370,8 +370,14 @@ angular.module('inscriptioncontrollers', ['autocomplete', 'fileServices'])
 		
 		// MODIFIER PAR OMAR - 04-11-2015
 		.controller('profileCtrl',function($scope,$state,docteurAuthentification,appAuthentification, UploadFile){
-			
-			$scope.appauth = appAuthentification;
+
+            $scope.user = {};
+            $scope.user.expertise = 'Ici, nous vous invitons à parler de vos diplômes, expertises et toutes informations liées à votre identité professionnelle.';
+            $scope.saveExpertise = function(){
+                alert($scope.user.expertise);
+            };
+
+            $scope.appauth = appAuthentification;
 			$scope.doctauth = docteurAuthentification;
 			$scope.formData={};
 

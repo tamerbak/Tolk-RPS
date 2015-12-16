@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontrollers', 'datacontrollers','actualitesController',
   'moduleinscriptions', 'moduleconnexion','modulecorrespondants',
-  'mesContactsController', 'LocalStorageModule','Services'])
+  'mesContactsController', 'LocalStorageModule', 'xeditable', 'Services'])
 
   .run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
@@ -20,6 +20,10 @@ angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontroller
 
       ionic.Platform.isFullScreen = true;
     });
+  })
+
+  .run(function(editableOptions) {
+    editableOptions.theme = 'default'; // bootstrap3 theme. Can be also 'bs2', 'default'
   })
 
   //Add ionic loading
