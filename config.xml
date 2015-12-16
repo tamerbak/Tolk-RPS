@@ -9,6 +9,9 @@
     </author>
   <content src="index.html"/>
   <access origin="*"/>
+  <access origin="tel:*" launch-external="yes"/>
+  <access origin="mailto:*" launch-external="yes"/>
+  <access origin="sms:*" launch-external="yes"/>
   <preference name="KeyboardDisplayRequiresUserAction" value="false"/>
   <preference name="StatusBarOverlaysWebView" value="false"/>
   <preference name="webviewbounce" value="false"/>

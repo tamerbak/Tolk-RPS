@@ -42,6 +42,15 @@ angular.module('starter', ['ionic', 'accueilcontrollers', 'inscriptioncontroller
       });
     })
 
+  .config( [
+    '$compileProvider',
+    function( $compileProvider )
+    {
+      $compileProvider.aHrefSanitizationWhitelist(/^\s*(sms|tel|mailto):/);
+      // Angular before v1.2 uses $compileProvider.urlSanitizationWhitelist(...)
+    }
+  ])
+
   .run(function($rootScope, $ionicLoading) {
     $rootScope.$on('loading:show', function() {
       $ionicLoading.show({template: 'Chargement'})
