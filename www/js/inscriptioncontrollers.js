@@ -374,7 +374,7 @@ angular.module('inscriptioncontrollers', ['autocomplete', 'fileServices'])
             $scope.user = {};
             $scope.user.expertise = 'Ici, nous vous invitons à parler de vos diplômes, expertises et toutes informations liées à votre identité professionnelle.';
             $scope.saveExpertise = function(){
-                alert($scope.user.expertise);
+                //alert($scope.user.expertise);
             };
 
             $scope.appauth = appAuthentification;
